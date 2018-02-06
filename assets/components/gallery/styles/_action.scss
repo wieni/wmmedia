@@ -1,0 +1,27 @@
+.media-action {
+    display: block;
+
+    font-size: .9rem;
+    line-height: 1;
+    color: white;
+
+    &:focus,
+    &:hover,
+    &:active {
+        text-decoration: underline;
+    }
+
+    &::before {
+        margin-right: .5rem;
+    }
+
+    &--pull-right {
+        margin-left: auto;
+    }
+
+    &--controls {
+        font-size: 2rem;
+        cursor: pointer;
+        margin-top: 1.2rem;
+    }
+}

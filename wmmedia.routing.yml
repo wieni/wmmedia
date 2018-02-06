@@ -1,0 +1,9 @@
+wmmedia.gallery:
+    path: '/admin/media'
+    defaults:
+        _controller: 'Drupal\wmmedia\Controller\GalleryController::show'
+        _title: 'Media'
+    requirements:
+        _permission: 'access media overview'
+    options:
+        _admin_route: TRUE

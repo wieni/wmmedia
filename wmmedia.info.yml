@@ -1,0 +1,17 @@
+name: wmmedia
+type: module
+description: A media library for Drupal 8, built by Wieni
+core: 8.x
+package: Wieni
+dependencies:
+    - entity_browser
+    - file
+    - image
+    - imgix
+    - media
+    - path
+    - text
+    - wmcontroller
+    - allowed_formats
+    - dropzonejs
+    - dropzonejs_eb_widget

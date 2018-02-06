@@ -1,0 +1,49 @@
+@font-face {
+    font-family: wmmedia;
+    src: url("./wmmedia.eot");
+    src: url("./wmmedia.eot?#iefix") format("embedded-opentype"), url("./wmmedia.woff2") format("woff2"), url("./wmmedia.woff") format("woff"), url("./wmmedia.ttf") format("truetype"), url("./wmmedia.svg#wmmedia") format("svg");
+    font-style: normal;
+    font-weight: 400;
+}
+
+.media-icon::before {
+    display: inline-block;
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+    text-rendering: auto;
+    font-family: wmmedia !important;
+    font: normal normal 400 14px/1 wmmedia;
+    font-size: inherit;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    line-height: inherit;
+    vertical-align: bottom;
+}
+
+.media-icon.media-icon--close::before {
+    content: "\ea01";
+}
+
+.media-icon.media-icon--download::before {
+    content: "\ea02";
+}
+
+.media-icon.media-icon--edit::before {
+    content: "\ea03";
+}
+
+.media-icon.media-icon--link::before {
+    content: "\ea04";
+}
+
+.media-icon.media-icon--next::before {
+    content: "\ea05";
+}
+
+.media-icon.media-icon--preview::before {
+    content: "\ea06";
+}
+
+.media-icon.media-icon--previous::before {
+    content: "\ea07";
+}

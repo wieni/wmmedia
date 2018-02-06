@@ -1,0 +1,24 @@
+{
+    "name": "wieni/wmmedia",
+    "description": "A media library for Drupal 8, built by Wieni",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Wieni",
+            "email": "info@wieni.be"
+        }
+    ],
+    "repositories": {
+        "drupal-composer": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "type": "drupal-module",
+    "require": {
+        "drupal/dropzonejs": "^2.0@alpha",
+        "drupal/entity_browser": "^1.4"
+    }
+}

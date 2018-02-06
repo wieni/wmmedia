@@ -1,0 +1,54 @@
+body.modal-open {
+    overflow: hidden;
+}
+
+.media-action-links {
+    margin-bottom: 1rem;
+}
+
+.wm-media-content-overview {
+    display: flex;
+    margin: 0 0 20px;
+
+    #edit-wrapper {
+        display: flex;
+        flex-direction: row;
+        flex-shrink: 0;
+        align-items: flex-end;
+
+        margin: 0 0 0 14px;
+    }
+
+    .form-item:not(:last-child),
+    .form-wrapper {
+        margin: 0 14px 0 0;
+    }
+
+    .button.reset {
+        background: none;
+        border-bottom: 2px solid transparent;
+        color: #333;
+
+        &:hover {
+            background: #a44;
+            color: #ccc
+        }
+    }
+}
+
+[data-media] {
+    button {
+        padding: 0;
+        margin: 0;
+
+        background: none;
+        border: 0;
+        cursor: pointer;
+
+        text-decoration: inherit;
+
+        &:focus {
+            outline: 0;
+        }
+    }
+}

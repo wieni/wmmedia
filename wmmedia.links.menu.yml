@@ -1,0 +1,6 @@
+wmmedia.gallery:
+    title: 'Media'
+    description: ''
+    route_name: wmmedia.gallery
+    parent: system.admin
+    weight: -1

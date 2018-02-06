@@ -1,0 +1,44 @@
+{
+  "name": "wmmedia-gallery",
+  "version": "1.0.0",
+  "description": "Gallery belonging to the WmMedia module",
+  "main": "",
+  "author": "Dieter Holvoet <dieter@wieni.be>",
+  "license": "ISC",
+  "scripts": {
+    "dev": "rimraf .cache && run-p dev:*",
+    "dev:gallery": "parcel watch components/gallery/gallery.js",
+    "dev:widget": "parcel watch components/widget/widget.js",
+    "dev:dialog": "parcel watch components/dialog/dialog.js",
+    "build": "run-p build:*",
+    "build:gallery": "parcel build components/gallery/gallery.js",
+    "build:widget": "parcel build components/widget/widget.js",
+    "build:dialog": "parcel build components/dialog/dialog.js",
+    "build:webfont": "webfont 'icons/**/*.svg' -d './dist' && postcss -r dist/icons.css"
+  },
+  "devDependencies": {
+    "autoprefixer": "^7.2.5",
+    "babel-core": "^6.26.0",
+    "babel-env": "^2.4.1",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^4.15.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-react": "^7.5.1",
+    "node-sass": "^4.7.2",
+    "npm-run-all": "^4.1.2",
+    "parcel-bundler": "^1.4.1",
+    "postcss-cli": "^4.1.1",
+    "postcss-load-config": "^1.2.0",
+    "rimraf": "^2.6.2",
+    "webfont": "^7.1.4"
+  },
+  "dependencies": {
+    "date-fns": "^1.29.0",
+    "event-propagation-path": "^1.0.1",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-copy-to-clipboard": "^5.0.1",
+    "react-dom": "^16.2.0"
+  }
+}

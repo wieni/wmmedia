@@ -1,0 +1,11 @@
+<?php
+
+use Drupal\wmcontroller\Service\TemplateLocator;
+
+/**
+ * Implements hook_theme().
+ */
+function wmmedia_theme()
+{
+    return (new TemplateLocator(['module' => 'wmmedia']))->getThemes();
+}

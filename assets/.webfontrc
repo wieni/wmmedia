@@ -1,0 +1,8 @@
+{
+    "files": "icons/*.svg",
+    "fontName": "wmmedia",
+    "formats": ["ttf", "woff", "woff2"],
+    "template": "icons.css.njk",
+    "cssTemplateClassName": "media-icon",
+    "normalize": true
+}

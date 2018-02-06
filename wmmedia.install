@@ -1,0 +1,120 @@
+<?php
+
+function wmmedia_install()
+{
+    $mediaTypeStorage = \Drupal::entityTypeManager()->getStorage('media_type');
+    /* @var \Drupal\media\MediaTypeInterface $image */
+    $image = $mediaTypeStorage->load('image');
+    $image->set('new_revision', false);
+    $image->set('source', 'imgix');
+    $image->set('dependencies', ['wmmedia_libray']);
+    $image->set('source_configuration', ['source_field' => 'field_media_imgix']);
+    $image->save();
+
+    $mediaImageStorage = \Drupal::entityTypeManager()
+        ->getStorage('field_storage_config')
+        ->load('media.field_media_image');
+
+    if ($mediaImageStorage) {
+        $mediaImageStorage->delete();
+    }
+
+    /* @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface $imageFormDisplay */
+    $imageFormDisplay = \Drupal::entityTypeManager()
+        ->getStorage('entity_form_display')
+        ->load('media.image.default');
+
+    $imageFormDisplay->setComponent('name', [
+        'type' => 'string_textfield',
+        'weight' => 0,
+        'region' => 'content',
+        'settings' => [
+            'size' => 60,
+            'placeholder' => '',
+        ],
+        'third_party_settings' => [],
+    ]);
+
+    $imageFormDisplay->setComponent('field_media_imgix', [
+        'type' => 'imgix',
+        'weight' => 1,
+        'region' => 'content',
+        'settings' => [
+            'preview_preset' => 'thumb',
+            'progress_indicator' => 'throbber',
+        ],
+        'third_party_settings' => [],
+    ]);
+
+    $imageFormDisplay->setComponent('field_alternate', [
+        'type' => 'string_textfield',
+        'weight' => 2,
+        'region' => 'content',
+        'settings' => [
+            'size' => 60,
+            'placeholder' => '',
+        ],
+        'third_party_settings' => [],
+    ]);
+
+    $imageFormDisplay->setComponent('field_copyright', [
+        'type' => 'text_textarea',
+        'weight' => 3,
+        'region' => 'content',
+        'settings' => [
+            'rows' => 5,
+            'placeholder' => '',
+        ],
+        'third_party_settings' => [],
+    ]);
+
+    $imageFormDisplay->setComponent('field_description', [
+        'type' => 'text_textarea',
+        'weight' => 4,
+        'region' => 'content',
+        'settings' => [
+            'rows' => 5,
+            'placeholder' => '',
+        ],
+        'third_party_settings' => [],
+    ]);
+
+    $imageFormDisplay->removeComponent('created');
+    $imageFormDisplay->removeComponent('field_height');
+    $imageFormDisplay->removeComponent('field_width');
+    $imageFormDisplay->removeComponent('langcode');
+    $imageFormDisplay->removeComponent('path');
+    $imageFormDisplay->removeComponent('status');
+    $imageFormDisplay->removeComponent('uid');
+
+    $imageFormDisplay->save();
+
+    /* @var \Drupal\media\MediaTypeInterface $file */
+    $file = $mediaTypeStorage->load('file');
+    $file->set('new_revision', false);
+    $file->save();
+
+    /* @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface $fileFormDisplay */
+    $fileFormDisplay = \Drupal::entityTypeManager()
+        ->getStorage('entity_form_display')
+        ->load('media.file.default');
+
+    $imageFormDisplay->setComponent('name', [
+        'type' => 'string_textfield',
+        'weight' => 0,
+        'region' => 'content',
+        'settings' => [
+            'size' => 60,
+            'placeholder' => '',
+        ],
+        'third_party_settings' => [],
+    ]);
+
+    $fileFormDisplay->removeComponent('created');
+    $fileFormDisplay->removeComponent('langcode');
+    $fileFormDisplay->removeComponent('path');
+    $fileFormDisplay->removeComponent('status');
+    $fileFormDisplay->removeComponent('uid');
+
+    $fileFormDisplay->save();
+}

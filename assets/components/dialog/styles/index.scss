@@ -1,0 +1,8 @@
+.ui-dialog .ui-widget-content.ui-dialog-content[id*="images-dialog"] {
+    padding: 0;
+
+    > div,
+    > div > .entity-browser-modal-iframe {
+        height: 100% !important;
+    }
+}

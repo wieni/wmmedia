@@ -1,0 +1,30 @@
+media.browser:
+    js:
+        js/media_browser.js: {}
+    css:
+        theme:
+            assets/dist/widget.css: {}
+    dependencies:
+        - core/jquery
+
+media.upload:
+    js:
+        js/media_upload.js: {}
+    css:
+        theme:
+            assets/dist/widget.css: {}
+    dependencies:
+        - core/jquery
+
+media.dialog:
+    css:
+        theme:
+            assets/dist/dialog.css: {}
+
+media.gallery:
+    js:
+        assets/dist/gallery.js: {}
+    css:
+        theme:
+            assets/dist/icons.css: {}
+            assets/dist/gallery.css: {}
