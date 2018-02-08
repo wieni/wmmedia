@@ -1,5 +1,4 @@
 import React from 'react';
-import { parse } from 'date-fns';
 
 import MediaItem from './MediaItem';
 import MediaPreview from './MediaPreview';
@@ -12,11 +11,7 @@ class MediaGrid extends React.Component {
         this.state = {
             isPreviewVisible: false,
             itemInPreview: 0,
-            items: props.items.map(item => ({
-                ...item,
-                dateCreated: parse(item.dateCreated * 1000),
-                dateChanged: parse(item.dateChanged * 1000),
-            })),
+            items: props.items,
         };
     }
 
@@ -48,6 +43,7 @@ class MediaGrid extends React.Component {
                 <MediaPreview
                     item={items[itemInPreview]}
                     index={itemInPreview}
+                    total={items.length}
                     isVisible={isPreviewVisible}
                     setVisible={this.setPreviewVisible}
                     setItemInPreview={this.setItemInPreview}

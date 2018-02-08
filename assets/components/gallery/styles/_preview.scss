@@ -19,16 +19,15 @@
 
     &__wrapper {
         display: flex;
-        align-items: center;
         justify-content: center;
-
-        max-width: calc(100vw - 12rem);
     }
 
     &__image {
         display: flex;
         align-items: center;
         justify-content: center;
+
+        min-width: calc(70vw - 300px);
 
         position: relative;
 
@@ -69,8 +68,7 @@
 
     &__info {
         max-height: 90vh;
-        display: flex;
-        flex-direction: column;
+        display: block;
         flex: 0 0 300px;
         align-self: stretch;
 
@@ -131,7 +129,7 @@
     &__info-actions {
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
+        align-items: flex-end;
         flex: 1;
         margin: 0;
         padding: 0;

@@ -51,10 +51,14 @@ class MediaPreview extends React.Component {
                 this.onClose();
                 break;
             case 39:
-                this.onNextItem();
+                if (this.hasNextItem()) {
+                    this.onNextItem();
+                }
                 break;
             case 37:
-                this.onPreviousItem();
+                if (this.hasPreviousItem()) {
+                    this.onPreviousItem();
+                }
                 break;
             default:
                 break;
@@ -68,6 +72,9 @@ class MediaPreview extends React.Component {
     onPreviousItem = () => {
         this.props.setItemInPreview(this.props.index - 1);
     };
+
+    hasNextItem = () => this.props.index < (this.props.total - 1);
+    hasPreviousItem = () => this.props.index > 0;
 
     render() {
         const { isVisible, item } = this.props;
@@ -85,6 +92,9 @@ class MediaPreview extends React.Component {
                             <li className="media-action media-icon media-icon--edit">
                                 <a href={item.editUrl} target="_blank">Edit</a>
                             </li>
+                            <li className="media-action media-icon media-icon--delete">
+                                <a href={item.deleteUrl} target="_blank">Delete</a>
+                            </li>
                             <li className="media-action media-icon media-icon--link">
                                 <CopyToClipboard text={item.originalUrl} onCopy={this.onCopy}>
                                     <button>{isUrlCopied ? 'Copied!' : 'Copy url'}</button>
@@ -93,8 +103,16 @@ class MediaPreview extends React.Component {
                             <li className="media-action media-icon media-icon--download">
                                 <a href={item.originalUrl} download target="_blank">Download original</a>
                             </li>
-                            <li onClick={this.onPreviousItem} className="media-action media-action--controls media-action--pull-right media-icon media-icon--previous" />
-                            <li onClick={this.onNextItem} className="media-action media-action--controls media-icon media-icon--next" />
+                            <li
+                                onClick={this.onPreviousItem}
+                                style={{ visibility: this.hasPreviousItem() ? 'visible' : 'hidden' }}
+                                className="media-action media-action--controls media-action--pull-right media-icon media-icon--previous"
+                            />
+                            <li
+                                onClick={this.onNextItem}
+                                style={{ visibility: this.hasNextItem() ? 'visible' : 'hidden' }}
+                                className="media-action media-action--controls media-icon media-icon--next"
+                            />
                         </ul>
                     </div>
                     <div className="media-preview__info">
@@ -130,6 +148,9 @@ class MediaPreview extends React.Component {
                             <li className="media-action media-icon media-icon--edit">
                                 <a href={item.editUrl} target="_blank">Edit</a>
                             </li>
+                            <li className="media-action media-icon media-icon--delete">
+                                <a href={item.deleteUrl} target="_blank">Delete</a>
+                            </li>
                             <li className="media-action media-icon media-icon--link">
                                 <CopyToClipboard text={item.originalUrl} onCopy={this.onCopy}>
                                     <button>{isUrlCopied ? 'Copied!' : 'Copy url'}</button>
@@ -153,6 +174,7 @@ MediaPreview.propTypes = {
     // eslint-disable-next-line react/no-typos
     item: MediaItemPropType.isRequired,
     index: PropTypes.number.isRequired,
+    total: PropTypes.number.isRequired,
 };
 
 export default MediaPreview;

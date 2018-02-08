@@ -76,6 +76,7 @@ class GalleryController extends ControllerBase
             $large = $file ? $this->imgixManager->getImgixUrl($file, ['fit' => 'max', 'w' => 1200]) : null;
             $original = $file ? $this->imgixManager->getImgixUrl($file, []) : null;
             $edit = Url::fromRoute('entity.media.edit_form', ['media' => $entity->id()])->toString();
+            $delete = Url::fromRoute('entity.media.delete_form', ['media' => $entity->id()])->toString();
 
             return [
                 'label' => $entity->label(),
@@ -89,6 +90,7 @@ class GalleryController extends ControllerBase
                 'thumbUrl' => $thumb,
                 'largeUrl' => $large,
                 'editUrl' => $edit,
+                'deleteUrl' => $delete,
                 'size' => format_size($file->getSize()),
                 'dateCreated' => $entity->getCreatedTime(),
             ];
