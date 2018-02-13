@@ -43,7 +43,7 @@ widgets:
       resize_quality: !!float 1
       resize_method: contain
       thumbnail_method: contain
-      submit_text: 'Select entities'
+      submit_text: 'Select images'
     uuid: ce4d14ca-ff29-43a6-b622-bae6cb1a7081
     weight: -6
     label: Upload
