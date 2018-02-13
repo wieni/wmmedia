@@ -70,7 +70,7 @@ class MediaItem extends React.Component {
                             <a href={data.editUrl} target="_blank">Edit</a>
                         </li>
                         <li className="media-action media-icon media-icon--delete">
-                            <a href={data.deleteUrl} target="_blank">Delete</a>
+                            <a href={data.deleteUrl}>Delete</a>
                         </li>
                         <li className="media-action media-icon media-icon--link">
                             <CopyToClipboard text={data.originalUrl} onCopy={this.onCopy}>

@@ -93,7 +93,7 @@ class MediaPreview extends React.Component {
                                 <a href={item.editUrl} target="_blank">Edit</a>
                             </li>
                             <li className="media-action media-icon media-icon--delete">
-                                <a href={item.deleteUrl} target="_blank">Delete</a>
+                                <a href={item.deleteUrl}>Delete</a>
                             </li>
                             <li className="media-action media-icon media-icon--link">
                                 <CopyToClipboard text={item.originalUrl} onCopy={this.onCopy}>

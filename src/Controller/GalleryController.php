@@ -7,6 +7,7 @@ use Drupal\wmcontroller\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\imgix\ImgixManagerInterface;
 use Drupal\node\NodeInterface;
 use Drupal\wmmedia\Form\MediaContentFilterForm;
@@ -26,13 +27,16 @@ class GalleryController extends ControllerBase
     protected $imgixManager;
     /** @var MediaFilterService */
     protected $filterService;
+    /** @var CurrentRouteMatch */
+    protected $currentRouteMatch;
 
     public function __construct(
         EntityTypeManager $etm,
         SessionInterface $session,
         FormBuilderInterface $formBuilder,
         ImgixManagerInterface $imgixManager,
-        MediaFilterService $filterService
+        MediaFilterService $filterService,
+        CurrentRouteMatch $currentRouteMatch
     ) {
         $this->mediaStorage = $etm->getStorage('media');
 
@@ -40,6 +44,7 @@ class GalleryController extends ControllerBase
         $this->formBuilder = $formBuilder;
         $this->imgixManager = $imgixManager;
         $this->filterService = $filterService;
+        $this->currentRouteMatch = $currentRouteMatch;
     }
 
     public static function create(ContainerInterface $container)
@@ -49,7 +54,8 @@ class GalleryController extends ControllerBase
             $container->get('session'),
             $container->get('form_builder'),
             $container->get('imgix.manager'),
-            $container->get('wmmedia.filter')
+            $container->get('wmmedia.filter'),
+            $container->get('current_route_match')
         );
     }
 
@@ -76,7 +82,10 @@ class GalleryController extends ControllerBase
             $large = $file ? $this->imgixManager->getImgixUrl($file, ['fit' => 'max', 'w' => 1200]) : null;
             $original = $file ? $this->imgixManager->getImgixUrl($file, []) : null;
             $edit = Url::fromRoute('entity.media.edit_form', ['media' => $entity->id()])->toString();
-            $delete = Url::fromRoute('entity.media.delete_form', ['media' => $entity->id()])->toString();
+            $delete = Url::fromRoute('entity.media.delete_form', ['media' => $entity->id()])
+                ->setOption('query', ['destination' => $this->currentRouteMatch->getRouteObject()->getPath()])
+                ->toString();
+
 
             return [
                 'label' => $entity->label(),
