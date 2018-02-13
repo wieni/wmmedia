@@ -237,6 +237,7 @@ class MediaImageExtrasBrowser extends WidgetBase implements ContainerFactoryPlug
             '#type' => 'container',
             '#attributes' => [
                 'class' => 'imgix-browser-container',
+                'data-cardinality' => $form_state->get(['entity_browser', 'validators', 'cardinality', 'cardinality']),
             ],
             '#tree' => true,
         ];
