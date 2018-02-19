@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\wmcustom\Controller\Admin;
+namespace Drupal\wmmedia\Controller;
 
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManager;
@@ -10,8 +10,8 @@ use Drupal\Core\Url;
 use Drupal\imgix\ImgixManagerInterface;
 use Drupal\media\MediaInterface;
 use Drupal\node\NodeInterface;
-use Drupal\wmcustom\Form\MediaContentFilterForm;
-use Drupal\wmcustom\Service\Admin\ContentFilter;
+use Drupal\wmmedia\Form\MediaContentFilterForm;
+use Drupal\wmmedia\Service\MediaFilterService;
 use Drupal\wmcontroller\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,7 +30,7 @@ class GalleryController extends ControllerBase
     /** @var ImgixManagerInterface */
     protected $imgixManager;
     /** @var ContentFilter */
-    protected $filter;
+    protected $filterService;
     /** @var CurrentRouteMatch */
     protected $currentRouteMatch;
     /** @var Request */
@@ -44,7 +44,7 @@ class GalleryController extends ControllerBase
         SessionInterface $session,
         FormBuilderInterface $formBuilder,
         ImgixManagerInterface $imgixManager,
-        ContentFilter $filter,
+        MediaFilterService $filterService,
         CurrentRouteMatch $currentRouteMatch,
         RequestStack $requestStack
     ) {
@@ -53,7 +53,7 @@ class GalleryController extends ControllerBase
         $this->session = $session;
         $this->formBuilder = $formBuilder;
         $this->imgixManager = $imgixManager;
-        $this->filter = $filter;
+        $this->filterService = $filterService;
         $this->currentRouteMatch = $currentRouteMatch;
         $this->request = $requestStack->getCurrentRequest();
 
@@ -68,7 +68,7 @@ class GalleryController extends ControllerBase
             $container->get('session'),
             $container->get('form_builder'),
             $container->get('imgix.manager'),
-            $container->get('wmcustom.content.filter'),
+            $container->get('wmmedia.filter'),
             $container->get('current_route_match'),
             $container->get('request_stack')
         );
@@ -114,7 +114,7 @@ class GalleryController extends ControllerBase
     public function getMedia()
     {
         $filter = $this->session->get(MediaContentFilterForm::getSessionVarName(), []);
-        $items = $this->filterService->media($filter, $this->limit);
+        $items = $this->filterService->filter($filter, $this->limit);
 
         return array_values(
             array_filter(
