@@ -1,4 +1,5 @@
 import 'event-propagation-path';
+import 'isomorphic-fetch';
 import './styles/index.scss';
 
 import React from 'react';

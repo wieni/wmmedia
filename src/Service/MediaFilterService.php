@@ -73,10 +73,10 @@ class MediaFilterService
     public function filter(array $conditions, $limit = 100)
     {
         $q = $this->db->select('media_field_data', 'm')
-            ->fields('m', ['mid', 'changed', 'langcode'])
+            ->fields('m', ['mid', 'langcode'])
             ->extend('Drupal\Core\Database\Query\PagerSelectExtender');
 
-        $q->distinct();
+        $q->groupBy('mid');
         $q->limit($limit);
 
         $this->mediaSearchConditions($conditions, $q);
@@ -85,6 +85,21 @@ class MediaFilterService
         $q->orderBy('m.changed', 'desc');
 
         return $q->execute()->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function mediaCount(array $conditions)
+    {
+        /** @var \Drupal\Core\Database\Query\SelectInterface $q */
+        $q = $this->db->select('media_field_data', 'm')
+            ->fields('m', ['mid', 'changed', 'langcode'])
+            ->countQuery();
+
+        $q->distinct();
+
+        $this->mediaSearchConditions($conditions, $q);
+        $this->mediaAuthorConditions($conditions, $q);
+
+        return (int) $q->execute()->fetchField();
     }
 
     protected function mediaSearchConditions(array $conditions, SelectInterface $q)

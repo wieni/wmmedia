@@ -1,4 +1,6 @@
 import React from 'react';
+import InfiniteScroll from 'react-infinite-scroller';
+import queryString from 'query-string'
 
 import MediaItem from './MediaItem';
 import MediaPreview from './MediaPreview';
@@ -12,6 +14,8 @@ class MediaGrid extends React.Component {
             isPreviewVisible: false,
             itemInPreview: 0,
             items: props.items,
+            hasMore: true,
+            page: 0,
         };
     }
 
@@ -23,21 +27,58 @@ class MediaGrid extends React.Component {
         this.setState({ isPreviewVisible });
     };
 
+    loadItems = () => {
+        let { page } = this.state;
+
+        page++;
+
+        console.log('loading more!');
+        console.log(page);
+
+        fetch(`/admin/api/media/paginate?${queryString.stringify({ page })}`, { credentials: 'include' })
+            .then((response) => {
+                if (response.status >= 400) {
+                    throw new Error("Bad response from server");
+                }
+                return response.json();
+            })
+            .then(({ items, total, page }) => {
+                this.setState({
+                    hasMore: this.state.items.length + items.length < total,
+                    page,
+                    items: [
+                        ...this.state.items,
+                        ...items,
+                    ],
+                });
+            });
+    };
+
     render() {
         const { items, itemInPreview, isPreviewVisible } = this.state;
 
         return [
             (
-                <ul className="media-item-list">
-                    {items.map((item, index) => (
-                        <MediaItem
-                            data={item}
-                            index={index}
-                            setItemInPreview={this.setItemInPreview}
-                            setPreviewVisible={this.setPreviewVisible}
-                        />
-                    ))}
-                </ul>
+                <InfiniteScroll
+                    pageStart={0}
+                    threshold={350}
+                    loadMore={this.loadItems}
+                    hasMore={this.state.hasMore}
+                    loader={<div className="media-loading" key={0}><div className="media-loading__spinner" /></div>}
+                    initialLoad={false}
+                >
+                    <ul className="media-item-list">
+                        {items.map((item, index) => (
+                            <MediaItem
+                                data={item}
+                                index={index}
+                                key={item.id}
+                                setItemInPreview={this.setItemInPreview}
+                                setPreviewVisible={this.setPreviewVisible}
+                            />
+                        ))}
+                    </ul>
+                </InfiniteScroll>
             ),
             (
                 <MediaPreview

@@ -7,3 +7,12 @@ wmmedia.gallery:
         _permission: 'access media overview'
     options:
         _admin_route: TRUE
+
+wmcustom.api.paginate:
+    path: '/admin/api/media/paginate'
+    defaults:
+        _controller: 'Drupal\wmmedia\Controller\Admin\GalleryController::get'
+    requirements:
+        _permission: 'access media overview'
+    options:
+        _admin_route: TRUE
