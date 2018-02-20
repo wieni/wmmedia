@@ -122,11 +122,11 @@ class MediaPreview extends React.Component {
                         </p>
                         <p className="media-preview__field">
                             <span className="media-preview__field-label">Copyright</span>
-                            {item.copyright || defaultValue}
+                            <span dangerouslySetInnerHTML={{__html: item.copyright || defaultValue}} />
                         </p>
                         <p className="media-preview__field">
                             <span className="media-preview__field-label">Caption</span>
-                            {item.caption || defaultValue}
+                            <span dangerouslySetInnerHTML={{__html: item.caption || defaultValue}} />
                         </p>
                         <p className="media-preview__field">
                             <span className="media-preview__field-label">Alternate</span>
