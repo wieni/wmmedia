@@ -91,15 +91,14 @@ class MediaFilterService
     {
         /** @var \Drupal\Core\Database\Query\SelectInterface $q */
         $q = $this->db->select('media_field_data', 'm')
-            ->fields('m', ['mid', 'changed', 'langcode'])
-            ->countQuery();
+            ->fields('m', ['mid', 'changed', 'langcode']);
 
         $q->distinct();
 
         $this->mediaSearchConditions($conditions, $q);
         $this->mediaAuthorConditions($conditions, $q);
 
-        return (int) $q->execute()->fetchField();
+        return (int) $q->countQuery()->execute()->fetchField();
     }
 
     protected function mediaSearchConditions(array $conditions, SelectInterface $q)
