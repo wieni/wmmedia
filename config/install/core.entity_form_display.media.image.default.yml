@@ -1,0 +1,67 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.media.image.field_alternate
+    - field.field.media.image.field_copyright
+    - field.field.media.image.field_description
+    - field.field.media.image.field_height
+    - field.field.media.image.field_media_imgix
+    - field.field.media.image.field_width
+    - media.type.image
+  module:
+    - imgix
+    - text
+id: media.image.default
+targetEntityType: media
+bundle: image
+mode: default
+content:
+  field_alternate:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_copyright:
+    type: text_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_description:
+    type: text_textarea
+    weight: 4
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_media_imgix:
+    type: imgix
+    weight: 1
+    region: content
+    settings:
+      preview_preset: thumb
+      progress_indicator: throbber
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_height: true
+  field_width: true
+  langcode: true
+  path: true
+  status: true
+  uid: true
