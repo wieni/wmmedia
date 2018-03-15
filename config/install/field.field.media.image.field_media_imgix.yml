@@ -6,11 +6,7 @@ dependencies:
     - media.type.image
   module:
     - imgix
-third_party_settings:
-  content_translation:
-    translation_sync:
-      file: '0'
-      title: '0'
+third_party_settings: {  }
 id: media.image.field_media_imgix
 field_name: field_media_imgix
 entity_type: media
