@@ -96,7 +96,7 @@ class MediaFilterService
         $q->distinct();
 
         $this->mediaSearchConditions($conditions, $q);
-        $this->mediaAuthorConditions($conditions, $q);
+        $this->mediaSizeConditions($conditions, $q);
 
         return (int) $q->countQuery()->execute()->fetchField();
     }
