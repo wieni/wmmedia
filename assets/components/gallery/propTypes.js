@@ -11,8 +11,8 @@ export const MediaItem = PropTypes.shape({
     originalUrl: PropTypes.string.isRequired,
     largeUrl: PropTypes.string.isRequired,
     thumbUrl: PropTypes.string.isRequired,
-    editUrl: PropTypes.string.isRequired,
-    deleteUrl: PropTypes.string.isRequired,
+    editUrl: PropTypes.string,
+    deleteUrl: PropTypes.string,
     size: PropTypes.string.isRequired,
     dateCreated: PropTypes.instanceOf(Date).isRequired,
 });

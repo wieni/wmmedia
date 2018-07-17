@@ -140,17 +140,7 @@ class GalleryController extends ControllerBase
             return null;
         }
 
-        /** @var \Drupal\file\Entity\File $file */
-        $file = $entity->get('field_media_imgix')->entity;
-        $thumb = $file ? $this->imgixManager->getImgixUrl($file, ['fit' => 'max', 'h' => 250]) : null;
-        $large = $file ? $this->imgixManager->getImgixUrl($file, ['fit' => 'max', 'w' => 1200]) : null;
-        $original = $file ? $this->imgixManager->getImgixUrl($file, []) : null;
-        $edit = Url::fromRoute('entity.media.edit_form', ['media' => $entity->id()])->toString();
-        $delete = Url::fromRoute('entity.media.delete_form', ['media' => $entity->id()])
-            ->setOption('query', ['destination' => $this->currentRouteMatch->getRouteObject()->getPath()])
-            ->toString();
-
-        return [
+        $result = [
             'id' => $entity->id(),
             'label' => $entity->label(),
             'author' => $entity->getOwner()->getDisplayName(),
@@ -159,40 +149,35 @@ class GalleryController extends ControllerBase
             'alternate' => $entity->get('field_alternate')->value,
             'height' => (int) $entity->get('field_height')->value,
             'width' => (int) $entity->get('field_width')->value,
-            'originalUrl' => $original,
-            'thumbUrl' => $thumb,
-            'largeUrl' => $large,
-            'editUrl' => $edit,
-            'deleteUrl' => $delete,
-            'size' => format_size($file->getSize()),
             'dateCreated' => $entity->getCreatedTime(),
         ];
-    }
 
-    private function getOperations(MediaInterface $media, $destination = '')
-    {
-        $opts = [];
-        if ($destination) {
-            $opts['query']['destination'] = $destination;
+        /** @var \Drupal\file\Entity\File $file */
+        if ($file = $entity->get('field_media_imgix')->entity) {
+            $result['originalUrl'] = $this->imgixManager->getImgixUrl($file, []);
+            $result['thumbUrl'] = $this->imgixManager->getImgixUrl($file, ['fit' => 'max', 'h' => 250]);
+            $result['largeUrl'] = $this->imgixManager->getImgixUrl($file, ['fit' => 'max', 'h' => 1200]);
+            $result['size'] = format_size($file->getSize());
         }
 
-        return [
-            'edit' => [
-                'title' => 'Edit',
-                'url' => $media->toUrl('edit-form', $opts),
-            ],
-//            'delete' => [
-//                'title' => 'Delete',
-//                'url' => $term->toUrl('delete-form', $opts),
-//            ],
-        ];
+        if ($entity->access('update')) {
+            $result['editUrl'] = $entity->toUrl('edit-form')->toString();
+        }
+
+        if ($entity->access('delete')) {
+            $result['deleteUrl'] = $entity->toUrl('delete-form')
+                ->setOption('query', ['destination' => $this->currentRouteMatch->getRouteObject()->getPath()])
+                ->toString();
+        }
+
+        return $result;
     }
 
     private function getTranslatedMediaItem($row)
     {
         $mid = $row['mid'];
         $langCode = $row['langcode'] ?? '';
-        /** @var NodeInterface $node */
+        /** @var NodeInterface $entity */
         $entity = $this->mediaStorage->load($mid);
 
         if ($langCode && $entity->hasTranslation($langCode)) {
