@@ -5,11 +5,10 @@ namespace Drupal\wmmedia\Controller;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Url;
 use Drupal\imgix\ImgixManagerInterface;
-use Drupal\media\MediaInterface;
 use Drupal\node\NodeInterface;
+use Drupal\wmcustom\Service\Admin\Overview\Filter\ContentFilter;
 use Drupal\wmmedia\Form\MediaContentFilterForm;
 use Drupal\wmmedia\Service\MediaFilterService;
 use Drupal\wmcontroller\Controller\ControllerBase;
@@ -31,8 +30,6 @@ class GalleryController extends ControllerBase
     protected $imgixManager;
     /** @var ContentFilter */
     protected $filterService;
-    /** @var CurrentRouteMatch */
-    protected $currentRouteMatch;
     /** @var Request */
     protected $request;
 
@@ -45,7 +42,6 @@ class GalleryController extends ControllerBase
         FormBuilderInterface $formBuilder,
         ImgixManagerInterface $imgixManager,
         MediaFilterService $filterService,
-        CurrentRouteMatch $currentRouteMatch,
         RequestStack $requestStack
     ) {
         $this->mediaStorage = $etm->getStorage('media');
@@ -54,7 +50,6 @@ class GalleryController extends ControllerBase
         $this->formBuilder = $formBuilder;
         $this->imgixManager = $imgixManager;
         $this->filterService = $filterService;
-        $this->currentRouteMatch = $currentRouteMatch;
         $this->request = $requestStack->getCurrentRequest();
 
         $this->page = $this->request->get('page') ?? $this->page;
@@ -69,7 +64,6 @@ class GalleryController extends ControllerBase
             $container->get('form_builder'),
             $container->get('imgix.manager'),
             $container->get('wmmedia.filter'),
-            $container->get('current_route_match'),
             $container->get('request_stack')
         );
     }
@@ -166,7 +160,7 @@ class GalleryController extends ControllerBase
 
         if ($entity->access('delete')) {
             $result['deleteUrl'] = $entity->toUrl('delete-form')
-                ->setOption('query', ['destination' => $this->currentRouteMatch->getRouteObject()->getPath()])
+                ->setOption('query', ['destination' => Url::fromRoute('wmmedia.gallery')->toString()])
                 ->toString();
         }
 
