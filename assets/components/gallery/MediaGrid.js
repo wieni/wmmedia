@@ -32,9 +32,6 @@ class MediaGrid extends React.Component {
 
         page++;
 
-        console.log('loading more!');
-        console.log(page);
-
         fetch(`/admin/api/media/paginate?${queryString.stringify({ page })}`, { credentials: 'include' })
             .then((response) => {
                 if (response.status >= 400) {
