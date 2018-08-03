@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroller';
-import queryString from 'query-string'
+import queryString from 'query-string';
 
 import MediaItem from './MediaItem';
 import MediaPreview from './MediaPreview';
@@ -14,7 +15,7 @@ class MediaGrid extends React.Component {
             isPreviewVisible: false,
             itemInPreview: 0,
             items: props.items,
-            hasMore: true,
+            hasMore: props.total > props.items.length,
             page: 0,
         };
     }
@@ -94,6 +95,7 @@ class MediaGrid extends React.Component {
 MediaGrid.propTypes = {
     // eslint-disable-next-line react/no-typos
     items: MediaItemListPropType.isRequired,
+    total: PropTypes.number.isRequired,
 };
 
 export default MediaGrid;

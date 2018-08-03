@@ -35,6 +35,7 @@ class GalleryController extends ControllerBase
 
     protected $page = 0;
     protected $limit = 30;
+    protected $total;
 
     public function __construct(
         EntityTypeManager $etm,
@@ -54,6 +55,7 @@ class GalleryController extends ControllerBase
 
         $this->page = $this->request->get('page') ?? $this->page;
         $this->limit = $this->request->get('limit') ?? $this->limit;
+        $this->total = $this->getTotalMediaCount();
     }
 
     public static function create(ContainerInterface $container)
@@ -75,6 +77,7 @@ class GalleryController extends ControllerBase
         $media = [
             'page' => $this->page,
             'limit' => $this->limit,
+            'total' => $this->total,
             'items' => $this->getMedia(),
         ];
 
@@ -89,18 +92,19 @@ class GalleryController extends ControllerBase
             )->setAbsolute(true)->toString()
         ];
 
-        return $this->view('wmmedia.gallery', compact('actions', 'form', 'media'));
+        return $this->view(
+            'wmmedia.gallery',
+            compact('actions', 'form', 'media')
+        );
     }
 
     public function get()
     {
-        $total = $this->getTotalMediaCount();
-
         return new JsonResponse([
             'page' => $this->page,
             'limit' => $this->limit,
-            'pages' => ceil($total / $this->limit),
-            'total' => $total,
+            'total' => $this->total,
+            'pages' => ceil($this->total / $this->limit),
             'items' => $this->getMedia(),
         ]);
     }
