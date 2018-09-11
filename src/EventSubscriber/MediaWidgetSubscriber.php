@@ -11,29 +11,19 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class MediaWidgetSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var EntityTypeManagerInterface
-     */
+    /** @var EntityTypeManagerInterface */
     protected $entityTypeManager;
-
-    /**
-     * @var \Drupal\imgix\ImgixManagerInterface
-     */
+    /** @var ImgixManagerInterface */
     protected $imgixManager;
 
-    /**
-     * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-     * @param \Drupal\imgix\ImgixManagerInterface $imgixManager
-     */
-    public function __construct(EntityTypeManagerInterface $entityTypeManager, ImgixManagerInterface $imgixManager)
-    {
+    public function __construct(
+        EntityTypeManagerInterface $entityTypeManager,
+        ImgixManagerInterface $imgixManager
+    ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->imgixManager = $imgixManager;
     }
 
-    /**
-     * {@inheritdocs}
-     */
     public static function getSubscribedEvents()
     {
         return [
@@ -41,9 +31,6 @@ class MediaWidgetSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param MediaWidgetRenderEvent $event
-     */
     public function widgetRender(MediaWidgetRenderEvent $event)
     {
         $targetId = $event->getTarget();
@@ -53,9 +40,7 @@ class MediaWidgetSubscriber implements EventSubscriberInterface
             return;
         }
 
-        /**
-         * @var \Drupal\media\Entity\Media $entity
-         */
+        /** @var Media $entity */
         $entity = $this->entityTypeManager->getStorage('media')->load($targetId);
 
         switch ($entity->bundle()) {
@@ -87,9 +72,7 @@ class MediaWidgetSubscriber implements EventSubscriberInterface
                 break;
 
             case 'file':
-                /**
-                 * @var \Drupal\file\FileInterface $file
-                 */
+                /** @var FileInterface $file */
                 $file = $entity->get('field_media_file')->entity;
 
                 if ($file) {

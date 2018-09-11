@@ -10,22 +10,15 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class MediaFormAlterSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var \Drupal\Core\Session\AccountProxyInterface
-     */
+    /** @var AccountProxyInterface */
     protected $user;
 
-    /**
-     * @param \Drupal\Core\Session\AccountProxyInterface $user
-     */
-    public function __construct(AccountProxyInterface $user)
-    {
+    public function __construct(
+        AccountProxyInterface $user
+    ) {
         $this->user = $user;
     }
 
-    /**
-     * {@inheritdocs}
-     */
     public static function getSubscribedEvents()
     {
         return [
@@ -34,9 +27,6 @@ class MediaFormAlterSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param FormBaseAlterEvent $event
-     */
     public function mediaFormAlter(FormBaseAlterEvent $event)
     {
         $form = &$event->getForm();
@@ -44,9 +34,6 @@ class MediaFormAlterSubscriber implements EventSubscriberInterface
         $this->removeRevisionElement($form);
     }
 
-    /**
-     * @param \Drupal\hook_event_dispatcher\Event\Form\FormIdAlterEvent $event
-     */
     public function entityBrowserImagesFormAlter(FormIdAlterEvent $event)
     {
         $form = &$event->getForm();
@@ -76,21 +63,13 @@ class MediaFormAlterSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param $form
-     * @return array
-     */
     public static function entityBrowserImagesFormAfterBuild($form)
     {
         $form['revision_log_message']['#access'] = false;
         return $form;
     }
 
-
-    /**
-     * @param array $form
-     */
-    private function removeRevisionElement(&$form)
+    protected function removeRevisionElement(&$form)
     {
         if (isset($form['revision'])) {
             $form['revision']['#access'] = false;

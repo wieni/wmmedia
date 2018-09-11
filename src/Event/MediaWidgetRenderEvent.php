@@ -13,38 +13,24 @@ class MediaWidgetRenderEvent extends Event
 
     /** @var string */
     private $targetId;
-
-    /** @var array $render */
+    /** @var array */
     private $render;
 
-    /**
-     * MediaWidgetRenderEvent constructor.
-     * @param $targetId
-     */
     public function __construct($targetId)
     {
         $this->targetId = $targetId;
     }
 
-    /**
-     * @return int
-     */
-    public function getTarget()
+    public function getTarget(): int
     {
         return $this->targetId;
     }
 
-    /**
-     * @return array
-     */
-    public function getPreview()
+    public function getPreview(): array
     {
         return $this->render;
     }
 
-    /**
-     * @param array $render
-     */
     public function setPreview(array $render)
     {
         $this->render = $render;

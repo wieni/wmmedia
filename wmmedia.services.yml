@@ -5,18 +5,27 @@ services:
             - '@current_user'
         tags: [{ name: event_subscriber }]
 
-    wmmedia.image.subscriber:
-        class: Drupal\wmmedia\EventSubscriber\ImageSubscriber
+    wmmedia.media_entity.subscriber:
+        class: Drupal\wmmedia\EventSubscriber\MediaEntitySubscriber
+        arguments:
+            - '@wmmedia.reference_discovery'
         tags: [{ name: event_subscriber }]
 
     wmmedia.media_widget.subscriber:
         class: Drupal\wmmedia\EventSubscriber\MediaWidgetSubscriber
-        tags: [{ name: event_subscriber }]
         arguments:
             - '@entity_type.manager'
             - '@imgix.manager'
+        tags: [{ name: event_subscriber }]
 
     wmmedia.filter:
         class: Drupal\wmmedia\Service\MediaFilterService
         arguments:
             - '@database'
+
+    wmmedia.reference_discovery:
+        class: Drupal\wmmedia\Service\MediaReferenceDiscovery
+        arguments:
+            - '@entity_type.manager'
+            - '@entity_field.manager'
+            - '@entity_type.bundle.info'
