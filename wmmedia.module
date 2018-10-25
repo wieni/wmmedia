@@ -9,3 +9,18 @@ function wmmedia_theme()
 {
     return (new TemplateLocator(['module' => 'wmmedia']))->getThemes();
 }
+
+/**
+ * Implements hook_menu_local_actions_alter().
+ */
+function wmmedia_menu_local_actions_alter(&$local_actions)
+{
+    if (isset($local_actions['media.add'])) {
+        $appearsOn = &$local_actions['media.add']['appears_on'];
+        $key = array_search('entity.media.collection', $appearsOn);
+
+        if ($key !== false) {
+            unset($appearsOn[$key]);
+        }
+    }
+}

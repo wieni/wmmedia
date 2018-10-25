@@ -159,12 +159,14 @@ class GalleryController extends ControllerBase
         }
 
         if ($entity->access('update')) {
-            $result['editUrl'] = $entity->toUrl('edit-form')->toString();
+            $result['editUrl'] = $entity->toUrl('edit-form')
+                ->setOption('query', ['destination' => Url::fromRoute('entity.media.collection')->toString()])
+                ->toString();
         }
 
         if ($entity->access('delete')) {
             $result['deleteUrl'] = $entity->toUrl('delete-form')
-                ->setOption('query', ['destination' => Url::fromRoute('wmmedia.gallery')->toString()])
+                ->setOption('query', ['destination' => Url::fromRoute('entity.media.collection')->toString()])
                 ->toString();
         }
 

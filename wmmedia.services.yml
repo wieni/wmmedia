@@ -18,6 +18,10 @@ services:
             - '@imgix.manager'
         tags: [{ name: event_subscriber }]
 
+    wmmedia.collection_route.subscriber:
+        class:  Drupal\wmmedia\EventSubscriber\CollectionRouteSubscriber
+        tags: [{ name: event_subscriber }]
+
     wmmedia.filter:
         class: Drupal\wmmedia\Service\MediaFilterService
         arguments:
