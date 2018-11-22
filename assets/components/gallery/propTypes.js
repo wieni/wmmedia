@@ -1,5 +1,11 @@
 import PropTypes from 'prop-types';
 
+const MediaOperation = PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+});
+
 export const MediaItem = PropTypes.shape({
     label: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
@@ -11,10 +17,9 @@ export const MediaItem = PropTypes.shape({
     originalUrl: PropTypes.string.isRequired,
     largeUrl: PropTypes.string.isRequired,
     thumbUrl: PropTypes.string.isRequired,
-    editUrl: PropTypes.string,
-    deleteUrl: PropTypes.string,
     size: PropTypes.string.isRequired,
     dateCreated: PropTypes.instanceOf(Date).isRequired,
+    operations: PropTypes.arrayOf(MediaOperation).isRequired,
 });
 
 export const MediaItemList = PropTypes.arrayOf(MediaItem);

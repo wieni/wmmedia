@@ -89,16 +89,11 @@ class MediaPreview extends React.Component {
                     <div className="media-preview__image">
                         <img src={item.largeUrl} alt={item.label} />
                         <ul className="media-preview__action-container">
-                            {item.editUrl && (
-                                <li className="media-action media-icon media-icon--edit">
-                                    <a href={item.editUrl} target="_blank">Edit</a>
+                            {item.operations.map(operation => (
+                                <li className={`media-action media-icon media-icon--${operation.key}`}>
+                                    <a href={operation.url}>{operation.title}</a>
                                 </li>
-                            )}
-                            {item.deleteUrl && (
-                                <li className="media-action media-icon media-icon--delete">
-                                    <a href={item.deleteUrl}>Delete</a>
-                                </li>
-                            )}
+                            ))}
                             <li className="media-action media-icon media-icon--link">
                                 <CopyToClipboard text={item.originalUrl} onCopy={this.onCopy}>
                                     <button>{isUrlCopied ? 'Copied!' : 'Copy url'}</button>
@@ -149,16 +144,11 @@ class MediaPreview extends React.Component {
                             {item.dateCreated ? format(item.dateCreated, 'D/M/YYYY HH:mm') : defaultValue}
                         </p>
                         <ul className="media-preview__info-actions">
-                            {item.editUrl && (
-                                <li className="media-action media-icon media-icon--edit">
-                                    <a href={item.editUrl} target="_blank">Edit</a>
+                            {item.operations.map(operation => (
+                                <li className={`media-action media-icon media-icon--${operation.key}`}>
+                                    <a href={operation.url}>{operation.title}</a>
                                 </li>
-                            )}
-                            {item.deleteUrl && (
-                                <li className="media-action media-icon media-icon--delete">
-                                    <a href={item.deleteUrl} target="_blank">Delete</a>
-                                </li>
-                            )}
+                            ))}
                             <li className="media-action media-icon media-icon--link">
                                 <CopyToClipboard text={item.originalUrl} onCopy={this.onCopy}>
                                     <button>{isUrlCopied ? 'Copied!' : 'Copy url'}</button>

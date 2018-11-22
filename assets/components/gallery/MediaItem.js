@@ -66,16 +66,11 @@ class MediaItem extends React.Component {
                         <li className="media-action media-icon media-icon--preview">
                             <button onClick={() => this.onOpenPreview(index)}>Preview</button>
                         </li>
-                        {data.editUrl && (
-                            <li className="media-action media-icon media-icon--edit">
-                                <a href={data.editUrl} target="_blank">Edit</a>
+                        {data.operations.map(operation => (
+                            <li className={`media-action media-icon media-icon--${operation.key}`}>
+                                <a href={operation.url}>{operation.title}</a>
                             </li>
-                        )}
-                        {data.deleteUrl && (
-                            <li className="media-action media-icon media-icon--delete">
-                                <a href={data.deleteUrl}>Delete</a>
-                            </li>
-                        )}
+                        ))}
                         <li className="media-action media-icon media-icon--link">
                             <CopyToClipboard text={data.originalUrl} onCopy={this.onCopy}>
                                 <button>{isUrlCopied ? 'Copied!' : 'Copy url'}</button>

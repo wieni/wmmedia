@@ -20,8 +20,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class GalleryController extends ControllerBase
 {
-    /** @var EntityStorageInterface */
-    protected $mediaStorage;
     /** @var SessionInterface */
     protected $session;
     /** @var FormBuilderInterface */
@@ -38,14 +36,14 @@ class GalleryController extends ControllerBase
     protected $total;
 
     public function __construct(
-        EntityTypeManager $etm,
+        EntityTypeManager $entityTypeManager,
         SessionInterface $session,
         FormBuilderInterface $formBuilder,
         ImgixManagerInterface $imgixManager,
         MediaFilterService $filterService,
         RequestStack $requestStack
     ) {
-        $this->mediaStorage = $etm->getStorage('media');
+        $this->entityTypeManager = $entityTypeManager;
 
         $this->session = $session;
         $this->formBuilder = $formBuilder;
@@ -147,17 +145,20 @@ class GalleryController extends ControllerBase
             $result['size'] = format_size($file->getSize());
         }
 
-        if ($entity->access('update')) {
-            $result['editUrl'] = $entity->toUrl('edit-form')
-                ->setOption('query', ['destination' => Url::fromRoute('entity.media.collection')->toString()])
-                ->toString();
-        }
+        $operations = $this->entityTypeManager
+            ->getListBuilder('media')
+            ->getOperations($entity);
 
-        if ($entity->access('delete')) {
-            $result['deleteUrl'] = $entity->toUrl('delete-form')
-                ->setOption('query', ['destination' => Url::fromRoute('entity.media.collection')->toString()])
-                ->toString();
-        }
+        $result['operations'] = array_map(
+            function (array $operation, string $key) {
+                $operation['key'] = $key;
+                $operation['url'] = $operation['url']->toString();
+
+                return $operation;
+            },
+            array_values($operations),
+            array_keys($operations)
+        );
 
         return $result;
     }
@@ -166,8 +167,10 @@ class GalleryController extends ControllerBase
     {
         $mid = $row['mid'];
         $langCode = $row['langcode'] ?? '';
+        /** @var EntityStorageInterface $storage */
+        $storage = $this->entityTypeManager->getStorage('media');
         /** @var NodeInterface $entity */
-        $entity = $this->mediaStorage->load($mid);
+        $entity = $storage->load($mid);
 
         if ($langCode && $entity->hasTranslation($langCode)) {
             return $entity->getTranslation($langCode);
