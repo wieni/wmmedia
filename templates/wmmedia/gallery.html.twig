@@ -1,11 +1,5 @@
 {{ attach_library('wmmedia/media.gallery') }}
 
-<ul class="action-links media-action-links">
-{% for label, url in actions %}
-    <li><a href="{{ url }}" class="button button-action button--primary button--small">{{ label }}</a></li>
-{% endfor %}
-</ul>
-
 {{ form }}
 
 <div data-media="{{ media|json_encode }}"></div>

@@ -1,0 +1,9 @@
+wmmedia.add_image:
+    route_name: entity.media.add_form
+    route_parameters:
+        entity_type_id: media
+        bundle_parameter: media_type
+        media_type: image
+    title: 'Add image'
+    appears_on:
+        - entity.media.collection

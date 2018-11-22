@@ -81,20 +81,9 @@ class GalleryController extends ControllerBase
             'items' => $this->getMedia(),
         ];
 
-        $actions = [
-            'Add image' => Url::fromRoute(
-                'entity.media.add_form',
-                [
-                    'entity_type_id' => 'media',
-                    'bundle_parameter' => 'media_type',
-                    'media_type' => 'image',
-                ]
-            )->setAbsolute(true)->toString()
-        ];
-
         return $this->view(
             'wmmedia.gallery',
-            compact('actions', 'form', 'media')
+            compact('form', 'media')
         );
     }
 
