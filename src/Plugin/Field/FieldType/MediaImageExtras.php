@@ -7,6 +7,8 @@ use Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TypedData\DataDefinition;
+use Drupal\file\Entity\File;
+use Drupal\media\MediaInterface;
 
 /**
  * @FieldType(
@@ -19,8 +21,8 @@ use Drupal\Core\TypedData\DataDefinition;
  *   list_class = "\Drupal\Core\Field\EntityReferenceFieldItemList",
  * )
  */
-class MediaImageExtras extends EntityReferenceItem {
-
+class MediaImageExtras extends EntityReferenceItem
+{
     /**
      * {@inheritdoc}
      */
@@ -107,15 +109,13 @@ class MediaImageExtras extends EntityReferenceItem {
     public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
         $properties = parent::propertyDefinitions($field_definition);
 
-        $titleDefinition = DataDefinition::create('string')
+        $properties['title'] = DataDefinition::create('string')
             ->setLabel(new TranslatableMarkup('Title'))
-            ->setRequired(FALSE);
-        $properties['title'] = $titleDefinition;
+            ->setRequired(false);
 
-        $descriptionDefinition = DataDefinition::create('string')
+        $properties['description'] = DataDefinition::create('string')
             ->setLabel(new TranslatableMarkup('Description'))
-            ->setRequired(FALSE);
-        $properties['description'] = $descriptionDefinition;
+            ->setRequired(false);
 
         return $properties;
     }
@@ -125,6 +125,7 @@ class MediaImageExtras extends EntityReferenceItem {
      */
     public static function schema(FieldStorageDefinitionInterface $field_definition) {
         $schema = parent::schema($field_definition);
+
         $schema['columns']['title'] = array(
             'type' => 'varchar',
             'length' => 255,
@@ -138,15 +139,17 @@ class MediaImageExtras extends EntityReferenceItem {
     }
 
     /**
-     * @return \Drupal\file\Entity\File|null
+     * @return File|null
      */
     public function getFile()
     {
-        if (!$this->getMedia()) {
+        $media = $this->getMedia();
+
+        if (!$media instanceof MediaInterface) {
             return null;
         }
 
-        $source = $this->getMedia()->getSource();
+        $source = $media->getSource();
         $field = $source->getConfiguration()['source_field'] ?? '';
 
         if (!$field) {
@@ -156,35 +159,22 @@ class MediaImageExtras extends EntityReferenceItem {
             ));
         }
 
-        return $this->getMedia()->$field->entity;
+        return $media->$field->entity;
     }
 
     /**
-     * @return \Drupal\media\Entity\Media
+     * @return MediaInterface
      */
     public function getMedia()
     {
-        return $this->entity;
-    }
+        $langcode = $this->getLangcode();
+        $media = $this->entity;
 
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->get('description')->getValue();
-    }
-
-    /**
-     * @return string
-     */
-    public function getCopyright()
-    {
-        if (!$this->getMedia()) {
-            return '';
+        if ($media instanceof MediaInterface && $media->hasTranslation($langcode)) {
+            return $media->getTranslation($langcode);
         }
 
-        return $this->getMedia()->get('field_copyright')->value;
+        return $media;
     }
 
     /**
@@ -198,25 +188,45 @@ class MediaImageExtras extends EntityReferenceItem {
     /**
      * @return string
      */
-    public function getAlternate()
+    public function getDescription()
     {
-        if (!$this->getMedia()) {
-            return '';
-        }
-
-        return $this->getMedia()->get('field_alternate')->value;
+        return $this->get('description')->getValue();
     }
 
     /**
-     * @return int
+     * @return string|null
+     */
+    public function getCopyright()
+    {
+        if ($media = $this->getMedia()) {
+            return $media->get('field_copyright')->value;
+        }
+
+        return null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAlternate()
+    {
+        if ($media = $this->getMedia()) {
+            return $media->get('field_alternate')->value;
+        }
+
+        return null;
+    }
+
+    /**
+     * @return int|null
      */
     public function getWidth()
     {
-        if (!$this->getMedia()) {
-            return null;
+        if ($media = $this->getMedia()) {
+            return (int) $media->get('field_width')->value;
         }
 
-        return (int) $this->getMedia()->get('field_width')->value;
+        return null;
     }
 
     /**
@@ -224,10 +234,10 @@ class MediaImageExtras extends EntityReferenceItem {
      */
     public function getHeight()
     {
-        if (!$this->getMedia()) {
-            return null;
+        if ($media = $this->getMedia()) {
+            return (int) $media->get('field_height')->value;
         }
 
-        return (int) $this->getMedia()->get('field_height')->value;
+        return null;
     }
 }

@@ -690,7 +690,14 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
     ) {
         // Form state values is empty on a new node form for some reason.
         $media = NestedArray::getValue($formState->getUserInput(), array_merge($parents, ['container', 'entity_browser_target']));
-        $entities = EntityBrowserElement::processEntityIds($media);
+        $entities = array_map(
+            function (MediaInterface $media) {
+                return $media->hasTranslation('nl')
+                    ? $media->getTranslation('nl')
+                    : $media;
+            },
+            EntityBrowserElement::processEntityIds($media)
+        );
 
         $existing = array_map(function($item) {
             /* @var \Drupal\media\Entity\Media $item */
