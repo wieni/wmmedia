@@ -304,10 +304,8 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
         $header = [
             $this->t('Preview'),
             $this->t('Metadata'),
+            $this->t('Operations'),
         ];
-        if ($this->getSetting('field_widget_remove')) {
-            $header[] = $this->t('Delete');
-        }
 
         $element['container']['table'] = [
             '#type' => 'table',
@@ -418,8 +416,22 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
                 ];
             }
 
+            $row['operations'] = [
+                '#type' => 'fieldset',
+            ];
+
+            $row['operations']['edit'] = [
+                '#type' => 'link',
+                '#title' => $this->t('Edit'),
+                '#url' => $item->getMedia()->toUrl('edit-form'),
+                '#attributes' => [
+                    'class' => 'button',
+                    'target' => '_blank',
+                ],
+            ];
+
             if ($this->getSetting('field_widget_remove')) {
-                $row['remove'] = [
+                $row['operations']['remove'] = [
                     '#access' => (bool) $this->getSetting('field_widget_remove'),
                     '#ajax' => $ajax,
                     '#attributes' => [
