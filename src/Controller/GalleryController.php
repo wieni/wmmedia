@@ -2,12 +2,12 @@
 
 namespace Drupal\wmmedia\Controller;
 
-use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\Core\Url;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\imgix\ImgixManagerInterface;
-use Drupal\node\NodeInterface;
+use Drupal\media\MediaInterface;
 use Drupal\wmcustom\Service\Admin\Overview\Filter\ContentFilter;
 use Drupal\wmmedia\Form\MediaContentFilterForm;
 use Drupal\wmmedia\Service\MediaFilterService;
@@ -41,7 +41,8 @@ class GalleryController extends ControllerBase
         FormBuilderInterface $formBuilder,
         ImgixManagerInterface $imgixManager,
         MediaFilterService $filterService,
-        RequestStack $requestStack
+        RequestStack $requestStack,
+        LanguageManagerInterface $languageManager
     ) {
         $this->entityTypeManager = $entityTypeManager;
 
@@ -50,6 +51,7 @@ class GalleryController extends ControllerBase
         $this->imgixManager = $imgixManager;
         $this->filterService = $filterService;
         $this->request = $requestStack->getCurrentRequest();
+        $this->languageManager = $languageManager;
 
         $this->page = $this->request->get('page') ?? $this->page;
         $this->limit = $this->request->get('limit') ?? $this->limit;
@@ -64,7 +66,8 @@ class GalleryController extends ControllerBase
             $container->get('form_builder'),
             $container->get('imgix.manager'),
             $container->get('wmmedia.filter'),
-            $container->get('request_stack')
+            $container->get('request_stack'),
+            $container->get('language_manager')
         );
     }
 
@@ -165,17 +168,22 @@ class GalleryController extends ControllerBase
 
     private function getTranslatedMediaItem($row)
     {
-        $mid = $row['mid'];
-        $langCode = $row['langcode'] ?? '';
-        /** @var EntityStorageInterface $storage */
-        $storage = $this->entityTypeManager->getStorage('media');
-        /** @var NodeInterface $entity */
-        $entity = $storage->load($mid);
+        $langcode = $this->languageManager
+            ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
+            ->getId();
 
-        if ($langCode && $entity->hasTranslation($langCode)) {
-            return $entity->getTranslation($langCode);
+        $entity = $this->entityTypeManager
+            ->getStorage('media')
+            ->load($row['mid']);
+
+        if (!$entity instanceof MediaInterface) {
+            return null;
         }
 
-        return null;
+        if ($entity->hasTranslation($langcode)) {
+            return $entity->getTranslation($langcode);
+        }
+
+        return $entity;
     }
 }
