@@ -438,7 +438,7 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
                         'data-row-id' => $delta,
                         'data-media-id' => $item->getMedia()->id(),
                     ],
-                    '#depth' => 3,
+                    '#depth' => 4,
                     '#limit_validation_errors' => [],
                     '#name' => 'remove_' . $delta . '_' . $buttonBaseId,
                     '#submit' => [[static::class, 'submit']],
@@ -679,7 +679,7 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
                 static::addMediaItems($items, $formState, $parents);
                 break;
             case 'remove':
-                $index = array_pop($triggering_element['#parents']);
+                $index = $triggering_element['#parents'][count($triggering_element['#parents']) - 2];
                 $items->removeItem($index);
                 break;
         }
