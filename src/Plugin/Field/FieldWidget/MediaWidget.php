@@ -327,11 +327,7 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
 
         foreach ($mediaItems as $delta => $item) {
 
-            if (!$item->getMedia()) {
-                continue;
-            }
-
-            $row = [
+            $element['container']['table'][$delta] = [
                 '#field_parents' => $form['#parents'],
                 '#required' => $delta == 0 && $element['#required'],
                 '#delta' => $delta,
@@ -341,6 +337,34 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
                     'data-row-id' => $delta,
                 ],
             ];
+
+            $row = &$element['container']['table'][$delta];
+
+            if (!$item->getMedia()) {
+                $row['preview'] = [
+                    '#plain_text' => 'The referenced media does not exist anymore.',
+                ];
+
+                $row['data'] = [
+                    '#plain_text' => sprintf('ID: %s', $item->get('entity')->getTargetIdentifier())
+                ];
+
+                $row['operations']['remove'] = [
+                    '#access' => (bool) $this->getSetting('field_widget_remove'),
+                    '#ajax' => $ajax,
+                    '#attributes' => [
+                        'data-row-id' => $delta,
+                    ],
+                    '#depth' => 4,
+                    '#limit_validation_errors' => [],
+                    '#name' => 'remove_' . $delta . '_' . $buttonBaseId,
+                    '#submit' => [[static::class, 'submit']],
+                    '#type' => 'submit',
+                    '#value' => $this->t('Remove'),
+                ];
+
+                continue;
+            }
 
             /* @var MediaWidgetRenderEvent $event */
             $event = $this->eventDispatcher->dispatch(
