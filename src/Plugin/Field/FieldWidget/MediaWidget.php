@@ -2,6 +2,7 @@
 
 namespace Drupal\wmmedia\Plugin\Field\FieldWidget;
 
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
@@ -441,17 +442,14 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
             }
 
             $row['operations'] = [
-                '#type' => 'fieldset',
+                '#type' => 'actions',
             ];
 
             $row['operations']['edit'] = [
-                '#type' => 'link',
-                '#title' => $this->t('Edit'),
-                '#url' => $item->getMedia()->toUrl('edit-form'),
-                '#attributes' => [
-                    'class' => 'button',
-                    'target' => '_blank',
-                ],
+                '#markup' => new FormattableMarkup('<a href=":url" target="_blank" class="button">:title</a>', [
+                    ':url' => $item->getMedia()->toUrl('edit-form')->toString(),
+                    ':title' => $this->t('Edit')
+                ]),
             ];
 
             if ($this->getSetting('field_widget_remove')) {
