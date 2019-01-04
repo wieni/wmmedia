@@ -5,6 +5,12 @@ services:
             - '@current_user'
         tags: [{ name: event_subscriber }]
 
+    wmmedia.delete_form_alter.subscriber:
+        class: Drupal\wmmedia\EventSubscriber\MediaDeleteFormAlterSubscriber
+        arguments:
+            - '@wmmedia.reference_discovery'
+        tags: [{ name: event_subscriber }]
+
     wmmedia.media_entity.subscriber:
         class: Drupal\wmmedia\EventSubscriber\MediaEntitySubscriber
         arguments:
