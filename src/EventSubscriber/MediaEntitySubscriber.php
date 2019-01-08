@@ -76,10 +76,14 @@ class MediaEntitySubscriber implements EventSubscriberInterface
     {
         $usages = $this->referenceDiscovery->getUsages($entity);
 
-        foreach ($usages as $fieldName => $entity) {
-            /** @var $entity FieldableEntityInterface */
-            $entity->set($fieldName, null);
-            $entity->save();
+        foreach ($usages as $entityTypeId => $bundles) {
+            foreach ($bundles as $bundle => $fields) {
+                foreach ($fields as $fieldName => $entity) {
+                    /** @var $entity FieldableEntityInterface */
+                    $entity->set($fieldName, null);
+                    $entity->save();
+                }
+            }
         }
 
         if (!empty($usages)) {

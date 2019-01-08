@@ -40,25 +40,37 @@ class MediaDeleteFormAlterSubscriber implements EventSubscriberInterface
         $entity = $formObject->getEntity();
         $usages = $this->referenceDiscovery->getUsages($entity);
 
+        $count = 0;
+        array_walk_recursive($usages, function ($usage) use (&$count) {
+            $count++;
+        });
+
         $markup = sprintf(
             '<p>%s</p>',
-            $this->formatPlural(count($usages), 'Caution, this image is being referenced by 1 entity:', 'Caution, this image is being referenced by @count entities.')
+            $this->formatPlural($count, 'Caution, this image is being referenced by 1 entity:', 'Caution, this image is being referenced by @count entities.')
         );
 
         $markup .= '<ul>';
-        $markup .= implode(PHP_EOL, array_map(function (FieldableEntityInterface $entity) {
-            $label = $entity->label();
 
-            if (empty($entity->label())) {
-                $label = sprintf('<i>%s</i>', $this->t('Entity of type :bundle', [':bundle' => $entity->bundle()]));
+        foreach ($usages as $entityTypeId => $bundles) {
+            foreach ($bundles as $bundle => $fields) {
+                /** @var FieldableEntityInterface $entity */
+                foreach ($fields as $fieldName => $entity) {
+                    $label = $entity->label();
+
+                    if (empty($entity->label())) {
+                        $label = sprintf('<i>%s</i>', $this->t('Entity of type :bundle', [':bundle' => $entity->bundle()]));
+                    }
+
+                    if ($entity->hasLinkTemplate('edit-form')) {
+                        $markup .= sprintf('<li><a href="%s" target="_blank" rel="noopener noreferrer">%s</a></li>', $entity->toUrl('edit-form')->toString(), $label);
+                    } else {
+                        $markup .= sprintf('<li>%s</li>', $label);
+                    }
+                }
             }
+        }
 
-            if ($entity->hasLinkTemplate('edit-form')) {
-                return sprintf('<li><a href="%s" target="_blank" rel="noopener noreferrer">%s</a></li>', $entity->toUrl('edit-form')->toString(), $label);
-            }
-
-            return sprintf('<li>%s</li>', $label);
-        }, $usages));
         $markup .= '</ul>';
 
         if ($this->hasRequiredUsages($usages)) {
@@ -81,13 +93,18 @@ class MediaDeleteFormAlterSubscriber implements EventSubscriberInterface
     /** @param $usages FieldableEntityInterface[] */
     protected function hasRequiredUsages(array $usages)
     {
-        foreach ($usages as $fieldName => $usage) {
-            /** @var FieldItemInterface $field */
-            foreach ($usage->get($fieldName) as $field) {
-                $fieldDefinition = $field->getFieldDefinition();
+        foreach ($usages as $entityTypeId => $bundles) {
+            foreach ($bundles as $bundle => $fields) {
+                /** @var FieldableEntityInterface $entity */
+                foreach ($fields as $fieldName => $entity) {
+                    /** @var FieldItemInterface $field */
+                    foreach ($entity->get($fieldName) as $field) {
+                        $fieldDefinition = $field->getFieldDefinition();
 
-                if ($fieldDefinition->isRequired()) {
-                    return true;
+                        if ($fieldDefinition->isRequired()) {
+                            return true;
+                        }
+                    }
                 }
             }
         }

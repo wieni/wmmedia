@@ -6,8 +6,12 @@ use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\media\MediaInterface;
+use Drupal\wmmedia\Event\MediaUsagesAlterEvent;
+use Drupal\wmmedia\WmmediaEvents;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class MediaReferenceDiscovery
 {
@@ -17,15 +21,23 @@ class MediaReferenceDiscovery
     protected $entityFieldManager;
     /** @var EntityTypeBundleInfoInterface */
     protected $entityTypeBundleInfo;
+    /** @var ModuleHandlerInterface */
+    protected $moduleHandler;
+    /** @var EventDispatcherInterface */
+    protected $eventDispatcher;
 
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
         EntityFieldManagerInterface $entityFieldManager,
-        EntityTypeBundleInfoInterface $entityTypeBundleInfo
+        EntityTypeBundleInfoInterface $entityTypeBundleInfo,
+        ModuleHandlerInterface $moduleHandler,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->entityFieldManager = $entityFieldManager;
         $this->entityTypeBundleInfo = $entityTypeBundleInfo;
+        $this->moduleHandler = $moduleHandler;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function getUsages(MediaInterface $media)
@@ -47,11 +59,14 @@ class MediaReferenceDiscovery
                     }
 
                     foreach ($storage->loadMultiple($ids) as $entity) {
-                        $results[$fieldName] = $entity;
+                        $results[$entityTypeId][$bundle][$fieldName] = $entity;
                     }
                 }
             }
         }
+
+        $this->moduleHandler->alter('wmmedia_media_usages', $results);
+        $this->eventDispatcher->dispatch(WmmediaEvents::MEDIA_USAGES_ALTER, new MediaUsagesAlterEvent($results));
 
         return $results;
     }
