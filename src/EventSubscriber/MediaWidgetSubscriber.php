@@ -7,6 +7,7 @@ use Drupal\imgix\ImgixManagerInterface;
 use Drupal\file\FileInterface;
 use Drupal\media\Entity\Media;
 use Drupal\wmmedia\Event\MediaWidgetRenderEvent;
+use Drupal\wmmedia\WmmediaEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class MediaWidgetSubscriber implements EventSubscriberInterface
@@ -27,7 +28,7 @@ class MediaWidgetSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            MediaWidgetRenderEvent::NAME => 'widgetRender',
+            WmmediaEvents::MEDIA_WIDGET_RENDER => 'widgetRender',
         ];
     }
 

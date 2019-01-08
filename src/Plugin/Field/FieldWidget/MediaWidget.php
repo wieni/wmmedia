@@ -17,6 +17,7 @@ use Drupal\entity_browser\Element\EntityBrowserElement;
 use Drupal\entity_browser\FieldWidgetDisplayManager;
 use Drupal\media\MediaInterface;
 use Drupal\wmmedia\Event\MediaWidgetRenderEvent;
+use Drupal\wmmedia\WmmediaEvents;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -369,7 +370,7 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
 
             /* @var MediaWidgetRenderEvent $event */
             $event = $this->eventDispatcher->dispatch(
-                MediaWidgetRenderEvent::NAME,
+                WmmediaEvents::MEDIA_WIDGET_RENDER,
                 new MediaWidgetRenderEvent($item->getMedia()->id())
             );
 
