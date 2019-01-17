@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroller';
 import queryString from 'query-string';
+import { parse } from 'date-fns';
 
 import MediaItem from './MediaItem';
 import MediaPreview from './MediaPreview';
@@ -46,7 +47,11 @@ class MediaGrid extends React.Component {
                     page,
                     items: [
                         ...this.state.items,
-                        ...items,
+                        ...items.map(item => ({
+                            ...item,
+                            dateCreated: parse(item.dateCreated * 1000),
+                            dateChanged: parse(item.dateChanged * 1000),
+                        })),
                     ],
                 });
             });

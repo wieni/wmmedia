@@ -136,7 +136,7 @@ class GalleryController extends ControllerBase
             'alternate' => $entity->get('field_alternate')->value,
             'height' => (int) $entity->get('field_height')->value,
             'width' => (int) $entity->get('field_width')->value,
-            'dateCreated' => $entity->getCreatedTime(),
+            'dateCreated' => (int) $entity->getCreatedTime(),
         ];
 
         /** @var \Drupal\file\Entity\File $file */
