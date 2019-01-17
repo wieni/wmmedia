@@ -9,7 +9,6 @@ use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\imgix\ImgixManagerInterface;
 use Drupal\media\MediaInterface;
-use Drupal\wmcustom\Service\Admin\Overview\Filter\ContentFilter;
 use Drupal\wmmedia\Form\MediaContentFilterForm;
 use Drupal\wmmedia\Service\MediaFilterService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -26,7 +25,7 @@ class GalleryController extends ControllerBase
     protected $formBuilder;
     /** @var ImgixManagerInterface */
     protected $imgixManager;
-    /** @var ContentFilter */
+    /** @var MediaFilterService */
     protected $filterService;
     /** @var Request */
     protected $request;
