@@ -40,7 +40,7 @@ class MediaReferenceDiscovery
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function getUsages(MediaInterface $media)
+    public function getUsages(MediaInterface $media): array
     {
         $fields = $this->getMediaEntityFields();
         $results = [];
@@ -77,9 +77,9 @@ class MediaReferenceDiscovery
      * @param string|null $entityTypeId
      * @param string|null $bundle
      *
-     * @return array|bool
+     * @return array
      */
-    public function getMediaEntityFields($entityTypeId = null, $bundle = null)
+    public function getMediaEntityFields($entityTypeId = null, $bundle = null): array
     {
         if ($entityTypeId && $bundle) {
             return $this->getMediaEntityFieldsByBundle($entityTypeId, $bundle);
@@ -105,7 +105,7 @@ class MediaReferenceDiscovery
         return $results;
     }
 
-    protected function getMediaEntityFieldsByBundle(string $entityTypeId, string $bundle)
+    protected function getMediaEntityFieldsByBundle(string $entityTypeId, string $bundle): array
     {
         $entityType = $this->entityTypeManager->getDefinition($entityTypeId);
 
@@ -127,7 +127,7 @@ class MediaReferenceDiscovery
         return $results;
     }
 
-    protected function getMediaEntityFieldsByEntityType(string $entityTypeId)
+    protected function getMediaEntityFieldsByEntityType(string $entityTypeId): array
     {
         $results = [];
         $bundles = $this->entityTypeBundleInfo->getBundleInfo($entityTypeId);
@@ -145,7 +145,7 @@ class MediaReferenceDiscovery
         return $results;
     }
 
-    protected function isFieldMediaReference(FieldDefinitionInterface $fieldDefinition)
+    protected function isFieldMediaReference(FieldDefinitionInterface $fieldDefinition): bool
     {
         return in_array($fieldDefinition->getType(), ['entity_reference', 'wmmedia_media_image_extras'])
             && $fieldDefinition->getSetting('handler') === 'default:media';

@@ -37,11 +37,11 @@ class MediaGrid extends React.Component {
         fetch(`/admin/api/media/paginate?${queryString.stringify({ page })}`, { credentials: 'include' })
             .then((response) => {
                 if (response.status >= 400) {
-                    throw new Error("Bad response from server");
+                    throw new Error('Bad response from server');
                 }
                 return response.json();
             })
-            .then(({ items, total, page }) => {
+            .then(({ items, total }) => {
                 this.setState({
                     hasMore: this.state.items.length + items.length < total,
                     page,

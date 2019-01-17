@@ -14,16 +14,13 @@ class MediaFilterService
     /** @var Connection */
     protected $db;
 
-    /**
-     * MediaFilterService constructor.
-     * @param Connection $db
-     */
-    public function __construct(Connection $db)
-    {
+    public function __construct(
+        Connection $db
+    ) {
         $this->db = $db;
     }
 
-    protected static function getMediaSizes()
+    protected static function getMediaSizes(): array
     {
         return [
             self::MEDIA_SMALL => [null, 300],
@@ -32,7 +29,7 @@ class MediaFilterService
         ];
     }
 
-    protected static function getMediaSizeLabels()
+    protected static function getMediaSizeLabels(): array
     {
         return [
             self::MEDIA_SMALL => 'Small',
@@ -41,7 +38,7 @@ class MediaFilterService
         ];
     }
 
-    public static function getMediaSizeOptions()
+    public static function getMediaSizeOptions(): array
     {
         $result = [];
         $labels = array_map(
@@ -70,7 +67,7 @@ class MediaFilterService
         return $result;
     }
 
-    public function filter(array $conditions, $limit = 100)
+    public function filter(array $conditions, $limit = 100): array
     {
         $q = $this->db->select('media_field_data', 'm')
             ->fields('m', ['mid', 'langcode'])
@@ -87,9 +84,9 @@ class MediaFilterService
         return $q->execute()->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function mediaCount(array $conditions)
+    public function mediaCount(array $conditions): int
     {
-        /** @var \Drupal\Core\Database\Query\SelectInterface $q */
+        /** @var SelectInterface $q */
         $q = $this->db->select('media_field_data', 'm')
             ->fields('m', ['mid', 'changed', 'langcode']);
 
@@ -153,4 +150,3 @@ class MediaFilterService
         }
     }
 }
-

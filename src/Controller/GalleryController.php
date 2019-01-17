@@ -7,7 +7,9 @@ use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\file\Entity\File;
 use Drupal\imgix\ImgixManagerInterface;
+use Drupal\media\Entity\Media;
 use Drupal\media\MediaInterface;
 use Drupal\wmmedia\Form\MediaContentFilterForm;
 use Drupal\wmmedia\Service\MediaFilterService;
@@ -120,7 +122,7 @@ class GalleryController extends ControllerBase
 
     private function toJson(array $item)
     {
-        /** @var \Drupal\media\Entity\Media $entity */
+        /** @var Media $entity */
         $entity = $this->getTranslatedMediaItem($item);
 
         if (!$entity || $entity->bundle() !== 'image') {
@@ -139,7 +141,7 @@ class GalleryController extends ControllerBase
             'dateCreated' => (int) $entity->getCreatedTime(),
         ];
 
-        /** @var \Drupal\file\Entity\File $file */
+        /** @var File $file */
         if ($file = $entity->get('field_media_imgix')->entity) {
             $result['originalUrl'] = $this->imgixManager->getImgixUrl($file, []);
             $result['thumbUrl'] = $this->imgixManager->getImgixUrl($file, ['fit' => 'max', 'h' => 250]);
