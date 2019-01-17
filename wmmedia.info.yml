@@ -4,13 +4,14 @@ description: A media library for Drupal 8, built by Wieni
 core: 8.x
 package: Wieni
 dependencies:
+    - allowed_formats
+    - dropzonejs
+    - dropzonejs_eb_widget
     - entity_browser
     - file
+    - hook_event_dispatcher
     - image
     - imgix
     - media
     - path
     - text
-    - allowed_formats
-    - dropzonejs
-    - dropzonejs_eb_widget
