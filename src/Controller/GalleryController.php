@@ -2,6 +2,7 @@
 
 namespace Drupal\wmmedia\Controller;
 
+use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Language\LanguageInterface;
@@ -11,7 +12,6 @@ use Drupal\media\MediaInterface;
 use Drupal\wmcustom\Service\Admin\Overview\Filter\ContentFilter;
 use Drupal\wmmedia\Form\MediaContentFilterForm;
 use Drupal\wmmedia\Service\MediaFilterService;
-use Drupal\wmcontroller\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,10 +82,10 @@ class GalleryController extends ControllerBase
             'items' => $this->getMedia(),
         ];
 
-        return $this->view(
-            'wmmedia.gallery',
-            compact('form', 'media')
-        );
+        return [
+            '#theme' => 'wmmedia.gallery',
+            '#_data' => compact('form', 'media'),
+        ];
     }
 
     public function get()

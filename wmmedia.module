@@ -1,13 +1,35 @@
 <?php
 
-use Drupal\wmcontroller\Service\TemplateLocator;
-
 /**
  * Implements hook_theme().
  */
 function wmmedia_theme()
 {
-    return (new TemplateLocator(['module' => 'wmmedia']))->getThemes();
+    $data = [];
+
+    $data['wmmedia.gallery'] = [
+        'variables' => [
+            '_data' => [],
+        ],
+        'path' => drupal_get_path('module', 'wmmedia') . '/templates',
+        'template' => 'gallery',
+        'preprocess functions' => [
+            'wmmedia_theme_set_variables',
+        ],
+    ];
+
+    return $data;
+}
+
+function wmmedia_theme_set_variables(&$variables)
+{
+    // Skip if no data is set or not set as an array
+    if (!isset($variables['_data']) || !is_array($variables['_data'])) {
+        return;
+    }
+
+    $variables = array_merge($variables, $variables['_data']);
+    unset($variables['_data']);
 }
 
 /**
