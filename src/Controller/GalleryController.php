@@ -84,7 +84,7 @@ class GalleryController extends ControllerBase
         ];
 
         return [
-            '#theme' => 'wmmedia.gallery',
+            '#theme' => 'wmmedia_gallery',
             '#_data' => compact('form', 'media'),
         ];
     }

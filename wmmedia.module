@@ -7,12 +7,11 @@ function wmmedia_theme()
 {
     $data = [];
 
-    $data['wmmedia.gallery'] = [
+    $data['wmmedia_gallery'] = [
+        'template' => 'wmmedia-gallery',
         'variables' => [
             '_data' => [],
         ],
-        'path' => drupal_get_path('module', 'wmmedia') . '/templates',
-        'template' => 'gallery',
         'preprocess functions' => [
             'wmmedia_theme_set_variables',
         ],
