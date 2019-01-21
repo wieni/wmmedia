@@ -18,6 +18,13 @@ class CollectionRouteSubscriber extends RouteSubscriberBase
 
     protected function alterRoutes(RouteCollection $collection)
     {
+        $hasDefaultRoute = false;
+
+        $default = [
+            'entity.media.collection',
+            'view.media.media_page_list',
+        ];
+
         $own = new Route(
             '/admin/content/media',
             ['_controller' => 'Drupal\wmmedia\Controller\GalleryController::show', '_title' => 'Media'],
@@ -25,12 +32,18 @@ class CollectionRouteSubscriber extends RouteSubscriberBase
             ['_admin_route' => true]
         );
 
-        if ($core = $collection->get('entity.media.collection')) {
-            $core->setDefaults($own->getDefaults());
-            $core->setOptions($own->getOptions());
-            $core->setRequirements($own->getRequirements());
-            $core->setCondition($own->getCondition());
-        } else {
+        foreach ($default as $route) {
+            if ($route = $collection->get($route)) {
+                $hasDefaultRoute = true;
+
+                $route->setDefaults($own->getDefaults());
+                $route->setOptions($own->getOptions());
+                $route->setRequirements($own->getRequirements());
+                $route->setCondition($own->getCondition());
+            }
+        }
+
+        if (!$hasDefaultRoute) {
             $collection->add('entity.media.collection', $own);
         }
     }
