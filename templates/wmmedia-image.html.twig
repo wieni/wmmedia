@@ -1,0 +1,21 @@
+{# @var field MediaImageExtras #}
+
+<figure class="media-image media-image--{{preset}}">
+    <picture class="media-image__image">
+        <img src="{{ field|imgix(preset) }}" alt="{{ field.alternate }}" title="{{ field.title }}" />
+    </picture>
+    {% if not field.caption is empty and not field.copyright is empty %}
+        <figcaption class="media-image__info">
+            {% if not field.caption is empty %}
+                <div class="media-image__info__caption">
+                    {{ field.caption }}
+                </div>
+            {% endif %}
+            {% if not field.copyright is empty %}
+                <div class="media-image__info__copyright">
+                    {{ field.copyright }}
+                </div>
+            {% endif %}
+        </figcaption>
+    {% endif %}
+</figure>
