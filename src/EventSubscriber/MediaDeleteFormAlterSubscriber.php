@@ -41,9 +41,13 @@ class MediaDeleteFormAlterSubscriber implements EventSubscriberInterface
         $usages = $this->referenceDiscovery->getUsages($entity);
 
         $count = 0;
-        array_walk_recursive($usages, function ($usage) use (&$count) {
+        array_walk_recursive($usages, function () use (&$count) {
             $count++;
         });
+
+        if ($count === 0) {
+            return;
+        }
 
         $markup = sprintf(
             '<p>%s</p>',
