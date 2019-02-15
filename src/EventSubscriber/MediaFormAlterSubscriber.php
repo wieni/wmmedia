@@ -49,11 +49,10 @@ class MediaFormAlterSubscriber implements EventSubscriberInterface
         }
 
         foreach ($entities as $entity) {
-            $element =& $form['widget']['entities'][$entity];
+            $element = &$form['widget']['entities'][$entity];
             if (
-                !isset($element['#type'])
+                !isset($element['#type'], $element['#entity_type'])
                 || $element['#type'] !== 'inline_entity_form'
-                || !isset($element['#entity_type'])
                 || $element['#entity_type'] !== 'media'
             ) {
                 continue;

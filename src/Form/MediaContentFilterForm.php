@@ -86,12 +86,14 @@ class MediaContentFilterForm extends FormBase
     public function submitForm(array &$form, FormStateInterface $formState)
     {
         $values = $formState->getValues();
-        unset($values['form_build_id']);
-        unset($values['form_token']);
-        unset($values['form_id']);
-        unset($values['submit']);
-        unset($values['reset']);
-        unset($values['op']);
+        unset(
+            $values['form_build_id'],
+            $values['form_token'],
+            $values['form_id'],
+            $values['submit'],
+            $values['reset'],
+            $values['op']
+        );
 
         $this->session->set(static::getSessionVarName(), $values);
     }
