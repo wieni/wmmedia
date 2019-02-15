@@ -28,6 +28,10 @@ services:
         class:  Drupal\wmmedia\EventSubscriber\CollectionRouteSubscriber
         tags: [{ name: event_subscriber }]
 
+    wmmedia.entity_form_display.subscriber:
+        class:  Drupal\wmmedia\EventSubscriber\EntityFormDisplaySubscriber
+        tags: [{ name: event_subscriber }]
+
     wmmedia.filter:
         class: Drupal\wmmedia\Service\MediaFilterService
         arguments:
