@@ -14,7 +14,6 @@ use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\entity_browser\Element\EntityBrowserElement;
-use Drupal\entity_browser\FieldWidgetDisplayManager;
 use Drupal\media\MediaInterface;
 use Drupal\wmmedia\Event\MediaWidgetRenderEvent;
 use Drupal\wmmedia\WmmediaEvents;
@@ -39,10 +38,6 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
 {
     /** @var EntityTypeManagerInterface */
     protected $entityTypeManager;
-
-    /** @var FieldWidgetDisplayManager */
-    protected $fieldDisplayManager;
-
     /** @var  EventDispatcherInterface */
     protected $eventDispatcher;
 
@@ -61,7 +56,6 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
      *   Any third party settings.
      * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
      *   Entity type manager service.
-     * @param FieldWidgetDisplayManager $fieldDisplayManager
      * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
@@ -71,12 +65,10 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
         array $settings,
         array $third_party_settings,
         EntityTypeManagerInterface $entity_type_manager,
-        FieldWidgetDisplayManager $fieldDisplayManager,
         EventDispatcherInterface $eventDispatcher
     ) {
         parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
         $this->entityTypeManager = $entity_type_manager;
-        $this->fieldDisplayManager = $fieldDisplayManager;
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -92,7 +84,6 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
             $configuration['settings'],
             $configuration['third_party_settings'],
             $container->get('entity_type.manager'),
-            $container->get('plugin.manager.entity_browser.field_widget_display'),
             $container->get('event_dispatcher')
         );
     }
