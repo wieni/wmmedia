@@ -137,7 +137,7 @@ class MediaPreview extends React.Component {
                         </p>
                         <p className="media-preview__field">
                             <span className="media-preview__field-label">Dimensions</span>
-                            {`${item.width} x ${item.height}`}
+                            {item.width === 0 || item.height === 0 ? 'n/a' : `${item.width} x ${item.height}`}
                         </p>
                         <p className="media-preview__field">
                             <span className="media-preview__field-label">Date created</span>
