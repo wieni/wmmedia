@@ -36,7 +36,7 @@ widgets:
       upload_location: 's3://[date:custom:Y]-[date:custom:m]'
       dropzone_description: 'Drop files here to upload them'
       max_filesize: 50M
-      extensions: 'jpg jpeg gif png txt doc xls pdf ppt pps odt ods odp'
+      extensions: 'jpg jpeg gif png svg txt doc xls pdf ppt pps odt ods odp'
       clientside_resize: false
       resize_width: null
       resize_height: null
