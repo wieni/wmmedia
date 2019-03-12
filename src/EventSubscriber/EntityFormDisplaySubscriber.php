@@ -39,7 +39,8 @@ class EntityFormDisplaySubscriber implements EventSubscriberInterface
 
         foreach ($content as $fieldName => &$widget) {
             if (
-                $widget['type'] !== 'wmmedia_media_widget'
+                !isset($widget['type'])
+                || $widget['type'] !== 'wmmedia_media_widget'
                 || !empty($widget['settings']['entity_browser'])
             ) {
                 continue;
