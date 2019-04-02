@@ -62,7 +62,7 @@ class MediaEntitySubscriber implements EventSubscriberInterface
 
         /** @var FileInterface $file */
         $file = $entity->get('field_media_imgix')->entity;
-        $size = getimagesize($file->getFileUri());
+        $size = @getimagesize($file->getFileUri());
 
         if (!isset($size[0], $size[1])) {
             return;
