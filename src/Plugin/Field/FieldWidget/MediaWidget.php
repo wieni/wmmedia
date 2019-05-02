@@ -696,6 +696,9 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
             case 'remove':
                 $index = $triggering_element['#parents'][count($triggering_element['#parents']) - 2];
                 $items->removeItem($index);
+                // By removing an item in the middle of a list, the deltas of the next items have to change.
+                // Because of this, we have to clear existing form input.
+                self::clearFormInput($formState);
                 break;
         }
 
@@ -762,6 +765,34 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
         $triggering_element = $formState->getTriggeringElement();
         $array_parents = array_slice($triggering_element['#array_parents'], 0, -($triggering_element['#depth'] + 1));
         return NestedArray::getValue($form, $array_parents);
+    }
+
+    /**
+     * Clears form input.
+     *
+     * @param FormStateInterface $form_state
+     *   The form state.
+     *
+     * @see https://drupal.stackexchange.com/questions/220185/clear-form-fields-after-ajax-submit
+     */
+    protected static function clearFormInput(FormStateInterface $form_state)
+    {
+        $input = $form_state->getUserInput();
+        $clean_keys = $form_state->getCleanValueKeys();
+        $clean_keys[] = 'ajax_page_state';
+
+        foreach ($input as $key => $item) {
+            if (
+                !in_array($key, $clean_keys, true)
+                && strpos($key, '_') !== 0
+            ) {
+                unset($input[$key]);
+            }
+        }
+
+        $form_state->setUserInput($input);
+        $form_state->setRebuild();
+        $form_state->setStorage([]);
     }
 
     /**
