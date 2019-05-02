@@ -6,6 +6,7 @@ use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Validation\Plugin\Validation\Constraint\NotNullConstraint;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
@@ -716,10 +717,12 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
     ) {
         // Form state values is empty on a new node form for some reason.
         $media = NestedArray::getValue($formState->getUserInput(), array_merge($parents, ['container', 'entity_browser_target']));
+        $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
         $entities = array_map(
-            function (MediaInterface $media) {
-                return $media->hasTranslation('nl')
-                    ? $media->getTranslation('nl')
+            function (MediaInterface $media) use ($langcode) {
+                return $media->hasTranslation($langcode)
+                    ? $media->getTranslation($langcode)
                     : $media;
             },
             EntityBrowserElement::processEntityIds($media)
