@@ -408,13 +408,20 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
                 '#size' => 45,
                 '#access' => (bool) $this->getSetting('description_field_enabled'),
                 '#required' => (bool) $this->getSetting('description_field_required'),
-                '#allowed_format_hide_settings' => [
+            ];
+
+            if (
+                $item->getMedia()->hasField('field_description')
+                && ($fieldDefinition = $item->getMedia()->get('field_description')->getFieldDefinition())
+                && ($allowedFormats = $fieldDefinition->getThirdPartySettings('allowed_formats'))
+            ) {
+                $row['data']['description']['#allowed_formats'] = $allowedFormats;
+                $row['data']['description']['#after_build'] = ['_allowed_formats_remove_textarea_help'];
+                $row['data']['description']['#allowed_format_hide_settings'] = [
                     'hide_guidelines' => 1,
                     'hide_help' => 1,
-                ],
-                '#allowed_formats' => ['plain_text'],
-                '#after_build' => ['_allowed_formats_remove_textarea_help'],
-            ];
+                ];
+            }
 
             // Copyright.
             if ($item->getMedia()->hasField('field_copyright') && $item->getMedia()->get('field_copyright')->value) {
