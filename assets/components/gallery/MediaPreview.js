@@ -96,11 +96,11 @@ class MediaPreview extends React.Component {
                             ))}
                             <li className="media-action media-icon media-icon--link">
                                 <CopyToClipboard text={item.originalUrl} onCopy={this.onCopy}>
-                                    <button>{isUrlCopied ? 'Copied!' : 'Copy url'}</button>
+                                    <button>{isUrlCopied ? Drupal.t('Copied!') : Drupal.t('Copy url')}</button>
                                 </CopyToClipboard>
                             </li>
                             <li className="media-action media-icon media-icon--download">
-                                <a href={item.originalUrl} download target="_blank">Download original</a>
+                                <a href={item.originalUrl} download target="_blank">{Drupal.t('Download original')}</a>
                             </li>
                             <li
                                 onClick={this.onPreviousItem}
@@ -116,31 +116,31 @@ class MediaPreview extends React.Component {
                     </div>
                     <div className="media-preview__info">
                         <p className="media-preview__field">
-                            <span className="media-preview__field-label">Name</span>
+                            <span className="media-preview__field-label">{Drupal.t('Name')}</span>
                             {item.label || defaultValue}
                         </p>
                         <p className="media-preview__field">
-                            <span className="media-preview__field-label">Copyright</span>
+                            <span className="media-preview__field-label">{Drupal.t('Copyright')}</span>
                             <span dangerouslySetInnerHTML={{__html: item.copyright || defaultValue}} />
                         </p>
                         <p className="media-preview__field">
-                            <span className="media-preview__field-label">Caption</span>
+                            <span className="media-preview__field-label">{Drupal.t('Caption')}</span>
                             <span dangerouslySetInnerHTML={{__html: item.caption || defaultValue}} />
                         </p>
                         <p className="media-preview__field">
-                            <span className="media-preview__field-label">Alternate</span>
+                            <span className="media-preview__field-label">{Drupal.t('Alternate')}</span>
                             {item.alternate || defaultValue}
                         </p>
                         <p className="media-preview__field">
-                            <span className="media-preview__field-label">Size</span>
+                            <span className="media-preview__field-label">{Drupal.t('Size')}</span>
                             {item.size || defaultValue}
                         </p>
                         <p className="media-preview__field">
-                            <span className="media-preview__field-label">Dimensions</span>
+                            <span className="media-preview__field-label">{Drupal.t('Dimensions')}</span>
                             {item.width === 0 || item.height === 0 ? 'n/a' : `${item.width} x ${item.height}`}
                         </p>
                         <p className="media-preview__field">
-                            <span className="media-preview__field-label">Date created</span>
+                            <span className="media-preview__field-label">{Drupal.t('Date created')}</span>
                             {item.dateCreated ? format(item.dateCreated, 'D/M/YYYY HH:mm') : defaultValue}
                         </p>
                         <ul className="media-preview__info-actions">
@@ -155,7 +155,7 @@ class MediaPreview extends React.Component {
                                 </CopyToClipboard>
                             </li>
                             <li className="media-action media-icon media-icon--download">
-                                <a href={item.originalUrl} download target="_blank">Download original</a>
+                                <a href={item.originalUrl} download target="_blank">{Drupal.t('Download original')}</a>
                             </li>
                         </ul>
                     </div>

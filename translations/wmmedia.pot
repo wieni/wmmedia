@@ -6,14 +6,16 @@
 #  wmmedia.info.yml: n/a
 #  wmmedia.links.action.yml: n/a
 #  wmmedia.links.menu.yml: n/a
+#  assets/components/gallery/MediaItem.js: n/a
+#  src/Plugin/Field/FieldWidget/MediaWidget.php: n/a
+#  assets/components/gallery/MediaPreview.js: n/a
+#  src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php: n/a
 #  src/EventSubscriber/MediaDeleteFormAlterSubscriber.php: n/a
 #  src/EventSubscriber/MediaEntitySubscriber.php: n/a
 #  src/Form/MediaContentFilterForm.php: n/a
 #  src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php: n/a
-#  src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php: n/a
 #  src/Plugin/Field/FieldType/MediaFileExtras.php: n/a
 #  src/Plugin/Field/FieldType/MediaImageExtras.php: n/a
-#  src/Plugin/Field/FieldWidget/MediaWidget.php: n/a
 #  src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php: n/a
 #  src/Plugin/Field/FieldFormatter/DefaultMediaImageFieldFormatter.php: n/a
 #  src/Plugin/media/Source/Imgix.php: n/a
@@ -22,7 +24,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-06-14 11:20+0200\n"
+"POT-Creation-Date: 2019-06-14 11:52+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -49,6 +51,50 @@ msgstr ""
 
 #: wmmedia.links.menu.yml:0
 msgid "Media"
+msgstr ""
+
+#: assets/components/gallery/MediaItem.js:0 src/Plugin/Field/FieldWidget/MediaWidget.php:299
+msgid "Preview"
+msgstr ""
+
+#: assets/components/gallery/MediaItem.js:0 assets/components/gallery/MediaPreview.js:0
+msgid "Copied!"
+msgstr ""
+
+#: assets/components/gallery/MediaItem.js:0 assets/components/gallery/MediaPreview.js:0
+msgid "Copy url"
+msgstr ""
+
+#: assets/components/gallery/MediaItem.js:0 assets/components/gallery/MediaPreview.js:0;0
+msgid "Download original"
+msgstr ""
+
+#: assets/components/gallery/MediaPreview.js:0
+msgid "Name"
+msgstr ""
+
+#: assets/components/gallery/MediaPreview.js:0 src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:91 src/Plugin/Field/FieldWidget/MediaWidget.php:430
+msgid "Copyright"
+msgstr ""
+
+#: assets/components/gallery/MediaPreview.js:0 src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:77
+msgid "Caption"
+msgstr ""
+
+#: assets/components/gallery/MediaPreview.js:0 src/Plugin/Field/FieldWidget/MediaWidget.php:439
+msgid "Alternate"
+msgstr ""
+
+#: assets/components/gallery/MediaPreview.js:0
+msgid "Size"
+msgstr ""
+
+#: assets/components/gallery/MediaPreview.js:0
+msgid "Dimensions"
+msgstr ""
+
+#: assets/components/gallery/MediaPreview.js:0
+msgid "Date created"
 msgstr ""
 
 #: src/EventSubscriber/MediaDeleteFormAlterSubscriber.php:66
@@ -135,14 +181,6 @@ msgstr ""
 
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:68
 msgid "Alternate (Alt) text"
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:77
-msgid "Caption"
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:91 src/Plugin/Field/FieldWidget/MediaWidget.php:430
-msgid "Copyright"
 msgstr ""
 
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:188
@@ -333,10 +371,6 @@ msgstr ""
 msgid "Description field: @enabled, @required, Label: @label"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:299
-msgid "Preview"
-msgstr ""
-
 #: src/Plugin/Field/FieldWidget/MediaWidget.php:300
 msgid "Metadata"
 msgstr ""
@@ -356,10 +390,6 @@ msgstr ""
 
 #: src/Plugin/Field/FieldWidget/MediaWidget.php:357;468
 msgid "Remove"
-msgstr ""
-
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:439
-msgid "Alternate"
 msgstr ""
 
 #: src/Plugin/Field/FieldWidget/MediaWidget.php:451

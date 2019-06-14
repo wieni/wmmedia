@@ -64,7 +64,7 @@ class MediaItem extends React.Component {
                             <button className="media-icon media-icon--close" onClick={this.onCloseOverlay} />
                         </li>
                         <li className="media-action media-icon media-icon--preview">
-                            <button onClick={() => this.onOpenPreview(index)}>Preview</button>
+                            <button onClick={() => this.onOpenPreview(index)}>{Drupal.t('Preview')}</button>
                         </li>
                         {data.operations.map(operation => (
                             <li className={`media-action media-icon media-icon--${operation.key}`}>
@@ -73,11 +73,11 @@ class MediaItem extends React.Component {
                         ))}
                         <li className="media-action media-icon media-icon--link">
                             <CopyToClipboard text={data.originalUrl} onCopy={this.onCopy}>
-                                <button>{isUrlCopied ? 'Copied!' : 'Copy url'}</button>
+                                <button>{isUrlCopied ? Drupal.t('Copied!') : Drupal.t('Copy url')}</button>
                             </CopyToClipboard>
                         </li>
                         <li className="media-action media-icon media-icon--download">
-                            <a href={data.originalUrl} download target="_blank">Download original</a>
+                            <a href={data.originalUrl} download target="_blank">{Drupal.t('Download original')}</a>
                         </li>
                     </ul>
                 </div>

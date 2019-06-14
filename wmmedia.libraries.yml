@@ -28,3 +28,5 @@ media.gallery:
         theme:
             assets/dist/icons.css: {}
             assets/dist/gallery.css: {}
+    dependencies:
+        - core/drupal

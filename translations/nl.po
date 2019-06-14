@@ -21,16 +21,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-06-14 11:20+0200\n"
-"PO-Revision-Date: 2019-06-14 11:55+0200\n"
+"POT-Creation-Date: 2019-06-14 11:52+0200\n"
+"PO-Revision-Date: 2019-06-14 12:16+0200\n"
+"Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.2.3\n"
-"Last-Translator: \n"
-"Language: nl\n"
 
 #: wmmedia.info.yml:0
 msgid "wmmedia"
@@ -51,6 +51,58 @@ msgstr "Afbeelding toevoegen"
 #: wmmedia.links.menu.yml:0
 msgid "Media"
 msgstr "Media"
+
+#: assets/components/gallery/MediaItem.js:0
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:299
+msgid "Preview"
+msgstr "Voorbeeld"
+
+#: assets/components/gallery/MediaItem.js:0
+#: assets/components/gallery/MediaPreview.js:0
+msgid "Copied!"
+msgstr "Gekopieerd!"
+
+#: assets/components/gallery/MediaItem.js:0
+#: assets/components/gallery/MediaPreview.js:0
+msgid "Copy url"
+msgstr "Kopieer url"
+
+#: assets/components/gallery/MediaItem.js:0
+#: assets/components/gallery/MediaPreview.js:0;0
+msgid "Download original"
+msgstr "Download origineel"
+
+#: assets/components/gallery/MediaPreview.js:0
+msgid "Name"
+msgstr "Naam"
+
+#: assets/components/gallery/MediaPreview.js:0
+#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:91
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:430
+msgid "Copyright"
+msgstr "Copyright"
+
+#: assets/components/gallery/MediaPreview.js:0
+#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:77
+msgid "Caption"
+msgstr "Onderschrift"
+
+#: assets/components/gallery/MediaPreview.js:0
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:439
+msgid "Alternate"
+msgstr "Alternatieve"
+
+#: assets/components/gallery/MediaPreview.js:0
+msgid "Size"
+msgstr "Bestandsgrootte"
+
+#: assets/components/gallery/MediaPreview.js:0
+msgid "Dimensions"
+msgstr "Dimensies"
+
+#: assets/components/gallery/MediaPreview.js:0
+msgid "Date created"
+msgstr "Aanmaakdatum"
 
 #: src/EventSubscriber/MediaDeleteFormAlterSubscriber.php:66
 msgid "Entity of type :bundle"
@@ -160,15 +212,6 @@ msgstr "Het geconfigureerde mediatype gebruikt de imgix-plugin niet."
 msgid "Alternate (Alt) text"
 msgstr "Alternatieve (Alt) tekst"
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:77
-msgid "Caption"
-msgstr "Onderschrift"
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:91
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:430
-msgid "Copyright"
-msgstr "Copyright"
-
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:188
 msgid ""
 "You don't have media type of the Image type. You should <a href='!"
@@ -259,8 +302,8 @@ msgid ""
 "screen readers."
 msgstr ""
 "Het title attribuut wordt gebruikt als een tooltip wanneer de muis over het "
-"bestand zweeft. Het inschakelen van dit veld wordt niet aanbevolen omdat "
-"dit problemen kan veroorzaken met schermlezers."
+"bestand zweeft. Het inschakelen van dit veld wordt niet aanbevolen omdat dit "
+"problemen kan veroorzaken met schermlezers."
 
 #: src/Plugin/Field/FieldType/MediaFileExtras.php:70
 #: src/Plugin/Field/FieldType/MediaImageExtras.php:74
@@ -301,8 +344,8 @@ msgstr "Schakel het <em>Omschrijving</em> veld in"
 #: src/Plugin/Field/FieldType/MediaImageExtras.php:88
 msgid "The description field allows users to enter a caption for the image."
 msgstr ""
-"In het beschrijvingsveld kunnen gebruikers een bijschrift voor de "
-"afbeelding invoeren."
+"In het beschrijvingsveld kunnen gebruikers een bijschrift voor de afbeelding "
+"invoeren."
 
 #: src/Plugin/Field/FieldType/MediaImageExtras.php:93
 msgid "<em>Description</em> field required"
@@ -388,10 +431,6 @@ msgstr "Titel veld: @enabled, @required, Label: @label"
 msgid "Description field: @enabled, @required, Label: @label"
 msgstr "Omschrijving veld: @enabled, @required, Label: @label"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:299
-msgid "Preview"
-msgstr "Voorbeeld"
-
 #: src/Plugin/Field/FieldWidget/MediaWidget.php:300
 msgid "Metadata"
 msgstr "Metadata"
@@ -413,10 +452,6 @@ msgstr "Volgorde"
 msgid "Remove"
 msgstr "Verwijderen"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:439
-msgid "Alternate"
-msgstr "Alternatieve"
-
 #: src/Plugin/Field/FieldWidget/MediaWidget.php:451
 msgid "Edit"
 msgstr "Bewerken"
@@ -435,8 +470,7 @@ msgstr "Mediabrowser met extra velden"
 
 #: src/Plugin/Field/FieldWidget/MediaWidget.php:26
 msgid "A widget containing a media reference with an extra title/description."
-msgstr ""
-"Een widget met een mediaverwijzing met een extra titel / beschrijving."
+msgstr "Een widget met een mediaverwijzing met een extra titel / beschrijving."
 
 #: src/Plugin/media/Source/Imgix.php:10
 msgid "Imgix"
