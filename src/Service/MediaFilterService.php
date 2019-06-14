@@ -32,9 +32,9 @@ class MediaFilterService
     protected static function getMediaSizeLabels(): array
     {
         return [
-            self::MEDIA_SMALL => 'Small',
-            self::MEDIA_MEDIUM => 'Medium',
-            self::MEDIA_LARGE => 'Large',
+            self::MEDIA_SMALL => t('Small'),
+            self::MEDIA_MEDIUM => t('Medium'),
+            self::MEDIA_LARGE => t('Large'),
         ];
     }
 

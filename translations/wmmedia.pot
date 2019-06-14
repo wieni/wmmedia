@@ -7,16 +7,18 @@
 #  wmmedia.links.action.yml: n/a
 #  wmmedia.links.menu.yml: n/a
 #  assets/components/gallery/MediaItem.js: n/a
+#  assets/dist/gallery.js: n/a
 #  src/Plugin/Field/FieldWidget/MediaWidget.php: n/a
 #  assets/components/gallery/MediaPreview.js: n/a
 #  src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php: n/a
+#  src/Form/MediaContentFilterForm.php: n/a
 #  src/EventSubscriber/MediaDeleteFormAlterSubscriber.php: n/a
 #  src/EventSubscriber/MediaEntitySubscriber.php: n/a
-#  src/Form/MediaContentFilterForm.php: n/a
+#  src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php: n/a
 #  src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php: n/a
 #  src/Plugin/Field/FieldType/MediaFileExtras.php: n/a
 #  src/Plugin/Field/FieldType/MediaImageExtras.php: n/a
-#  src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php: n/a
+#  src/Service/MediaFilterService.php: n/a
 #  src/Plugin/Field/FieldFormatter/DefaultMediaImageFieldFormatter.php: n/a
 #  src/Plugin/media/Source/Imgix.php: n/a
 #
@@ -24,7 +26,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-06-14 11:52+0200\n"
+"POT-Creation-Date: 2019-06-14 12:40+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -53,47 +55,47 @@ msgstr ""
 msgid "Media"
 msgstr ""
 
-#: assets/components/gallery/MediaItem.js:0 src/Plugin/Field/FieldWidget/MediaWidget.php:299
+#: assets/components/gallery/MediaItem.js:0 assets/dist/gallery.js:0 src/Plugin/Field/FieldWidget/MediaWidget.php:299
 msgid "Preview"
 msgstr ""
 
-#: assets/components/gallery/MediaItem.js:0 assets/components/gallery/MediaPreview.js:0
+#: assets/components/gallery/MediaItem.js:0 assets/components/gallery/MediaPreview.js:0;0 assets/dist/gallery.js:0;0
 msgid "Copied!"
 msgstr ""
 
-#: assets/components/gallery/MediaItem.js:0 assets/components/gallery/MediaPreview.js:0
+#: assets/components/gallery/MediaItem.js:0 assets/components/gallery/MediaPreview.js:0;0 assets/dist/gallery.js:0;0
 msgid "Copy url"
 msgstr ""
 
-#: assets/components/gallery/MediaItem.js:0 assets/components/gallery/MediaPreview.js:0;0
+#: assets/components/gallery/MediaItem.js:0 assets/components/gallery/MediaPreview.js:0;0 assets/dist/gallery.js:0;0;0
 msgid "Download original"
 msgstr ""
 
-#: assets/components/gallery/MediaPreview.js:0
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
 msgid "Name"
 msgstr ""
 
-#: assets/components/gallery/MediaPreview.js:0 src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:91 src/Plugin/Field/FieldWidget/MediaWidget.php:430
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0 src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:91 src/Plugin/Field/FieldWidget/MediaWidget.php:430
 msgid "Copyright"
 msgstr ""
 
-#: assets/components/gallery/MediaPreview.js:0 src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:77
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0 src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:77
 msgid "Caption"
 msgstr ""
 
-#: assets/components/gallery/MediaPreview.js:0 src/Plugin/Field/FieldWidget/MediaWidget.php:439
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0 src/Plugin/Field/FieldWidget/MediaWidget.php:439
 msgid "Alternate"
 msgstr ""
 
-#: assets/components/gallery/MediaPreview.js:0
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0 src/Form/MediaContentFilterForm.php:54
 msgid "Size"
 msgstr ""
 
-#: assets/components/gallery/MediaPreview.js:0
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
 msgid "Dimensions"
 msgstr ""
 
-#: assets/components/gallery/MediaPreview.js:0
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
 msgid "Date created"
 msgstr ""
 
@@ -127,12 +129,20 @@ msgid_plural "Removed @count references to image"
 msgstr[0] ""
 msgstr[1] ""
 
+#: src/Form/MediaContentFilterForm.php:46;73
+msgid "Search"
+msgstr ""
+
 #: src/Form/MediaContentFilterForm.php:48
 msgid "Filename, title, description, copyright, ..."
 msgstr ""
 
 #: src/Form/MediaContentFilterForm.php:56
 msgid "None"
+msgstr ""
+
+#: src/Form/MediaContentFilterForm.php:79 src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:161
+msgid "Reset"
 msgstr ""
 
 #: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:33
@@ -207,24 +217,20 @@ msgstr ""
 msgid "Any"
 msgstr ""
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:144
+#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:144 src/Service/MediaFilterService.php:35
 msgid "Small"
 msgstr ""
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:145
+#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:145 src/Service/MediaFilterService.php:36
 msgid "Medium"
 msgstr ""
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:146
+#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:146 src/Service/MediaFilterService.php:37
 msgid "Large"
 msgstr ""
 
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:153
 msgid "Filter"
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:161
-msgid "Reset"
 msgstr ""
 
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:388

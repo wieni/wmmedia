@@ -43,7 +43,7 @@ class MediaContentFilterForm extends FormBase
 
         $form['search'] = [
             '#type' => 'textfield',
-            '#title' => 'Search',
+            '#title' => $this->t('Search'),
             '#attributes' => [
                 'placeholder' => $this->t('Filename, title, description, copyright, ...'),
             ],
@@ -51,9 +51,9 @@ class MediaContentFilterForm extends FormBase
 
         $form['size'] = [
             '#type' => 'select',
-            '#title' => 'Size',
+            '#title' => $this->t('Size'),
             '#options' => MediaFilterService::getMediaSizeOptions(),
-            '#empty_option' => t('None'),
+            '#empty_option' => $this->t('None'),
             '#empty_value' => '',
         ];
 
@@ -70,13 +70,13 @@ class MediaContentFilterForm extends FormBase
 
         $form['actions']['wrapper']['submit'] = [
             '#type' => 'submit',
-            '#value' => 'Search',
+            '#value' => $this->t('Search'),
         ];
 
         $form['actions']['wrapper']['reset'] = [
             '#type' => 'submit',
             '#attributes' => ['class' => ['reset']],
-            '#value' => 'Reset',
+            '#value' => $this->t('Reset'),
             '#submit' => [[$this, 'reset']],
         ];
 

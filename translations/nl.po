@@ -21,8 +21,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-06-14 11:52+0200\n"
-"PO-Revision-Date: 2019-06-14 12:16+0200\n"
+"POT-Creation-Date: 2019-06-14 12:40+0200\n"
+"PO-Revision-Date: 2019-06-14 13:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: nl\n"
@@ -52,55 +52,56 @@ msgstr "Afbeelding toevoegen"
 msgid "Media"
 msgstr "Media"
 
-#: assets/components/gallery/MediaItem.js:0
+#: assets/components/gallery/MediaItem.js:0 assets/dist/gallery.js:0
 #: src/Plugin/Field/FieldWidget/MediaWidget.php:299
 msgid "Preview"
 msgstr "Voorbeeld"
 
 #: assets/components/gallery/MediaItem.js:0
-#: assets/components/gallery/MediaPreview.js:0
+#: assets/components/gallery/MediaPreview.js:0;0 assets/dist/gallery.js:0;0
 msgid "Copied!"
 msgstr "Gekopieerd!"
 
 #: assets/components/gallery/MediaItem.js:0
-#: assets/components/gallery/MediaPreview.js:0
+#: assets/components/gallery/MediaPreview.js:0;0 assets/dist/gallery.js:0;0
 msgid "Copy url"
 msgstr "Kopieer url"
 
 #: assets/components/gallery/MediaItem.js:0
-#: assets/components/gallery/MediaPreview.js:0;0
+#: assets/components/gallery/MediaPreview.js:0;0 assets/dist/gallery.js:0;0;0
 msgid "Download original"
 msgstr "Download origineel"
 
-#: assets/components/gallery/MediaPreview.js:0
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
 msgid "Name"
 msgstr "Naam"
 
-#: assets/components/gallery/MediaPreview.js:0
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:91
 #: src/Plugin/Field/FieldWidget/MediaWidget.php:430
 msgid "Copyright"
 msgstr "Copyright"
 
-#: assets/components/gallery/MediaPreview.js:0
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:77
 msgid "Caption"
 msgstr "Onderschrift"
 
-#: assets/components/gallery/MediaPreview.js:0
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
 #: src/Plugin/Field/FieldWidget/MediaWidget.php:439
 msgid "Alternate"
 msgstr "Alternatieve"
 
-#: assets/components/gallery/MediaPreview.js:0
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
+#: src/Form/MediaContentFilterForm.php:54
 msgid "Size"
 msgstr "Bestandsgrootte"
 
-#: assets/components/gallery/MediaPreview.js:0
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
 msgid "Dimensions"
 msgstr "Dimensies"
 
-#: assets/components/gallery/MediaPreview.js:0
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
 msgid "Date created"
 msgstr "Aanmaakdatum"
 
@@ -144,6 +145,10 @@ msgid_plural "Removed @count references to image"
 msgstr[0] "Er werd 1 verwijzing naar de afbeelding verwijderd"
 msgstr[1] "Er werden @count verwijzingen naar de afbeelding verwijderd"
 
+#: src/Form/MediaContentFilterForm.php:46;73
+msgid "Search"
+msgstr "Zoeken"
+
 #: src/Form/MediaContentFilterForm.php:48
 msgid "Filename, title, description, copyright, ..."
 msgstr "Bestandsnaam, titel, beschrijving, copyright, ..."
@@ -151,6 +156,11 @@ msgstr "Bestandsnaam, titel, beschrijving, copyright, ..."
 #: src/Form/MediaContentFilterForm.php:56
 msgid "None"
 msgstr "Geen"
+
+#: src/Form/MediaContentFilterForm.php:79
+#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:161
+msgid "Reset"
+msgstr "Opnieuw instellen"
 
 #: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:33
 msgid "Select file(s)"
@@ -243,24 +253,23 @@ msgid "Any"
 msgstr "Geen"
 
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:144
+#: src/Service/MediaFilterService.php:35
 msgid "Small"
 msgstr "Klein"
 
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:145
+#: src/Service/MediaFilterService.php:36
 msgid "Medium"
 msgstr "Medium"
 
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:146
+#: src/Service/MediaFilterService.php:37
 msgid "Large"
 msgstr "Groot"
 
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:153
 msgid "Filter"
 msgstr "Filter"
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:161
-msgid "Reset"
-msgstr "Opnieuw instellen"
 
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:388
 msgid "The @type Entity @id does not exist."
