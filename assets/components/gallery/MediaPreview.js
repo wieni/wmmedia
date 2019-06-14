@@ -151,7 +151,7 @@ class MediaPreview extends React.Component {
                             ))}
                             <li className="media-action media-icon media-icon--link">
                                 <CopyToClipboard text={item.originalUrl} onCopy={this.onCopy}>
-                                    <button>{isUrlCopied ? 'Copied!' : 'Copy url'}</button>
+                                    <button>{isUrlCopied ? Drupal.t('Copied!') : Drupal.t('Copy url')}</button>
                                 </CopyToClipboard>
                             </li>
                             <li className="media-action media-icon media-icon--download">
