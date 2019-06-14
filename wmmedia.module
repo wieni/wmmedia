@@ -53,3 +53,9 @@ function wmmedia_menu_local_actions_alter(&$local_actions)
         }
     }
 }
+
+function wmmedia_locale_translation_projects_alter(&$projects)
+{
+    $path = drupal_get_path('module', 'wmmedia') . '/translations/%language.po';
+    $projects['wmmedia']['info']['interface translation server pattern'] = $path;
+}

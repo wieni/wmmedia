@@ -15,3 +15,6 @@ dependencies:
     - media
     - path
     - text
+
+interface translation project: wmmedia
+interface translation server pattern: # @see wmmedia.module

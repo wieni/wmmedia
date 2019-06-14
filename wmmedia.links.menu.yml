@@ -1,6 +1,5 @@
 wmmedia.gallery:
     title: 'Media'
-    description: ''
     route_name: entity.media.collection
     parent: system.admin
     weight: -1
