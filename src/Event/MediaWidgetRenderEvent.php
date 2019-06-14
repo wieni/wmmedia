@@ -21,7 +21,8 @@ class MediaWidgetRenderEvent extends Event
         return $this->targetId;
     }
 
-    public function getPreview(): array
+    /** @return array|null */
+    public function getPreview()
     {
         return $this->render;
     }
