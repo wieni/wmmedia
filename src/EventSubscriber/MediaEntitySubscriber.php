@@ -72,23 +72,35 @@ class MediaEntitySubscriber implements EventSubscriberInterface
         $entity->set('field_height', $size[1]);
     }
 
-    protected function removeReferences(MediaInterface $entity)
+    protected function removeReferences(MediaInterface $media)
     {
-        $usages = $this->referenceDiscovery->getUsages($entity);
+        $usages = $this->referenceDiscovery->getUsages($media);
+        $removedCount = 0;
 
         foreach ($usages as $entityTypeId => $bundles) {
             foreach ($bundles as $bundle => $fields) {
                 foreach ($fields as $fieldName => $entity) {
-                    /** @var $entity FieldableEntityInterface */
-                    $entity->set($fieldName, null);
-                    $entity->save();
+                    foreach ($entity->get($fieldName)->referencedEntities() as $referencedEntity) {
+                        if (
+                            $referencedEntity->getEntityTypeId() !== $media->getEntityTypeId()
+                            || $referencedEntity->id() !== $media->id()
+                        ) {
+                            // Only remove actual references
+                            continue;
+                        }
+
+                        /** @var $entity FieldableEntityInterface */
+                        $entity->set($fieldName, null);
+                        $entity->save();
+                        $removedCount++;
+                    }
                 }
             }
         }
 
-        if (!empty($usages)) {
+        if ($removedCount > 0) {
             drupal_set_message(
-                $this->formatPlural(count($usages), 'Removed 1 reference to image', 'Removed @count references to image')
+                $this->formatPlural($removedCount, 'Removed 1 reference to image', 'Removed @count references to image')
             );
         }
     }
