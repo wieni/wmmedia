@@ -280,7 +280,6 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
 
             if (isset($element['#description'])) {
                 $element['description'] = [
-                    '#attributes' => ['class' => ['description'], 'style' => 'margin-top: -10px'],
                     '#tag' => 'div',
                     '#type' => 'html_tag',
                     '#value' => $element['#description'],
