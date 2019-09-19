@@ -257,35 +257,15 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
             'wrapper' => $wrapperId,
         ];
 
-        $element['#prefix'] = '<div id="' . $wrapperId . '" class="form-item">';
-        $element['#suffix'] = '</div>';
-
         // Get the items we need.
-        $mediaItems = $this->getMediaItems($formState, $storageKey, $items);
+        $mediaItems = self::getMediaItems($formState, $storageKey, $items);
 
         // Build the form.
-        if ($this->getSetting('show_field_label')) {
-            $classes = ['label'];
-            if ($element['#required']) {
-                $classes[] = 'form-required';
-                $classes[] = 'required';
-            }
+        $element['#type'] = 'item';
 
-            $element['title'] = [
-                '#attributes' => ['class' => $classes],
-                '#tag' => 'h4',
-                '#type' => 'html_tag',
-                '#value' => $element['#title'],
-            ];
-
-            if (isset($element['#description'])) {
-                $element['description'] = [
-                    '#tag' => 'div',
-                    '#type' => 'html_tag',
-                    '#value' => $element['#description'],
-                    '#weight' => 1,
-                ];
-            }
+        if (!$this->getSetting('show_field_label')) {
+            $element['#title_display'] = 'invisible';
+            $element['#description_display'] = 'invisible';
         }
 
         // Create our container.
