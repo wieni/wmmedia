@@ -257,6 +257,9 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
             'wrapper' => $wrapperId,
         ];
 
+        $element['#prefix'] = '<div id="' . $wrapperId . '" class="form-item">';
+        $element['#suffix'] = '</div>';
+
         // Get the items we need.
         $mediaItems = self::getMediaItems($formState, $storageKey, $items);
 
