@@ -781,7 +781,6 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
 
         $form_state->setUserInput($input);
         $form_state->setRebuild();
-        $form_state->setStorage([]);
     }
 
     /**
