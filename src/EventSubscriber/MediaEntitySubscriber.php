@@ -3,6 +3,7 @@
 namespace Drupal\wmmedia\EventSubscriber;
 
 use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\file\FileInterface;
 use Drupal\hook_event_dispatcher\Event\Entity\EntityPredeleteEvent;
@@ -17,12 +18,16 @@ class MediaEntitySubscriber implements EventSubscriberInterface
 {
     use StringTranslationTrait;
 
+    /** @var MessengerInterface */
+    protected $messenger;
     /** @var MediaReferenceDiscovery */
     protected $referenceDiscovery;
 
     public function __construct(
+        MessengerInterface $messenger,
         MediaReferenceDiscovery $mediaReferenceDiscovery
     ) {
+        $this->messenger = $messenger;
         $this->referenceDiscovery = $mediaReferenceDiscovery;
     }
 
@@ -99,7 +104,7 @@ class MediaEntitySubscriber implements EventSubscriberInterface
         }
 
         if ($removedCount > 0) {
-            drupal_set_message(
+            $this->messenger->addStatus(
                 $this->formatPlural($removedCount, 'Removed 1 reference to image', 'Removed @count references to image')
             );
         }

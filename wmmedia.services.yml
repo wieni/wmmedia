@@ -14,6 +14,7 @@ services:
     wmmedia.media_entity.subscriber:
         class: Drupal\wmmedia\EventSubscriber\MediaEntitySubscriber
         arguments:
+            - '@messenger'
             - '@wmmedia.reference_discovery'
         tags: [{ name: event_subscriber }]
 
