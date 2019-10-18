@@ -19,6 +19,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=7.0.0",
+        "drupal/core": "^8.5",
         "drupal/allowed_formats": "^1.1",
         "drupal/dropzonejs": "^2.0@alpha",
         "drupal/entity_browser": "^2.0",
