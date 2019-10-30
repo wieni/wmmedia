@@ -198,11 +198,15 @@ class MediaImageExtras extends EntityReferenceItem
      */
     public function getCopyright()
     {
-        if ($media = $this->getMedia()) {
-            return $media->get('field_copyright')->value;
+        if (!$media = $this->getMedia()) {
+            return null;
         }
 
-        return null;
+        if (!$media->hasField('field_copyright')) {
+            return null;
+        }
+
+        return $media->get('field_copyright')->value;
     }
 
     /**
@@ -210,11 +214,15 @@ class MediaImageExtras extends EntityReferenceItem
      */
     public function getAlternate()
     {
-        if ($media = $this->getMedia()) {
-            return $media->get('field_alternate')->value;
+        if (!$media = $this->getMedia()) {
+            return null;
         }
 
-        return null;
+        if (!$media->hasField('field_alternate')) {
+            return null;
+        }
+
+        return $media->get('field_alternate')->value;
     }
 
     /**
@@ -222,11 +230,15 @@ class MediaImageExtras extends EntityReferenceItem
      */
     public function getWidth()
     {
-        if ($media = $this->getMedia()) {
-            return (int) $media->get('field_width')->value;
+        if (!$media = $this->getMedia()) {
+            return null;
         }
 
-        return null;
+        if (!$media->hasField('field_width')) {
+            return null;
+        }
+
+        return (int) $media->get('field_width')->value;
     }
 
     /**
@@ -234,10 +246,14 @@ class MediaImageExtras extends EntityReferenceItem
      */
     public function getHeight()
     {
-        if ($media = $this->getMedia()) {
-            return (int) $media->get('field_height')->value;
+        if (!$media = $this->getMedia()) {
+            return null;
         }
 
-        return null;
+        if (!$media->hasField('field_height')) {
+            return null;
+        }
+
+        return (int) $media->get('field_height')->value;
     }
 }

@@ -133,13 +133,28 @@ class GalleryController extends ControllerBase
             'id' => $entity->id(),
             'label' => $entity->label(),
             'author' => $entity->getOwner()->getDisplayName(),
-            'copyright' => $entity->get('field_copyright')->value,
-            'caption' => $entity->get('field_description')->value,
-            'alternate' => $entity->get('field_alternate')->value,
-            'height' => (int) $entity->get('field_height')->value,
-            'width' => (int) $entity->get('field_width')->value,
             'dateCreated' => (int) $entity->getCreatedTime(),
         ];
+
+        if ($entity->hasField('field_copyright')) {
+            $result['copyright'] = $entity->get('field_copyright')->value;
+        }
+
+        if ($entity->hasField('field_description')) {
+            $result['caption'] = $entity->get('field_description')->value;
+        }
+
+        if ($entity->hasField('field_alternate')) {
+            $result['alternate'] = $entity->get('field_alternate')->value;
+        }
+
+        if ($entity->hasField('field_height')) {
+            $result['height'] = (int) $entity->get('field_height')->value;
+        }
+
+        if ($entity->hasField('field_width')) {
+            $result['width'] = (int) $entity->get('field_width')->value;
+        }
 
         /** @var File $file */
         if ($file = $entity->get('field_media_imgix')->entity) {
