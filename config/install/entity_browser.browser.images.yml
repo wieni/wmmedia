@@ -4,7 +4,6 @@ dependencies:
   config:
     - media.type.image
   module:
-    - dropzonejs_eb_widget
     - media
     - wmmedia
 name: images
@@ -29,22 +28,3 @@ widgets:
     weight: -10
     label: Library
     id: wmmedia_media_image_browser
-  ce4d14ca-ff29-43a6-b622-bae6cb1a7081:
-    settings:
-      form_mode: default
-      media_type: image
-      upload_location: 's3://[date:custom:Y]-[date:custom:m]'
-      dropzone_description: 'Drop files here to upload them'
-      max_filesize: 50M
-      extensions: 'jpg jpeg gif png svg txt doc xls pdf ppt pps odt ods odp'
-      clientside_resize: false
-      resize_width: null
-      resize_height: null
-      resize_quality: !!float 1
-      resize_method: contain
-      thumbnail_method: contain
-      submit_text: 'Select images'
-    uuid: ce4d14ca-ff29-43a6-b622-bae6cb1a7081
-    weight: -6
-    label: Upload
-    id: dropzonejs_media_entity_inline_entity_form
