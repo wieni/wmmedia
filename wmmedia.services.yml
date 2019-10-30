@@ -36,6 +36,7 @@ services:
     wmmedia.filter:
         class: Drupal\wmmedia\Service\MediaFilterService
         arguments:
+            - '@entity_field.manager'
             - '@database'
 
     wmmedia.reference_discovery:

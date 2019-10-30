@@ -119,26 +119,34 @@ class MediaPreview extends React.Component {
                             <span className="media-preview__field-label">{Drupal.t('Name')}</span>
                             {item.label || defaultValue}
                         </p>
-                        <p className="media-preview__field">
-                            <span className="media-preview__field-label">{Drupal.t('Copyright')}</span>
-                            <span dangerouslySetInnerHTML={{__html: item.copyright || defaultValue}} />
-                        </p>
-                        <p className="media-preview__field">
-                            <span className="media-preview__field-label">{Drupal.t('Caption')}</span>
-                            <span dangerouslySetInnerHTML={{__html: item.caption || defaultValue}} />
-                        </p>
-                        <p className="media-preview__field">
-                            <span className="media-preview__field-label">{Drupal.t('Alternate')}</span>
-                            {item.alternate || defaultValue}
-                        </p>
+                        {item.hasOwnProperty('copyright') && (
+                            <p className="media-preview__field">
+                                <span className="media-preview__field-label">{Drupal.t('Copyright')}</span>
+                                <span dangerouslySetInnerHTML={{__html: item.copyright || defaultValue}} />
+                            </p>
+                        )}
+                        {item.hasOwnProperty('caption') && (
+                            <p className="media-preview__field">
+                                <span className="media-preview__field-label">{Drupal.t('Caption')}</span>
+                                <span dangerouslySetInnerHTML={{__html: item.caption || defaultValue}} />
+                            </p>
+                        )}
+                        {item.hasOwnProperty('alternate') && (
+                            <p className="media-preview__field">
+                                <span className="media-preview__field-label">{Drupal.t('Alternate')}</span>
+                                {item.alternate || defaultValue}
+                            </p>
+                        )}
                         <p className="media-preview__field">
                             <span className="media-preview__field-label">{Drupal.t('Size')}</span>
                             {item.size || defaultValue}
                         </p>
-                        <p className="media-preview__field">
-                            <span className="media-preview__field-label">{Drupal.t('Dimensions')}</span>
-                            {item.width === 0 || item.height === 0 ? 'n/a' : `${item.width} x ${item.height}`}
-                        </p>
+                        {item.hasOwnProperty('width') && item.hasOwnProperty('height') && (
+                            <p className="media-preview__field">
+                                <span className="media-preview__field-label">{Drupal.t('Dimensions')}</span>
+                                {item.width === 0 || item.height === 0 ? 'n/a' : `${item.width} x ${item.height}`}
+                            </p>
+                        )}
                         <p className="media-preview__field">
                             <span className="media-preview__field-label">{Drupal.t('Date created')}</span>
                             {item.dateCreated ? format(item.dateCreated, 'D/M/YYYY HH:mm') : defaultValue}

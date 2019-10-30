@@ -5,6 +5,7 @@ namespace Drupal\wmmedia\Plugin\EntityBrowser\Widget;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Query\SelectInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -30,6 +31,8 @@ class MediaImageExtrasBrowser extends WidgetBase implements ContainerFactoryPlug
 {
     const PAGER_LIMIT = 20;
 
+    /** @var EntityFieldManagerInterface */
+    protected $entityFieldManager;
     /** @var ImgixManagerInterface */
     protected $imgixManager;
 
@@ -57,6 +60,7 @@ class MediaImageExtrasBrowser extends WidgetBase implements ContainerFactoryPlug
      * @param ImgixManagerInterface $imgixManager
      * @param SessionInterface $session
      * @param Connection $database
+     * @param EntityFieldManagerInterface $entityFieldManager
      */
     public function __construct(
         array $configuration,
@@ -67,7 +71,8 @@ class MediaImageExtrasBrowser extends WidgetBase implements ContainerFactoryPlug
         WidgetValidationManager $validation_manager,
         ImgixManagerInterface $imgixManager,
         SessionInterface $session,
-        Connection $database
+        Connection $database,
+        EntityFieldManagerInterface $entityFieldManager
     ) {
         parent::__construct(
             $configuration,
@@ -80,6 +85,7 @@ class MediaImageExtrasBrowser extends WidgetBase implements ContainerFactoryPlug
         $this->imgixManager = $imgixManager;
         $this->session = $session;
         $this->database = $database;
+        $this->entityFieldManager = $entityFieldManager;
     }
 
     /**
@@ -106,7 +112,8 @@ class MediaImageExtrasBrowser extends WidgetBase implements ContainerFactoryPlug
             $container->get('plugin.manager.entity_browser.widget_validation'),
             $container->get('imgix.manager'),
             $container->get('session'),
-            $container->get('database')
+            $container->get('database'),
+            $container->get('entity_field.manager')
         );
     }
 
@@ -124,9 +131,20 @@ class MediaImageExtrasBrowser extends WidgetBase implements ContainerFactoryPlug
             ]
         ];
 
+        $enabledFields = ['title'];
+        $fieldStorages = $this->entityFieldManager->getFieldStorageDefinitions('media');
+
+        if (isset($fieldStorages['field_copyright'])) {
+            $enabledFields[] = 'copyright';
+        }
+
+        if (isset($fieldStorages['field_description'])) {
+            $enabledFields[] = 'description';
+        }
+
         $element['search'] = [
             '#type' => 'textfield',
-            '#title' => $this->t('Title, description, copyright'),
+            '#title' => $this->t(sprintf('Search (%s)', implode(', ', $enabledFields))),
             '#attributes' => [
                 'class' => ['media-browser-filter-input-search']
             ],
@@ -296,6 +314,8 @@ class MediaImageExtrasBrowser extends WidgetBase implements ContainerFactoryPlug
      */
     protected function doQuery($filter)
     {
+        $fieldStorages = $this->entityFieldManager->getFieldStorageDefinitions('media');
+
         /** @var SelectInterface $query */
         $query = $this->database->select('media')
             ->fields('media', ['mid'])
@@ -303,28 +323,39 @@ class MediaImageExtrasBrowser extends WidgetBase implements ContainerFactoryPlug
             ->extend('Drupal\Core\Database\Query\PagerSelectExtender');
 
         $query->leftJoin('media_field_data', 'data', 'media.mid = data.mid');
-        $query->leftJoin('media__field_copyright', 'copyright', 'media.mid = copyright.entity_id');
-        $query->leftJoin('media__field_description', 'description', 'media.mid = description.entity_id');
-        $query->leftJoin('media__field_media_imgix', 'image', 'media.mid = image.entity_id');
-        $query->leftJoin('media__field_width', 'width', 'media.mid = width.entity_id');
-        $query->leftJoin('media__field_height', 'height', 'media.mid = height.entity_id');
-
         $query->fields('data', ['name']);
-        $query->fields('copyright', ['field_copyright_value']);
-        $query->fields('description', ['field_description_value']);
-        $query->fields('image', ['field_media_imgix_target_id']);
-        $query->fields('width', ['field_width_value']);
-        $query->fields('height', ['field_height_value']);
+
+        $fields = [
+            'field_copyright' => 'field_copyright_value',
+            'field_description' => 'field_description_value',
+            'field_media_imgix' => 'field_media_imgix_target_id',
+            'field_width' => 'field_width_value',
+            'field_height' => 'field_height_value',
+        ];
+
+        foreach ($fields as $fieldName => $columnName) {
+            if (isset($fieldStorages[$fieldName])) {
+                $query->leftJoin("media__{$fieldName}", $fieldName, "media.mid = {$fieldName}}.entity_id");
+                $query->fields($fieldName, [$columnName]);
+            }
+        }
 
         if (!empty($filter['search'])) {
             $searchCondition = $query->orConditionGroup()
-                ->condition('data.name', '%' . $filter['search'] . '%', 'LIKE')
-                ->condition('copyright.field_copyright_value', '%' . $filter['search'] . '%', 'LIKE')
-                ->condition('description.field_description_value', '%' . $filter['search'] . '%', 'LIKE');
+                ->condition('data.name', '%' . $filter['search'] . '%', 'LIKE');
+
+            if (isset($fieldStorages['field_copyright'])) {
+                $searchCondition->condition('field_copyright.field_copyright_value', '%' . $filter['search'] . '%', 'LIKE');
+            }
+
+            if (isset($fieldStorages['field_description'])) {
+                $searchCondition->condition('field_description.field_description_value', '%' . $filter['search'] . '%', 'LIKE');
+            }
 
             $query->condition($searchCondition);
         }
-        if (!empty($filter['size'])) {
+
+        if (isset($fieldStorages['field_width'], $fieldStorages['field_height']) && !empty($filter['size'])) {
             switch ($filter['size']) {
                 case 'small': // < 400x400
                     $sizeCondition = $query->andConditionGroup()
