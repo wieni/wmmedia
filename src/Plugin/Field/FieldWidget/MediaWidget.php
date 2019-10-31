@@ -17,6 +17,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\entity_browser\Element\EntityBrowserElement;
 use Drupal\media\MediaInterface;
 use Drupal\wmmedia\Event\MediaWidgetRenderEvent;
+use Drupal\wmmedia\Plugin\Field\FieldType\MediaFileExtras;
 use Drupal\wmmedia\Plugin\Field\FieldType\MediaImageExtras;
 use Drupal\wmmedia\WmmediaEvents;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -262,7 +263,7 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
         $element['#suffix'] = '</div>';
 
         // Get the items we need.
-        /** @var MediaImageExtras[] $mediaItems */
+        /** @var MediaImageExtras[]|MediaFileExtras[] $mediaItems */
         $mediaItems = self::getMediaItems($formState, $storageKey, $items);
 
         // Build the form.
@@ -378,7 +379,9 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
             $row['data']['description'] = [
                 '#type' => 'text_format',
                 '#title' => $this->getSetting('description_field_label'),
-                '#default_value' => $item->getDescription(),
+                '#default_value' => $item instanceof MediaImageExtras
+                    ? $item->getDescription()
+                    : null,
                 '#size' => 45,
                 '#access' => (bool) $this->getSetting('description_field_enabled'),
                 '#required' => (bool) $this->getSetting('description_field_required'),
