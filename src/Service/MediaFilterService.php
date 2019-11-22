@@ -78,6 +78,7 @@ class MediaFilterService
 
         $this->mediaSearchConditions($conditions, $q);
         $this->mediaSizeConditions($conditions, $q);
+        $this->mediaBundleConditions($conditions, $q);
 
         $q->orderBy('m.changed', 'desc');
 
@@ -94,6 +95,7 @@ class MediaFilterService
 
         $this->mediaSearchConditions($conditions, $q);
         $this->mediaSizeConditions($conditions, $q);
+        $this->mediaBundleConditions($conditions, $q);
 
         return (int) $q->countQuery()->execute()->fetchField();
     }
@@ -148,5 +150,14 @@ class MediaFilterService
                 }
             }
         }
+    }
+
+    protected function mediaBundleConditions(array $conditions, SelectInterface $q)
+    {
+        if (empty($conditions['bundle'])) {
+            return;
+        }
+
+        $q->condition('m.bundle', $conditions['bundle']);
     }
 }

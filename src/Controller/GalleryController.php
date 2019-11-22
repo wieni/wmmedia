@@ -103,6 +103,8 @@ class GalleryController extends ControllerBase
     public function getMedia()
     {
         $filter = $this->session->get(MediaContentFilterForm::getSessionVarName(), []);
+        $filter['bundle'] = 'image';
+
         $items = $this->filterService->filter($filter, $this->limit);
 
         return array_values(
@@ -125,7 +127,7 @@ class GalleryController extends ControllerBase
         /** @var Media $entity */
         $entity = $this->getTranslatedMediaItem($item);
 
-        if (!$entity || $entity->bundle() !== 'image') {
+        if (!$entity) {
             return null;
         }
 
