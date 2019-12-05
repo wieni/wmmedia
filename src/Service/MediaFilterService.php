@@ -128,12 +128,12 @@ class MediaFilterService
         $args = [':search1' => $searchString];
 
         if (isset($fieldStorages['field_copyright'])) {
-            $where .= 'OR LOWER(copyright.field_copyright_value) LIKE :search2';
+            $where .= ' OR LOWER(field_copyright.field_copyright_value) LIKE :search2';
             $args[':search2'] = $searchString;
         }
 
         if (isset($fieldStorages['field_description'])) {
-            $where .= 'OR LOWER(description.field_description_value) LIKE :search3';
+            $where .= ' OR LOWER(field_description.field_description_value) LIKE :search3';
             $args[':search3'] = $searchString;
         }
 
