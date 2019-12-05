@@ -4,6 +4,7 @@ namespace Drupal\wmmedia\Service;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Query\SelectInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 
 class MediaFilterService
 {
@@ -11,12 +12,16 @@ class MediaFilterService
     const MEDIA_MEDIUM = 'medium';
     const MEDIA_LARGE = 'large';
 
+    /** @var EntityFieldManagerInterface */
+    protected $entityFieldManager;
     /** @var Connection */
     protected $db;
 
     public function __construct(
+        EntityFieldManagerInterface $entityFieldManager,
         Connection $db
     ) {
+        $this->entityFieldManager = $entityFieldManager;
         $this->db = $db;
     }
 
@@ -106,24 +111,35 @@ class MediaFilterService
             return;
         }
 
+        $fieldStorages = $this->entityFieldManager->getFieldStorageDefinitions('media');
         $searchString = '%' . $q->escapeLike(strtolower($conditions['search'])) . '%';
 
-        $q->leftJoin('media__field_copyright', 'copyright', 'copyright.entity_id = m.mid');
-        $q->leftJoin('media__field_description', 'description', 'description.entity_id = m.mid');
+        $fields = [
+            'field_copyright',
+            'field_description',
+        ];
+
+        foreach ($fields as $fieldName) {
+            if (isset($fieldStorages[$fieldName])) {
+                $q->leftJoin("media__{$fieldName}", $fieldName, "{$fieldName}.entity_id = m.mid");
+            }
+        }
 
         // We use a custom where to be able to LOWER.
-        $q->where(
-            '
-                LOWER(m.name) LIKE :search1 OR
-                LOWER(copyright.field_copyright_value) LIKE :search2 OR   
-                LOWER(description.field_description_value) LIKE :search3    
-            ',
-            [
-                ':search1' => $searchString,
-                ':search2' => $searchString,
-                ':search3' => $searchString,
-            ]
-        );
+        $where = 'LOWER(m.name) LIKE :search1';
+        $args = [':search1' => $searchString];
+
+        if (isset($fieldStorages['field_copyright'])) {
+            $where .= ' OR LOWER(field_copyright.field_copyright_value) LIKE :search2';
+            $args[':search2'] = $searchString;
+        }
+
+        if (isset($fieldStorages['field_description'])) {
+            $where .= ' OR LOWER(field_description.field_description_value) LIKE :search3';
+            $args[':search3'] = $searchString;
+        }
+
+        $q->where($where, $args);
     }
 
     protected function mediaSizeConditions(array $conditions, SelectInterface $q)
@@ -132,22 +148,40 @@ class MediaFilterService
             return;
         }
 
-        $q->leftJoin('media__field_width', 'width', 'width.entity_id = m.mid');
-        $q->leftJoin('media__field_height', 'height', 'height.entity_id = m.mid');
+        $fieldStorages = $this->entityFieldManager->getFieldStorageDefinitions('media');
+
+        $fields = [
+            'media__field_width',
+            'media__field_height',
+        ];
+
+        foreach ($fields as $fieldName) {
+            if (isset($fieldStorages[$fieldName])) {
+                $q->leftJoin("media__{$fieldName}", $fieldName, "{$fieldName}.entity_id = m.mid");
+            }
+        }
 
         foreach ($this->getMediaSizes() as $key => $size) {
-            if ($conditions['size'] === $key) {
-                list($min, $max) = $size;
+            if ($conditions['size'] !== $key) {
+                continue;
+            }
 
-                if (is_integer($min)) {
-                    $q->condition('width.field_width_value', $min, '>=');
-                    $q->condition('height.field_height_value', $min, '>=');
-                }
+            list($min, $max) = $size;
 
-                if (is_integer($max)) {
-                    $q->condition('width.field_width_value', $max, '<');
-                    $q->condition('height.field_height_value', $max, '<');
-                }
+            if (is_integer($min) && isset($fieldStorages['field_width'])) {
+                $q->condition('width.field_width_value', $min, '>=');
+            }
+
+            if (is_integer($min) && isset($fieldStorages['field_height'])) {
+                $q->condition('height.field_height_value', $min, '>=');
+            }
+
+            if (is_integer($max) && isset($fieldStorages['field_width'])) {
+                $q->condition('width.field_width_value', $max, '<');
+            }
+
+            if (is_integer($max) && isset($fieldStorages['field_height'])) {
+                $q->condition('height.field_height_value', $max, '<');
             }
         }
     }
