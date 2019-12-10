@@ -30,3 +30,31 @@ media.gallery:
             assets/dist/gallery.css: {}
     dependencies:
         - core/drupal
+
+media_file_widget:
+    css:
+        theme:
+            css/media_file/fieldWidget.css: {}
+
+media_file_browser:
+    js:
+        js/media_file/browser.js: {}
+    css:
+        theme:
+            css/media_file/browser.css: {}
+    dependencies:
+        - core/jquery
+
+media_file_browser_editor:
+    js:
+        js/media_file/browserEditor.js: {}
+    css:
+        theme:
+            css/media_file/browserEditor.css: {}
+    dependencies:
+        - editor/drupal.editor.dialog
+
+media_file_browser_modal:
+    css:
+        theme:
+            css/media_file/modal.css: {}

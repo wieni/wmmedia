@@ -1,7 +1,17 @@
-wmcustom.api.paginate:
+wmmedia.api.paginate:
     path: '/admin/api/media/paginate'
     defaults:
-        _controller: 'Drupal\wmmedia\Controller\GalleryController::get'
+        _controller: Drupal\wmmedia\Controller\GalleryController::get
+    requirements:
+        _permission: 'access media overview'
+    options:
+        _admin_route: TRUE
+
+wmmedia.usage:
+    path: 'media/{media}/usage'
+    defaults:
+        _title_callback: Drupal\wmmedia\UsageController::title
+        _controller: Drupal\wmmedia\UsageController::overview
     requirements:
         _permission: 'access media overview'
     options:
