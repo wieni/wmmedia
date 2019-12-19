@@ -206,7 +206,7 @@ class UsageManager
                 continue;
             }
 
-            $destination = Url::fromRoute('wmcustom.media.usage', ['media' => $media->id()])->toString();
+            $destination = Url::fromRoute('wmmedia.usage', ['media' => $media->id()])->toString();
 
             $operations = [];
             if ($entity->access('update') && $entity->hasLinkTemplate('edit-form')) {

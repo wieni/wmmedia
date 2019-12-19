@@ -39,6 +39,51 @@ services:
             - '@entity_field.manager'
             - '@database'
 
+    wmmedia.file.repository:
+        class: Drupal\wmmedia\Service\FileRepository
+        arguments:
+            - '@database'
+            - '@entity_field.manager'
+
+    wmmedia.file.form_builder:
+        class: Drupal\wmmedia\Service\FileOverviewFormBuilder
+        arguments:
+            - '@wmmedia.file.repository'
+            - '@entity_type.manager'
+            - '@request_stack'
+            - '@current_route_match'
+
+    wmmedia.usage:
+        class: Drupal\wmmedia\Service\UsageManager
+        arguments:
+            - '@entity_field.manager'
+            - '@entity_type.manager'
+            - '@entity_type.bundle.info'
+            - '@database'
+            - '@queue'
+            - '@wmmedia.usage.repository'
+
+    wmmedia.usage.repository:
+        class: Drupal\wmmedia\Service\UsageRepository
+        arguments:
+            - '@database'
+
+    wmmedia.usage.subscriber.entity:
+        class: Drupal\wmmedia\EventSubscriber\MediaUsageEntitySubscriber
+        arguments:
+            - '@wmmedia.usage'
+        tags: [{ name: event_subscriber }]
+
+    wmmedia.usage.subscriber.form:
+        class: Drupal\wmmedia\EventSubscriber\MediaUsageFormAlterSubscriber
+        arguments:
+            - '@wmmedia.usage'
+        tags: [{ name: event_subscriber }]
+
+    wmmedia.delete.subscriber:
+        class: Drupal\wmmedia\EventSubscriber\MediaDeleteSubscriber
+        tags: [{ name: event_subscriber }]
+
     wmmedia.reference_discovery:
         class: Drupal\wmmedia\Service\MediaReferenceDiscovery
         arguments:
@@ -47,3 +92,8 @@ services:
             - '@entity_type.bundle.info'
             - '@module_handler'
             - '@event_dispatcher'
+
+    wmmedia.form.media_file_inline_entity_form_alter.subscriber:
+        class: Drupal\wmmedia\EventSubscriber\MediaFileInlineEntityFormAlter
+        tags: [{ name: event_subscriber }]
+

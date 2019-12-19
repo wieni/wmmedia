@@ -55,7 +55,7 @@ class MediaFileBrowser extends MediaBrowserBase
             return $form;
         }
 
-        $form['#attached']['library'][] = 'wmcustom/media_file_browser';
+        $form['#attached']['library'][] = 'wmmedia/media.file_browser';
 
         return $form;
     }

@@ -15,6 +15,6 @@
     display: none !important;
 }
 
-.ui-dialog .wmcustom-media-file-browser-editor > .form-actions .ajax-progress.ajax-progress-throbber {
+.ui-dialog .wmmedia-file-browser-editor > .form-actions .ajax-progress.ajax-progress-throbber {
     display: none;
 }

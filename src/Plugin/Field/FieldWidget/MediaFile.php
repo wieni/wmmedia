@@ -116,7 +116,7 @@ class MediaFile extends EntityReferenceBrowserWidget
         $element['current'] = $this->displayCurrentSelection($detailsId, $field_parents, $entities);
 
         $element['#attached']['library'][] = 'entity_browser/entity_reference';
-        $element['#attached']['library'][] = 'wmmedia/media_file_widget';
+        $element['#attached']['library'][] = 'wmmedia/media.file_widget';
 
         return $element;
     }

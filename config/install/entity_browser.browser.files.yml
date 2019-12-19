@@ -15,15 +15,4 @@ selection_display: no_display
 selection_display_configuration: {  }
 widget_selector: tabs
 widget_selector_configuration: {  }
-widgets:
-  939dfc5e-26a1-4630-a963-2574f6be23b4:
-    settings:
-      extensions: 'pdf ppt pps doc xdoc dot xls xlb xlt rtf txt text odt ods odp odg odc odf odb odi odm ott ots otp otg otc otf oti oth pages key '
-      media_type: file
-      upload_location: 's3://[date:custom:Y]-[date:custom:m]'
-      multiple: '1'
-      submit_text: 'Select file'
-    uuid: 939dfc5e-26a1-4630-a963-2574f6be23b4
-    weight: 1
-    label: Upload
-    id: wmmedia_media_file_add
+widgets: {  }

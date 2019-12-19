@@ -1,0 +1,63 @@
+<?php
+
+function wmmedia_schema()
+{
+    $schema = [];
+
+    $schema['wmmedia_usage'] = [
+        'description' => 'Media usage.',
+        'fields' => [
+            'id' => [
+                'type' => 'serial',
+                'unsigned' => true,
+                'not null' => true,
+            ],
+            'media_id' => [
+                'type' => 'int',
+                'unsigned' => true,
+                'not null' => true,
+            ],
+            'media_type' => [
+                'type' => 'varchar',
+                'length' => 38,
+                'not null' => true,
+            ],
+            'entity_id' => [
+                'type' => 'int',
+                'unsigned' => true,
+                'not null' => true,
+            ],
+            'entity_type' => [
+                'type' => 'varchar',
+                'length' => 38,
+                'not null' => true,
+            ],
+            'field_name' => [
+                'type' => 'varchar',
+                'length' => 32,
+                'not null' => true,
+            ],
+            'field_type' => [
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => true,
+            ],
+            'language_code' => [
+                'type' => 'varchar',
+                'length' => 3,
+                'not null' => true,
+            ],
+        ],
+        'primary key' => ['id'],
+        'indexes' => [
+            'media' => [
+                'media_id',
+                'media_type',
+                'entity_id',
+                'entity_type',
+            ],
+        ],
+    ];
+
+    return $schema;
+}

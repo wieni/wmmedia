@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\wmcustom\Plugin\Filter;
+namespace Drupal\wmmedia\Plugin\Filter;
 
 use DOMElement;
 use DOMXPath;
@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @Filter(
- *     id = "wmcustom_media_file_link",
+ *     id = "wmmedia_file_link",
  *     title = @Translation("Process links to media entities."),
  *     type = Drupal\filter\Plugin\FilterInterface::TYPE_TRANSFORM_IRREVERSIBLE,
  *     weight = -10

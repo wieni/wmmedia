@@ -1,5 +1,8 @@
 <?php
 
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\media\Entity\Media;
+
 /**
  * Implements hook_theme().
  */
@@ -59,3 +62,13 @@ function wmmedia_locale_translation_projects_alter(&$projects)
     $path = drupal_get_path('module', 'wmmedia') . '/translations/%language.po';
     $projects['wmmedia']['info']['interface translation server pattern'] = $path;
 }
+
+function wmmedia_entity_operation_alter(array &$operations, EntityInterface $entity)
+{
+    if ($entity instanceof Media) {
+        /* @var \Drupal\wmmedia\Service\UsageManager $service */
+        $service = \Drupal::service('wmmedia.usage');
+        $service->setOperations($entity, $operations);
+    }
+}
+
