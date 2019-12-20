@@ -24,10 +24,6 @@ class FileRepository
      */
     protected $entityFieldManager;
 
-    /**
-     * @param \Drupal\Core\Database\Connection $connection
-     * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entityFieldManager
-     */
     public function __construct(
         Connection $connection,
         EntityFieldManagerInterface $entityFieldManager

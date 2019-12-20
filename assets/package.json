@@ -8,12 +8,14 @@
   "scripts": {
     "dev": "rimraf .cache && run-p dev:*",
     "dev:gallery": "parcel watch components/gallery/gallery.js",
-    "dev:widget": "parcel watch components/widget/widget.js",
-    "dev:dialog": "parcel watch components/dialog/dialog.js",
+    "dev:filters": "parcel watch components/filters/filters.js",
+    "dev:image": "parcel watch components/image/image.js",
+    "dev:file": "parcel watch components/file/file.js",
     "build": "run-p build:*",
     "build:gallery": "parcel build components/gallery/gallery.js",
-    "build:widget": "parcel build components/widget/widget.js",
-    "build:dialog": "parcel build components/dialog/dialog.js",
+    "build:filters": "parcel build components/filters/filters.js",
+    "build:image": "parcel build components/image/image.js",
+    "build:file": "parcel build components/file/file.js",
     "build:webfont": "webfont 'icons/**/*.svg' -d './dist' && postcss -r dist/icons.css"
   },
   "devDependencies": {

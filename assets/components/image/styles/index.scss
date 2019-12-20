@@ -1,0 +1,142 @@
+$checkbox-background-color: #4c5661;
+
+.wmmedia__list {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 0 -20px -20px 0;
+    padding-bottom: 30px;
+}
+
+.wmmedia__list__select.form-wrapper  {
+    cursor: pointer;
+    position: relative;
+
+    .imgix-image .caption,
+    .form-item-view-media1-checkbox {
+        margin: 0;
+    }
+
+    .imgix-image {
+        height: 150px;
+        width: 150px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        background-color: rgba(0, 0, 0, .2);
+    }
+
+    &,
+    &:last-child {
+        margin: 0 20px 20px 0;
+    }
+
+    > p {
+        margin: 0;
+
+        &:first-of-type {
+            width: 150px;
+            margin-top: 7px;
+
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        &:last-of-type {
+            font-weight: 500;
+            font-size: .8rem;
+        }
+    }
+
+    .form-type-checkbox {
+        margin: 0;
+
+        position: absolute;
+        top: 114px; right: 13px;
+
+        color: #fff;
+        pointer-events: none;
+
+        label {
+            display: inline-block;
+            width: 23px;
+            height: 23px;
+
+            position: relative;
+
+            background-color: transparent;
+            transform-origin: center;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            transition: background-color 150ms 200ms, transform 350ms cubic-bezier(.78,-1.22,.17,1.89);
+
+            &:before,
+            &:after {
+                content: "";
+                width: 0;
+                height: 2px;
+
+                position: absolute;
+
+                background: #fff;
+                border-radius: 2px;
+                transition: width 50ms ease;
+                transform-origin: 0 0;
+            }
+
+            &:before {
+                transition-delay: 50ms;
+                transform: rotate(45deg);
+                top: 10px; left: 7px;
+            }
+
+            &:after {
+                transform: rotate(305deg);
+                top: 13px; left: 8px;
+            }
+        }
+
+        input[type="checkbox"] {
+            display: none;
+
+            &:checked {
+                // copy the states for hover to avoid flickering
+                + label,
+                + label:hover {
+                    background-color: #fff;
+                    transform: scale(1.25);
+
+                    &:after,
+                    &:before {
+                        background: $checkbox-background-color;
+                        transition: width 150ms ease 100ms;
+                    }
+
+                    &:after {
+                        width: 10px;
+                    }
+
+                    &:before {
+                        width: 5px;
+                    }
+                }
+            }
+        }
+
+        &:hover {
+            label {
+                &:before {
+                    width: 5px;
+                    transition: width 100ms ease;
+                }
+
+                &:after {
+                    width: 10px;
+                    transition: width 150ms ease 100ms;
+                }
+            }
+        }
+    }
+}

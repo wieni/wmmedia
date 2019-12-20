@@ -46,26 +46,17 @@ class MediaFileBrowser extends MediaBrowserBase
     public function getForm(array &$originalForm, FormStateInterface $formState, array $additionalWidgetParameters)
     {
         $form = parent::getForm($originalForm, $formState, $additionalWidgetParameters);
-        $this->overviewFormBuilder->setForm($form, FormOptions::createForBrowser());
 
-        $buildInfo = $formState->getBuildInfo();
-        $callbackObject = $buildInfo['callback_object'] ?? null;
+        $formObject = $formState->getFormObject();
 
-        if (!$callbackObject instanceof EntityBrowserForm) {
+        if (!$formObject instanceof EntityBrowserForm) {
             return $form;
         }
 
-        $form['#attached']['library'][] = 'wmmedia/media.file_browser';
+        $this->overviewFormBuilder->setForm($form, FormOptions::createForBrowser());
+        $form['#attached']['library'][] = 'wmmedia/browser';
+        $form['#attached']['library'][] = 'wmmedia/file_browser';
 
         return $form;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function submit(array &$element, array &$form, FormStateInterface $form_state)
-    {
-        $entities = $this->prepareEntities($form, $form_state);
-        $this->selectEntities($entities, $form_state);
     }
 }

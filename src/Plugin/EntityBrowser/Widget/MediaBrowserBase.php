@@ -28,14 +28,14 @@ class MediaBrowserBase extends WidgetBase
             try {
                 $storage = $this->entityTypeManager->getStorage($parts[0]);
                 if (!$storage->load($parts[1])) {
-                    $message = $this->t('The @type Entity @id does not exist.', [
+                    $message = $this->t('The @type entity @id does not exist.', [
                         '@type' => $parts[0],
                         '@id' => $parts[1],
                     ]);
                     $formState->setError($form['widget'], $message);
                 }
             } catch (PluginNotFoundException $e) {
-                $message = $this->t('The Entity Type @type does not exist.', [
+                $message = $this->t('The entity type @type does not exist.', [
                     '@type' => $parts[0],
                 ]);
                 $formState->setError($form['widget'], $message);
@@ -45,6 +45,15 @@ class MediaBrowserBase extends WidgetBase
         if (empty($formState->getErrors())) {
             parent::validate($form, $formState);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function submit(array &$element, array &$form, FormStateInterface $form_state)
+    {
+        $entities = $this->prepareEntities($form, $form_state);
+        $this->selectEntities($entities, $form_state);
     }
 
     /**

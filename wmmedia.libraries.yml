@@ -1,56 +1,70 @@
-media.browser:
-    js:
-        js/media_browser.js: {}
-    css:
-        theme:
-            assets/dist/widget.css: {}
-    dependencies:
-        - core/jquery
-
-media.upload:
-    js:
-        js/media_upload.js: {}
-    css:
-        theme:
-            assets/dist/widget.css: {}
-    dependencies:
-        - core/jquery
-
-media.dialog:
-    css:
-        theme:
-            assets/dist/dialog.css: {}
-
-media.gallery:
-    js:
-        assets/dist/gallery.js: {}
-    css:
-        theme:
-            assets/dist/icons.css: {}
-            assets/dist/gallery.css: {}
-    dependencies:
-        - core/drupal
-
-media.file_widget:
-    css:
-        theme:
-            css/fileWidget.css: {}
-
-media.file_browser:
+browser:
     js:
         js/browser.js: {}
     css:
         theme:
             css/browser.css: {}
-            css/modal.css: {}
+            assets/dist/filters.css: {}
     dependencies:
         - core/jquery
 
-media.file_browser_editor:
+image_browser:
     js:
-        js/browserEditor.js: {}
+        js/image_browser.js: {}
     css:
         theme:
-            css/browserEditor.css: {}
+            assets/dist/image.css: {}
     dependencies:
-        - editor/drupal.editor.dialog
+        - wmmedia/browser
+
+file_browser:
+    js:
+        js/file_browser.js: {}
+    css:
+        theme:
+            assets/dist/file.css: {}
+    dependencies:
+        - wmmedia/browser
+
+#file_browser_editor:
+#    js:
+#        js/browserEditor.js: {}
+#    css:
+#        theme:
+#            css/browserEditor.css: {}
+#    dependencies:
+#        - wmmedia/browser
+#        - editor/drupal.editor.dialog
+#
+
+
+#
+#media.upload:
+#    js:
+#        js/media_upload.js: {}
+#    css:
+#        theme:
+#            assets/dist/widget.css: {}
+#    dependencies:
+#        - core/jquery
+#
+#media.dialog:
+#    css:
+#        theme:
+#            assets/dist/dialog.css: {}
+#
+#media.gallery:
+#    js:
+#        assets/dist/gallery.js: {}
+#    css:
+#        theme:
+#            assets/dist/icons.css: {}
+#            assets/dist/gallery.css: {}
+#    dependencies:
+#        - core/drupal
+#
+#media.file_widget:
+#    css:
+#        theme:
+#            css/fileWidget.css: {}
+#

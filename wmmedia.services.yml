@@ -39,6 +39,22 @@ services:
             - '@entity_field.manager'
             - '@database'
 
+    wmmedia.image.form_builder:
+        class: Drupal\wmmedia\Service\ImageOverviewFormBuilder
+        arguments:
+            - '@wmmedia.image.repository'
+            - '@imgix.manager'
+            - '@entity_type.manager'
+            - '@entity_field.manager'
+            - '@request_stack'
+            - '@current_route_match'
+
+    wmmedia.image.repository:
+        class: Drupal\wmmedia\Service\ImageRepository
+        arguments:
+            - '@database'
+            - '@entity_field.manager'
+
     wmmedia.file.repository:
         class: Drupal\wmmedia\Service\FileRepository
         arguments:
