@@ -10,14 +10,15 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class EntityFormDisplaySubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+
+    public static function getSubscribedEvents(): array
     {
         return [
             HookEventDispatcherInterface::ENTITY_PRE_SAVE => 'onPreSave',
         ];
     }
 
-    public function onPreSave(EntityPresaveEvent $event)
+    public function onPreSave(EntityPresaveEvent $event): void
     {
         $entity = $event->getEntity();
 
@@ -28,7 +29,7 @@ class EntityFormDisplaySubscriber implements EventSubscriberInterface
         $this->setDefaultEntityBrowser($entity);
     }
 
-    protected function setDefaultEntityBrowser(EntityFormDisplay $entity)
+    protected function setDefaultEntityBrowser(EntityFormDisplay $entity): void
     {
         $widgets = $entity->get('widgets');
         $content = $entity->get('content') ?? [];
@@ -51,11 +52,12 @@ class EntityFormDisplaySubscriber implements EventSubscriberInterface
 
             $widget['settings']['entity_browser'] = $this->getDefaultEntityBrowser($fieldDefinition);
         }
+        unset($widget);
 
         $entity->set('content', $content);
     }
 
-    protected function getDefaultEntityBrowser(FieldConfig $fieldDefinition)
+    protected function getDefaultEntityBrowser(FieldConfig $fieldDefinition): ?string
     {
         switch ($fieldDefinition->get('field_type')) {
             case 'wmmedia_media_image_extras':

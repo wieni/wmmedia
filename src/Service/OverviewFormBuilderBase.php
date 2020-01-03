@@ -84,7 +84,7 @@ abstract class OverviewFormBuilderBase
         $this->setFormFilters($form['container'], $options);
     }
 
-    protected function setFormFilterDefaults(&$form, FormOptions $options): void
+    protected function setFormFilterDefaults(&$form, FormOptions $options, array $filters): void
     {
          if ($options->showUsage()) {
             $form['filters']['in_use'] = [

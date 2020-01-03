@@ -10,7 +10,7 @@ use Drupal\media\Entity\Media;
 use Drupal\wmmedia\Service\UsageManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class MediaUsageFormAlterSubscriber implements EventSubscriberInterface
+class UsageFormAlterSubscriber implements EventSubscriberInterface
 {
 
     use StringTranslationTrait;

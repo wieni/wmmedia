@@ -91,23 +91,22 @@ class ImageRepository
         }
 
         if (isset($fieldStorages['field_width'], $fieldStorages['field_height']) && !empty($filters['size'])) {
-            switch ($filters['size']) {
-                case 'small': // < 400x400
-                    $conditionGroup = $query->andConditionGroup();
-                    $conditionGroup->condition('field_width.field_width_value', 400, '<');
-                    $conditionGroup->condition('field_height.field_height_value', 400, '<');
-                    $query->condition($conditionGroup);
-                    break;
-                case 'medium': // > 400x400 & < 1200w
-                    $conditionGroup = $query->andConditionGroup();
-                    $conditionGroup->condition('field_width.field_width_value', 400, '>');
-                    $conditionGroup->condition('field_height.field_height_value', 400, '>');
-                    $conditionGroup->condition('field_width.field_width_value', 1200, '<');
-                    $query->condition($conditionGroup);
-                    break;
-                case 'large': // > 1200w
-                    $query->condition('field_width.field_width_value', 1200, '>');
-                    break;
+            foreach (ImageOverviewFormBuilder::getMediaSizes() as $key => $size) {
+                if ($filters['size'] !== $key) {
+                    continue;
+                }
+
+                [$min, $max] = $size;
+
+                if (is_int($min)) {
+                    $query->condition('field_width.field_width_value', $min, '>=');
+                    $query->condition('field_height.field_height_value', $min, '>=');
+                }
+
+                if (is_int($max)) {
+                    $query->condition('field_width.field_width_value', $max, '<');
+                    $query->condition('field_height.field_height_value', $max, '<');
+                }
             }
         }
 

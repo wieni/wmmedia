@@ -44,6 +44,11 @@ class Usage
     protected $fieldType;
 
     /**
+     * @var bool
+     */
+    protected $required;
+
+    /**
      * @var string
      */
     protected $languageCode;
@@ -56,6 +61,7 @@ class Usage
         string $entityType,
         string $fieldName,
         string $fieldType,
+        bool $required,
         string $languageCode
     ) {
         $this->id = $id;
@@ -65,6 +71,7 @@ class Usage
         $this->entityType = $entityType;
         $this->fieldName = $fieldName;
         $this->fieldType = $fieldType;
+        $this->required = $required;
         $this->languageCode = $languageCode;
     }
 
@@ -125,6 +132,14 @@ class Usage
     }
 
     /**
+     * @return bool
+     */
+    public function isRequired(): bool
+    {
+        return $this->required;
+    }
+
+    /**
      * @return string
      */
     public function getLanguageCode(): string
@@ -142,6 +157,7 @@ class Usage
             $entity->getEntityTypeId(),
             $fieldDefinition->getName(),
             $fieldDefinition->getType(),
+            $fieldDefinition->isRequired(),
             $entity->language()->getId()
         );
     }

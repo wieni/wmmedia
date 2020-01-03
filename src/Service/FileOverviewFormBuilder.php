@@ -96,7 +96,7 @@ class FileOverviewFormBuilder extends OverviewFormBuilderBase
             '#type' => 'textfield',
         ];
 
-        $this->setFormFilterDefaults($form, $options);
+        $this->setFormFilterDefaults($form, $options, $filters);
     }
 
     protected function getTableHeader(FormOptions $options): array

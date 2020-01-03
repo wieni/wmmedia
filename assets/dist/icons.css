@@ -33,7 +33,7 @@
 }
 
 .media-icon.media-icon--edit::before {
-    content: "\ea05";
+    content: "\ea07";
 }
 
 .media-icon.media-icon--link::before {
@@ -41,11 +41,11 @@
 }
 
 .media-icon.media-icon--next::before {
-    content: "\ea06";
+    content: "\ea05";
 }
 
 .media-icon.media-icon--preview::before {
-    content: "\ea07";
+    content: "\ea06";
 }
 
 .media-icon.media-icon--previous::before {

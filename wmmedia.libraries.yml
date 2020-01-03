@@ -51,33 +51,7 @@ gallery:
     dependencies:
         - core/drupal
 
-#
-#media.upload:
-#    js:
-#        js/media_upload.js: {}
-#    css:
-#        theme:
-#            assets/dist/widget.css: {}
-#    dependencies:
-#        - core/jquery
-#
-#media.dialog:
-#    css:
-#        theme:
-#            assets/dist/dialog.css: {}
-#
-#media.gallery:
-#    js:
-#        assets/dist/gallery.js: {}
-#    css:
-#        theme:
-#            assets/dist/icons.css: {}
-#            assets/dist/gallery.css: {}
-#    dependencies:
-#        - core/drupal
-#
-#media.file_widget:
-#    css:
-#        theme:
-#            css/fileWidget.css: {}
-#
+file_widget:
+    css:
+        theme:
+            css/file_widget.css: {}

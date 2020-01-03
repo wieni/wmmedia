@@ -6,7 +6,7 @@ use Drupal\hook_event_dispatcher\Event\Entity\BaseEntityEvent;
 use Drupal\wmmedia\Service\UsageManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class MediaUsageEntitySubscriber implements EventSubscriberInterface
+class UsageEntitySubscriber implements EventSubscriberInterface
 {
 
     /**

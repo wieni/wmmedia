@@ -34,7 +34,10 @@ class MediaGrid extends React.Component {
 
         page++;
 
-        fetch(`/admin/api/media/paginate?${queryString.stringify({ page })}`, { credentials: 'include' })
+        let query = queryString.parse(window.location.search);
+        query.page = page;
+
+        fetch(`/admin/api/media/paginate?${queryString.stringify(query)}`, { credentials: 'include' })
             .then((response) => {
                 if (response.status >= 400) {
                     throw new Error('Bad response from server');

@@ -10,7 +10,7 @@ use Drupal\wmmedia\Event\MediaWidgetRenderEvent;
 use Drupal\wmmedia\WmmediaEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class MediaWidgetSubscriber implements EventSubscriberInterface
+class WidgetSubscriber implements EventSubscriberInterface
 {
     /** @var EntityTypeManagerInterface */
     protected $entityTypeManager;

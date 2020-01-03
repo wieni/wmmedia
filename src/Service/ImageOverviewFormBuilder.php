@@ -11,6 +11,12 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class ImageOverviewFormBuilder extends OverviewFormBuilderBase
 {
 
+    protected const SIZE_SMALL = 'small';
+    protected const SIZE_MEDIUM = 'medium';
+    protected const SIZE_LARGE = 'large';
+
+
+
     /**
      * @var \Drupal\Core\Entity\EntityFieldManagerInterface
      */
@@ -170,16 +176,12 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
             ],
             '#default_value' => $filters['size'] ?? '',
             '#empty_option' => '- ' . $this->t('Any') . ' -',
-            '#options' => [
-                'small' => $this->t('Small'),
-                'medium' => $this->t('Medium'),
-                'large' => $this->t('Large'),
-            ],
+            '#options' => static::getMediaSizeOptions(),
             '#title' => $this->t('Image size'),
             '#type' => 'select',
         ];
 
-        $this->setFormFilterDefaults($form, $options);
+        $this->setFormFilterDefaults($form, $options, $filters);
     }
 
     public function getImages(): array
@@ -203,4 +205,54 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
         ];
     }
 
+    public static function getMediaSizeOptions(): array
+    {
+        $result = [];
+        $labels = array_map(
+            static function ($size, $label) {
+                [$min, $max] = $size;
+
+                if (is_int($min) && is_int($max)) {
+                    return "$label (> $min, < $max)";
+                }
+
+                if (is_int($min)) {
+                    return "$label (> $min)";
+                }
+
+                if (is_int($max)) {
+                    return "$label (< $max)";
+                }
+
+                return $label;
+            },
+            self::getMediaSizes(),
+            self::getMediaSizeLabels()
+        );
+
+        foreach ($labels as $index => $label) {
+            $key = array_keys(self::getMediaSizes())[$index];
+            $result[$key] = $label;
+        }
+
+        return $result;
+    }
+
+    public static function getMediaSizes(): array
+    {
+        return [
+            self::SIZE_SMALL => [null, 300],
+            self::SIZE_MEDIUM => [300, 600],
+            self::SIZE_LARGE => [600, null],
+        ];
+    }
+
+    public static function getMediaSizeLabels(): array
+    {
+        return [
+            self::SIZE_SMALL => t('Small'),
+            self::SIZE_MEDIUM => t('Medium'),
+            self::SIZE_LARGE => t('Large'),
+        ];
+    }
 }

@@ -87,6 +87,7 @@ class UsageRepository
             'entity_type' => $usage->getEntityType(),
             'field_name' => $usage->getFieldName(),
             'field_type' => $usage->getFieldType(),
+            'required' => (int) $usage->isRequired(),
             'language_code' => $usage->getLanguageCode(),
         ]);
         $insert->execute();

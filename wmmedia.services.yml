@@ -1,43 +1,9 @@
 services:
-    wmmedia.form_alter.subscriber:
-        class: Drupal\wmmedia\EventSubscriber\MediaFormAlterSubscriber
+    wmmedia.image.repository:
+        class: Drupal\wmmedia\Service\ImageRepository
         arguments:
-            - '@current_user'
-        tags: [{ name: event_subscriber }]
-
-    wmmedia.delete_form_alter.subscriber:
-        class: Drupal\wmmedia\EventSubscriber\MediaDeleteFormAlterSubscriber
-        arguments:
-            - '@wmmedia.reference_discovery'
-        tags: [{ name: event_subscriber }]
-
-    wmmedia.media_entity.subscriber:
-        class: Drupal\wmmedia\EventSubscriber\MediaEntitySubscriber
-        arguments:
-            - '@messenger'
-            - '@wmmedia.reference_discovery'
-        tags: [{ name: event_subscriber }]
-
-    wmmedia.media_widget.subscriber:
-        class: Drupal\wmmedia\EventSubscriber\MediaWidgetSubscriber
-        arguments:
-            - '@entity_type.manager'
-            - '@imgix.manager'
-        tags: [{ name: event_subscriber }]
-
-    wmmedia.collection_route.subscriber:
-        class:  Drupal\wmmedia\EventSubscriber\CollectionRouteSubscriber
-        tags: [{ name: event_subscriber }]
-
-    wmmedia.entity_form_display.subscriber:
-        class:  Drupal\wmmedia\EventSubscriber\EntityFormDisplaySubscriber
-        tags: [{ name: event_subscriber }]
-
-    wmmedia.filter:
-        class: Drupal\wmmedia\Service\MediaFilterService
-        arguments:
-            - '@entity_field.manager'
             - '@database'
+            - '@entity_field.manager'
 
     wmmedia.image.form_builder:
         class: Drupal\wmmedia\Service\ImageOverviewFormBuilder
@@ -48,12 +14,6 @@ services:
             - '@entity_field.manager'
             - '@request_stack'
             - '@current_route_match'
-
-    wmmedia.image.repository:
-        class: Drupal\wmmedia\Service\ImageRepository
-        arguments:
-            - '@database'
-            - '@entity_field.manager'
 
     wmmedia.image.json_formatter:
         class: Drupal\wmmedia\Service\ImageJsonFormatter
@@ -92,27 +52,40 @@ services:
             - '@database'
 
     wmmedia.usage.subscriber.entity:
-        class: Drupal\wmmedia\EventSubscriber\MediaUsageEntitySubscriber
+        class: Drupal\wmmedia\EventSubscriber\UsageEntitySubscriber
         arguments:
             - '@wmmedia.usage'
         tags: [{ name: event_subscriber }]
 
     wmmedia.usage.subscriber.form:
-        class: Drupal\wmmedia\EventSubscriber\MediaUsageFormAlterSubscriber
+        class: Drupal\wmmedia\EventSubscriber\UsageFormAlterSubscriber
         arguments:
             - '@wmmedia.usage'
         tags: [{ name: event_subscriber }]
 
-    wmmedia.delete.subscriber:
+    wmmedia.form_alter.subscriber:
+        class: Drupal\wmmedia\EventSubscriber\MediaFormAlterSubscriber
+        tags: [{ name: event_subscriber }]
+
+    wmmedia.entity.image.subscriber:
+        class: Drupal\wmmedia\EventSubscriber\ImageSubscriber
+        tags: [{ name: event_subscriber }]
+
+    wmmedia.entity.delete.subscriber:
         class: Drupal\wmmedia\EventSubscriber\MediaDeleteSubscriber
         tags: [{ name: event_subscriber }]
 
-    wmmedia.reference_discovery:
-        class: Drupal\wmmedia\Service\MediaReferenceDiscovery
+    wmmedia.media_widget.subscriber:
+        class: Drupal\wmmedia\EventSubscriber\WidgetSubscriber
         arguments:
             - '@entity_type.manager'
-            - '@entity_field.manager'
-            - '@entity_type.bundle.info'
-            - '@module_handler'
-            - '@event_dispatcher'
+            - '@imgix.manager'
+        tags: [{ name: event_subscriber }]
 
+    wmmedia.collection_route.subscriber:
+        class:  Drupal\wmmedia\EventSubscriber\CollectionRouteSubscriber
+        tags: [{ name: event_subscriber }]
+
+    wmmedia.entity_form_display.subscriber:
+        class:  Drupal\wmmedia\EventSubscriber\EntityFormDisplaySubscriber
+        tags: [{ name: event_subscriber }]

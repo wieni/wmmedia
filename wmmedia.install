@@ -8,44 +8,50 @@ function wmmedia_schema()
         'description' => 'Media usage.',
         'fields' => [
             'id' => [
+                'not null' => true,
                 'type' => 'serial',
                 'unsigned' => true,
-                'not null' => true,
             ],
             'media_id' => [
+                'not null' => true,
                 'type' => 'int',
                 'unsigned' => true,
-                'not null' => true,
             ],
             'media_type' => [
-                'type' => 'varchar',
                 'length' => 38,
                 'not null' => true,
+                'type' => 'varchar',
             ],
             'entity_id' => [
+                'not null' => true,
                 'type' => 'int',
                 'unsigned' => true,
-                'not null' => true,
             ],
             'entity_type' => [
+                'not null' => true,
                 'type' => 'varchar',
                 'length' => 38,
-                'not null' => true,
             ],
             'field_name' => [
-                'type' => 'varchar',
                 'length' => 32,
                 'not null' => true,
+                'type' => 'varchar',
             ],
             'field_type' => [
-                'type' => 'varchar',
                 'length' => 255,
                 'not null' => true,
+                'type' => 'varchar',
+            ],
+            'required' => [
+                'default' => 0,
+                'not null' => true,
+                'size' => 'tiny',
+                'type' => 'int',
             ],
             'language_code' => [
-                'type' => 'varchar',
                 'length' => 3,
                 'not null' => true,
+                'type' => 'varchar',
             ],
         ],
         'primary key' => ['id'],
