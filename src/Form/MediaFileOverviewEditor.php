@@ -57,8 +57,7 @@ class MediaFileOverviewEditor extends FormBase
             ],
         ];
 
-        $form['#attached']['library'][] = 'wmmedia/browser';
-        #$form['#attached']['library'][] = 'wmmedia/media.file_browser_editor';
+        $form['#attached']['library'][] = 'wmmedia/editor_file_browser';
 
         return $form;
     }

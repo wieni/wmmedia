@@ -11,7 +11,7 @@ final class WmmediaEvents
      * The event object is an instance of
      * @uses \Drupal\wmmedia\Event\MediaUsagesAlterEvent
      */
-    const MEDIA_USAGES_ALTER = 'wmmedia.media_usages.alter';
+    public const MEDIA_USAGES_ALTER = 'wmmedia.media_usages.alter';
 
     /**
      * Will be triggered when rendering the media widget
@@ -19,5 +19,5 @@ final class WmmediaEvents
      * The event object is an instance of
      * @uses \Drupal\wmmedia\Event\MediaWidgetRenderEvent
      */
-    const MEDIA_WIDGET_RENDER = 'wmmedia.media_widget.render';
+    public const MEDIA_WIDGET_RENDER = 'wmmedia.media_widget.render';
 }

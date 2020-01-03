@@ -89,7 +89,7 @@ abstract class OverviewFormBuilderBase
          if ($options->showUsage()) {
             $form['filters']['in_use'] = [
                 '#default_value' => $filters['in_use'] ?? '',
-                '#empty_option' => '- ' . $this->t('All') . ' -',
+                '#empty_option' => '- ' . $this->t('Any') . ' -',
                 '#options' => [
                     'yes' => $this->t('Yes'),
                     'no' => $this->t('No'),

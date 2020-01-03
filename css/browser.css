@@ -6,21 +6,3 @@
     font-size: 15px;
     padding-bottom: 10px;
 }
-
-/* File browser editor only. */
-
-.ui-dialog--narrow.media-file-browser-editor {
-    max-width: 1200px;
-}
-
-.ui-dialog.media-file-browser-editor .ui-dialog-buttonpane {
-    display: none;
-}
-
-.ui-dialog.media-file-browser-editor a[style].entity-browser-handle  {
-    display: none !important;
-}
-
-.ui-dialog.media-file-browser-editor .ajax-progress.ajax-progress-throbber {
-    display: none;
-}

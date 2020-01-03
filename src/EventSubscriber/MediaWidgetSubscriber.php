@@ -25,14 +25,14 @@ class MediaWidgetSubscriber implements EventSubscriberInterface
         $this->imgixManager = $imgixManager;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             WmmediaEvents::MEDIA_WIDGET_RENDER => 'widgetRender',
         ];
     }
 
-    public function widgetRender(MediaWidgetRenderEvent $event)
+    public function widgetRender(MediaWidgetRenderEvent $event): void
     {
         $targetId = $event->getTarget();
         $element = false;

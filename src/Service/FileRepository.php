@@ -63,8 +63,8 @@ class FileRepository
     {
         $fieldStorages = $this->entityFieldManager->getFieldStorageDefinitions('media');
 
-        if (!empty($filters['name']) && isset($fieldStorages['name'])) {
-            $pattern = '%' . $filters['name'] . '%';
+        if (!empty($filters['search']) && isset($fieldStorages['name'])) {
+            $pattern = '%' . $filters['search'] . '%';
             $conditionGroup = $query->orConditionGroup();
             $conditionGroup->condition('d.name', $pattern, 'LIKE');
             $conditionGroup->condition('fm.filename', $pattern, 'LIKE');

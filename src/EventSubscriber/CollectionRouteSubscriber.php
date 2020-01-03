@@ -16,7 +16,7 @@ class CollectionRouteSubscriber extends RouteSubscriberBase
         ];
     }
 
-    protected function alterRoutes(RouteCollection $collection)
+    protected function alterRoutes(RouteCollection $collection): void
     {
         $hasDefaultRoute = false;
 

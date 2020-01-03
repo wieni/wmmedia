@@ -1,3 +1,8 @@
+overview:
+    css:
+        theme:
+            assets/dist/filters.css: {}
+
 browser:
     js:
         js/browser.js: {}
@@ -26,17 +31,25 @@ file_browser:
     dependencies:
         - wmmedia/browser
 
-#file_browser_editor:
-#    js:
-#        js/browserEditor.js: {}
-#    css:
-#        theme:
-#            css/browserEditor.css: {}
-#    dependencies:
-#        - wmmedia/browser
-#        - editor/drupal.editor.dialog
-#
+editor_file_browser:
+    js:
+        js/editor_file_browser.js: {}
+    css:
+        theme:
+            css/editor_file_browser.css: {}
+    dependencies:
+        - wmmedia/file_browser
+        - editor/drupal.editor.dialog
 
+gallery:
+    js:
+        assets/dist/gallery.js: {}
+    css:
+        theme:
+            assets/dist/icons.css: {}
+            assets/dist/gallery.css: {}
+    dependencies:
+        - core/drupal
 
 #
 #media.upload:

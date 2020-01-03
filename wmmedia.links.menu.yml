@@ -1,5 +1,17 @@
-wmmedia.gallery:
+wmmedia:
     title: 'Media'
     route_name: entity.media.collection
     parent: system.admin
     weight: -1
+
+wmmedia.gallery:
+    title: 'Images'
+    route_name: entity.media.collection
+    parent: wmmedia
+    weight: -1
+
+wmmedia.files:
+    title: 'Files'
+    route_name: wmmedia.file.overview
+    parent: wmmedia
+    weight: 1

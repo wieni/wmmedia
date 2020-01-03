@@ -53,6 +53,23 @@ class ImageRepository
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getImagesCount(array $filters = []): int
+    {
+        $query = $this->getQuery();
+
+        if (!empty($filters)) {
+            $this->setFilters($query, $filters);
+        }
+
+        $result = $query->countQuery()->execute();
+
+        if (!$result) {
+            return 0;
+        }
+
+        return (int) $result->fetchField();
+    }
+
     protected function setFilters(SelectInterface $query, array $filters): void
     {
         $fieldStorages = $this->getFieldStorages();
@@ -92,6 +109,10 @@ class ImageRepository
                     $query->condition('field_width.field_width_value', 1200, '>');
                     break;
             }
+        }
+
+        if (!empty($filters['in_use'])) {
+            $query->having($filters['in_use'] === 'yes' ? 'in_use = 1' : 'in_use = 0');
         }
     }
 

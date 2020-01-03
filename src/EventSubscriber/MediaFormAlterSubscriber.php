@@ -2,73 +2,48 @@
 
 namespace Drupal\wmmedia\EventSubscriber;
 
-use Drupal\Core\Render\Element;
-use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\hook_event_dispatcher\Event\Form\BaseFormEvent;
 use Drupal\hook_event_dispatcher\Event\Form\FormBaseAlterEvent;
-use Drupal\hook_event_dispatcher\Event\Form\FormIdAlterEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class MediaFormAlterSubscriber implements EventSubscriberInterface
 {
-    /** @var AccountProxyInterface */
-    protected $user;
 
-    public function __construct(
-        AccountProxyInterface $user
-    ) {
-        $this->user = $user;
-    }
-
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             'hook_event_dispatcher.form_base_media_form.alter' => 'mediaFormAlter',
-            'hook_event_dispatcher.form_entity_browser_images_form.alter' => 'entityBrowserImagesFormAlter',
+            'hook_event_dispatcher.form_base_inline_entity_form.alter' => 'entityBrowserImagesFormAlter',
         ];
     }
 
-    public function mediaFormAlter(FormBaseAlterEvent $event)
+    public function mediaFormAlter(FormBaseAlterEvent $event): void
     {
         $form = &$event->getForm();
 
         $this->removeRevisionElement($form);
     }
 
-    public function entityBrowserImagesFormAlter(FormIdAlterEvent $event)
+    public function entityBrowserImagesFormAlter(BaseFormEvent $event): void
     {
+        $formState = $event->getFormState();
+        $buildInfo = $formState->getBuildInfo();
+        $entityBrowsers = ['entity_browser_images_form', 'entity_browser_files_form', 'entity_browser_files_editor_form'];
+
+        if (!isset($buildInfo['form_id']) || !in_array($buildInfo['form_id'], $entityBrowsers, true)) {
+            return;
+        }
+
         $form = &$event->getForm();
 
-        if (!isset($form['widget']['entities'])) {
+        if (!isset($form['revision_log_message'])) {
             return;
         }
 
-        $entities = Element::children($form['widget']['entities']);
-
-        if (empty($entities)) {
-            return;
-        }
-
-        foreach ($entities as $entity) {
-            $element = &$form['widget']['entities'][$entity];
-            if (
-                !isset($element['#type'], $element['#entity_type'])
-                || $element['#type'] !== 'inline_entity_form'
-                || $element['#entity_type'] !== 'media'
-            ) {
-                continue;
-            }
-
-            $element['#after_build'][] = [self::class, 'entityBrowserImagesFormAfterBuild'];
-        }
-    }
-
-    public static function entityBrowserImagesFormAfterBuild($form)
-    {
         $form['revision_log_message']['#access'] = false;
-        return $form;
     }
 
-    protected function removeRevisionElement(&$form)
+    protected function removeRevisionElement(&$form): void
     {
         if (isset($form['revision'])) {
             $form['revision']['#access'] = false;

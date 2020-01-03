@@ -39,7 +39,7 @@ class MediaEntitySubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onPreSave(EntityPresaveEvent $event)
+    public function onPreSave(EntityPresaveEvent $event): void
     {
         $entity = $event->getEntity();
         if (!$entity instanceof Media) {
@@ -49,7 +49,7 @@ class MediaEntitySubscriber implements EventSubscriberInterface
         $this->addWidthHeight($entity);
     }
 
-    public function onPreDelete(EntityPredeleteEvent $event)
+    public function onPreDelete(EntityPredeleteEvent $event): void
     {
         $entity = $event->getEntity();
         if (!$entity instanceof Media) {
@@ -59,7 +59,7 @@ class MediaEntitySubscriber implements EventSubscriberInterface
         $this->removeReferences($entity);
     }
 
-    protected function addWidthHeight(MediaInterface $entity)
+    protected function addWidthHeight(MediaInterface $entity): void
     {
         if (!$entity->isNew() || $entity->bundle() !== 'image' || $entity->get('field_media_imgix')->isEmpty()) {
             return;

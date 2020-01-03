@@ -57,7 +57,7 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
         $this->routeMatch = $routeMatch;
     }
 
-    public function setForm(array &$form, FormOptions $options, $configuration): void
+    public function setForm(array &$form, FormOptions $options, array $configuration = null): void
     {
         $this->setFormContainer($form, $options);
 
@@ -131,15 +131,7 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
         ];
     }
 
-    public static function getFilterKeys(): array
-    {
-        return [
-            'search',
-            'size',
-        ];
-    }
-
-    protected function setFormFilters(array &$form, FormOptions $options): void
+    public function setFormFilters(array &$form, FormOptions $options): void
     {
         $filters = $this->getFilters();
 
@@ -147,8 +139,8 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
             '#attributes' => [
                 'class' => ['container-inline', 'wmmedia__filters'],
             ],
-            '#type' => 'container',
             '#tree' => true,
+            '#type' => 'container',
         ];
 
         $enabledFields = ['title'];
@@ -163,29 +155,52 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
         }
 
         $form['filters']['search'] = [
-            '#type' => 'textfield',
-            '#title' => $this->t(sprintf('Search (%s)', implode(', ', $enabledFields))),
             '#attributes' => [
-                'class' => ['wmmedia__filters__search']
+                'class' => ['wmmedia__filters__search'],
+                'placeholder' => $this->t(sprintf('%s, ...', implode(', ', $enabledFields))),
             ],
-            '#default_value' => $filters['search'] ?? ''
+            '#default_value' => $filters['search'] ?? '',
+            '#title' => $this->t('Search'),
+            '#type' => 'textfield',
         ];
 
         $form['filters']['size'] = [
-            '#type' => 'select',
-            '#title' => $this->t('Image size'),
             '#attributes' => [
                 'class' => ['wmmedia__filters__size'],
             ],
+            '#default_value' => $filters['size'] ?? '',
+            '#empty_option' => '- ' . $this->t('Any') . ' -',
             '#options' => [
-                '' => $this->t('Any'),
                 'small' => $this->t('Small'),
                 'medium' => $this->t('Medium'),
                 'large' => $this->t('Large'),
             ],
-            '#default_value' => $filters['size'] ?? '',
+            '#title' => $this->t('Image size'),
+            '#type' => 'select',
         ];
 
         $this->setFormFilterDefaults($form, $options);
     }
+
+    public function getImages(): array
+    {
+        $filters = $this->getFilters();
+        return $this->imageRepository->getImages($filters);
+    }
+
+    public function getImagesCount(): int
+    {
+        $filters = $this->getFilters();
+        return $this->imageRepository->getImagesCount($filters);
+    }
+
+    public static function getFilterKeys(): array
+    {
+        return [
+            'search',
+            'size',
+            'in_use',
+        ];
+    }
+
 }

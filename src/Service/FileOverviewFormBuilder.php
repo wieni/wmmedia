@@ -70,7 +70,7 @@ class FileOverviewFormBuilder extends OverviewFormBuilderBase
     public static function getFilterKeys(): array
     {
         return [
-            'name',
+            'search',
             'in_use',
         ];
     }
@@ -87,12 +87,12 @@ class FileOverviewFormBuilder extends OverviewFormBuilderBase
             '#tree' => true,
         ];
 
-        $form['filters']['name'] = [
+        $form['filters']['search'] = [
             '#attributes' => [
-                'class' => ['wmmedia__filters__name'],
+                'class' => ['wmmedia__filters__search'],
             ],
-            '#default_value' => $filters['name'] ?? '',
-            '#title' => $this->t('Name'),
+            '#default_value' => $filters['search'] ?? '',
+            '#title' => $this->t('Search'),
             '#type' => 'textfield',
         ];
 

@@ -54,7 +54,6 @@ class MediaFileBrowser extends MediaBrowserBase
         }
 
         $this->overviewFormBuilder->setForm($form, FormOptions::createForBrowser());
-        $form['#attached']['library'][] = 'wmmedia/browser';
         $form['#attached']['library'][] = 'wmmedia/file_browser';
 
         return $form;

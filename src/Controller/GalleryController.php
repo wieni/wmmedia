@@ -3,78 +3,59 @@
 namespace Drupal\wmmedia\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Entity\EntityTypeManager;
-use Drupal\Core\Form\FormBuilderInterface;
-use Drupal\Core\Language\LanguageInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\file\Entity\File;
-use Drupal\imgix\ImgixManagerInterface;
-use Drupal\media\Entity\Media;
-use Drupal\media\MediaInterface;
-use Drupal\wmmedia\Form\MediaContentFilterForm;
-use Drupal\wmmedia\Service\MediaFilterService;
+use Drupal\wmmedia\Form\MediaImageOverview;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class GalleryController extends ControllerBase
 {
-    /** @var SessionInterface */
-    protected $session;
-    /** @var FormBuilderInterface */
-    protected $formBuilder;
-    /** @var ImgixManagerInterface */
-    protected $imgixManager;
-    /** @var MediaFilterService */
-    protected $filterService;
-    /** @var Request */
-    protected $request;
 
-    protected $page = 0;
+    /**
+     * @var \Drupal\wmmedia\Service\ImageJsonFormatter
+     */
+    protected $imageJsonFormatter;
+
+    /**
+     * @var \Drupal\wmmedia\Service\ImageOverviewFormBuilder
+     */
+    protected $imageOverviewFormBuilder;
+
+    /**
+     * @var int
+     */
     protected $limit = 30;
+
+    /**
+     * @var int
+     */
+    protected $page = 0;
+
+    /**
+     * @var int
+     */
     protected $total;
 
-    public function __construct(
-        EntityTypeManager $entityTypeManager,
-        SessionInterface $session,
-        FormBuilderInterface $formBuilder,
-        ImgixManagerInterface $imgixManager,
-        MediaFilterService $filterService,
-        RequestStack $requestStack,
-        LanguageManagerInterface $languageManager
-    ) {
-        $this->entityTypeManager = $entityTypeManager;
-
-        $this->session = $session;
-        $this->formBuilder = $formBuilder;
-        $this->imgixManager = $imgixManager;
-        $this->filterService = $filterService;
-        $this->request = $requestStack->getCurrentRequest();
-        $this->languageManager = $languageManager;
-
-        $this->page = $this->request->get('page') ?? $this->page;
-        $this->limit = $this->request->get('limit') ?? $this->limit;
-        $this->total = $this->getTotalMediaCount();
-    }
-
+    /**
+     * @inheritDoc
+     */
     public static function create(ContainerInterface $container)
     {
-        return new static(
-            $container->get('entity_type.manager'),
-            $container->get('session'),
-            $container->get('form_builder'),
-            $container->get('imgix.manager'),
-            $container->get('wmmedia.filter'),
-            $container->get('request_stack'),
-            $container->get('language_manager')
-        );
+        $instance = parent::create($container);
+        $instance->imageOverviewFormBuilder = $container->get('wmmedia.image.form_builder');
+        $instance->imageJsonFormatter = $container->get('wmmedia.image.json_formatter');
+
+        /* @var \Symfony\Component\HttpFoundation\RequestStack $requestStack */
+        $requestStack = $container->get('request_stack');
+        $request = $requestStack->getCurrentRequest();
+        $instance->page = $request && $request->get('page') ? $request->get('page') : $instance->page;
+        $instance->limit = $request && $request->get('limit') ? $request->get('limit') : $instance->limit;
+        $instance->total = $instance->getTotalMediaCount();
+        return $instance;
     }
 
-    public function show()
+    public function show(): array
     {
-        $form = $this->formBuilder->getForm(MediaContentFilterForm::class);
+        $form = $this->formBuilder()->getForm(MediaImageOverview::class);
 
         $media = [
             'page' => $this->page,
@@ -89,7 +70,7 @@ class GalleryController extends ControllerBase
         ];
     }
 
-    public function get()
+    public function get(): JsonResponse
     {
         return new JsonResponse([
             'page' => $this->page,
@@ -102,106 +83,19 @@ class GalleryController extends ControllerBase
 
     public function getMedia()
     {
-        $filter = $this->session->get(MediaContentFilterForm::getSessionVarName(), []);
-        $filter['bundle'] = 'image';
-
-        $items = $this->filterService->filter($filter, $this->limit);
+        $items = $this->imageOverviewFormBuilder->getImages();
 
         return array_values(
             array_filter(
                 array_map(function ($item) {
-                    return $this->toJson($item);
+                    return $this->imageJsonFormatter->toJson($item);
                 }, $items)
             )
         );
     }
 
-    public function getTotalMediaCount()
+    public function getTotalMediaCount(): int
     {
-        $filter = $this->session->get(MediaContentFilterForm::getSessionVarName(), []);
-        return $this->filterService->mediaCount($filter);
-    }
-
-    private function toJson(array $item)
-    {
-        /** @var Media $entity */
-        $entity = $this->getTranslatedMediaItem($item);
-
-        if (!$entity) {
-            return null;
-        }
-
-        $result = [
-            'id' => $entity->id(),
-            'label' => $entity->label(),
-            'author' => $entity->getOwner()->getDisplayName(),
-            'dateCreated' => (int) $entity->getCreatedTime(),
-        ];
-
-        if ($entity->hasField('field_copyright')) {
-            $result['copyright'] = $entity->get('field_copyright')->value;
-        }
-
-        if ($entity->hasField('field_description')) {
-            $result['caption'] = $entity->get('field_description')->value;
-        }
-
-        if ($entity->hasField('field_alternate')) {
-            $result['alternate'] = $entity->get('field_alternate')->value;
-        }
-
-        if ($entity->hasField('field_height')) {
-            $result['height'] = (int) $entity->get('field_height')->value;
-        }
-
-        if ($entity->hasField('field_width')) {
-            $result['width'] = (int) $entity->get('field_width')->value;
-        }
-
-        /** @var File $file */
-        if ($file = $entity->get('field_media_imgix')->entity) {
-            $result['originalUrl'] = $this->imgixManager->getImgixUrl($file, []);
-            $result['thumbUrl'] = $this->imgixManager->getImgixUrl($file, ['fit' => 'max', 'h' => 250]);
-            $result['largeUrl'] = $this->imgixManager->getImgixUrl($file, ['fit' => 'max', 'h' => 1200]);
-            $result['size'] = format_size($file->getSize());
-        }
-
-        $operations = $this->entityTypeManager
-            ->getListBuilder('media')
-            ->getOperations($entity);
-
-        $result['operations'] = array_map(
-            function (array $operation, string $key) {
-                $operation['key'] = $key;
-                $operation['url'] = $operation['url']->toString();
-
-                return $operation;
-            },
-            array_values($operations),
-            array_keys($operations)
-        );
-
-        return $result;
-    }
-
-    private function getTranslatedMediaItem($row)
-    {
-        $langcode = $this->languageManager
-            ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
-            ->getId();
-
-        $entity = $this->entityTypeManager
-            ->getStorage('media')
-            ->load($row['mid']);
-
-        if (!$entity instanceof MediaInterface) {
-            return null;
-        }
-
-        if ($entity->hasTranslation($langcode)) {
-            return $entity->getTranslation($langcode);
-        }
-
-        return $entity;
+        return $this->imageOverviewFormBuilder->getImagesCount();
     }
 }

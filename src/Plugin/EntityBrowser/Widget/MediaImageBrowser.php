@@ -60,7 +60,6 @@ class MediaImageBrowser extends MediaBrowserBase
         }
 
         $this->overviewFormBuilder->setForm($form, FormOptions::createForBrowser(), $this->configuration);
-        $form['#attached']['library'][] = 'wmmedia/browser';
         $form['#attached']['library'][] = 'wmmedia/image_browser';
 
         return $form;
