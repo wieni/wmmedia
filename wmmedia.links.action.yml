@@ -7,3 +7,13 @@ wmmedia.add_image:
     title: 'Add image'
     appears_on:
         - entity.media.collection
+
+wmmedia.add_file:
+    route_name: entity.media.add_form
+    route_parameters:
+        entity_type_id: media
+        bundle_parameter: media_type
+        media_type: file
+    title: 'Add file'
+    appears_on:
+        - wmmedia.file.overview

@@ -2,8 +2,10 @@
 
 namespace Drupal\wmmedia\EventSubscriber;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\hook_event_dispatcher\Event\Form\BaseFormEvent;
 use Drupal\hook_event_dispatcher\Event\Form\FormBaseAlterEvent;
+use Drupal\media\MediaForm;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class MediaFormAlterSubscriber implements EventSubscriberInterface
@@ -20,8 +22,14 @@ class MediaFormAlterSubscriber implements EventSubscriberInterface
     public function mediaFormAlter(FormBaseAlterEvent $event): void
     {
         $form = &$event->getForm();
+        $formObject = $event->getFormState()->getFormObject();
+
 
         $this->removeRevisionElement($form);
+
+        if ($formObject instanceof MediaForm && $formObject->getEntity()->bundle() === 'file') {
+            $this->setRedirect($form);
+        }
     }
 
     public function entityBrowserImagesFormAlter(BaseFormEvent $event): void
@@ -43,6 +51,11 @@ class MediaFormAlterSubscriber implements EventSubscriberInterface
         $form['revision_log_message']['#access'] = false;
     }
 
+    public static function fileRedirect(array $form, FormStateInterface $formState): void
+    {
+        $formState->setRedirect('wmmedia.file.overview');
+    }
+
     protected function removeRevisionElement(&$form): void
     {
         if (isset($form['revision'])) {
@@ -56,5 +69,10 @@ class MediaFormAlterSubscriber implements EventSubscriberInterface
         if (isset($form['revision_log'])) {
             $form['revision_log']['#access'] = false;
         }
+    }
+
+    protected function setRedirect(array &$form): void
+    {
+        $form['actions']['submit']['#submit'][] = [static::class, 'fileRedirect'];
     }
 }
