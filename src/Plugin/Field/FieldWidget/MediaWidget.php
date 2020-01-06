@@ -37,7 +37,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  *   }
  * )
  */
-class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
+class MediaWidget extends WidgetBase
 {
     /** @var EntityTypeManagerInterface */
     protected $entityTypeManager;
@@ -511,7 +511,7 @@ class MediaWidget extends WidgetBase implements ContainerFactoryPluginInterface
         }
 
         $element['container']['#attached']['library'][] = 'entity_browser/common';
-        $element['container']['#attached']['library'][] = 'wmmedia/media.dialog';
+        $element['container']['#attached']['library'][] = 'wmmedia/modal';
 
         return $element;
     }

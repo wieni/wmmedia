@@ -67,3 +67,34 @@ function wmmedia_schema()
 
     return $schema;
 }
+
+/**
+ * Update and reset the usage table.
+ */
+function wmmedia_update_8001()
+{
+    $definition = wmmedia_schema();
+    $field = $definition['wmmedia_usage']['fields']['required'] ?? [];
+
+    if (empty($field)) {
+        return;
+    }
+
+    $schema = \Drupal::database()->schema();
+
+    if ($schema->fieldExists('wmmedia_usage', 'required')) {
+        return;
+    }
+
+    $schema->addField('wmmedia_usage', 'required', $field);
+
+    $query = \Drupal::database()->query('ALTER TABLE wmmedia_usage MODIFY COLUMN required TINYINT(4) NOT NULL DEFAULT 0 AFTER field_type');
+    $query->execute();
+
+    $query = \Drupal::database()->query('TRUNCATE TABLE wmmedia_usage');
+    $query->execute();
+
+    /* @var \Drupal\wmmedia\Service\UsageManager $service */
+    $service = \Drupal::service('wmmedia.usage');
+    $service->generate();
+}

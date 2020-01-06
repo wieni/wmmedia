@@ -55,3 +55,10 @@ file_widget:
     css:
         theme:
             css/file_widget.css: {}
+    dependencies:
+        - wmmedia/modal
+
+modal:
+    css:
+        theme:
+            css/modal.css: {}
