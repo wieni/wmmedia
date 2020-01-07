@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\Queue\QueueInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -150,6 +151,7 @@ class UsageManager
             $this->t('Type'),
             $this->t('Title'),
             $this->t('Field'),
+            $this->t('Required'),
         ];
 
         if ($showOperations) {
@@ -178,6 +180,7 @@ class UsageManager
                 'type' => $entity->getEntityType()->getLabel(),
                 'label' => $entity->label(),
                 'field' => $field->getLabel(),
+                'required' => $field->isRequired() ? $this->t('Yes') : $this->t('No'),
             ];
 
             if (!$showOperations) {
@@ -207,7 +210,7 @@ class UsageManager
         }
 
         return [
-            '#empty' => $this->t('No usage available.'),
+            '#empty' => $this->t(':label is not in use.', [':label' => $media->getName()]),
             '#header' => $header,
             '#rows' => $rows,
             '#type' => 'table',
@@ -225,6 +228,8 @@ class UsageManager
             /* @var \DOMElement $element */
             $mediaIds[(int) $element->getAttribute('data-media-file-link')] = 'file';
         }
+
+        $mediaIds = $this->getIdsFromText($value);
 
         $this->setUsage($entity, $fieldDefinition, $mediaIds);
     }
@@ -255,7 +260,7 @@ class UsageManager
     {
         $list = $entity->get($fieldDefinition->getName());
 
-        if (!$list instanceof EntityReferenceFieldItemListInterface) {
+        if (!$list instanceof FieldItemListInterface) {
             return;
         }
 
@@ -263,6 +268,18 @@ class UsageManager
             $mediaIds[(int) $item->id()] = $item->bundle();
             return $mediaIds;
         }, []);
+
+        foreach ($list->getValue() as $value) {
+            if (isset($value['description'])) {
+                $textIds[] = $this->getIdsFromText($value['description']);
+            }
+
+            if (isset($value['target_id'])) {
+                $imageIds[(int) $value['target_id']] = 'image';
+            }
+        }
+
+        $mediaIds = array_replace($imageIds, array_replace(...$textIds));
 
         $this->setUsage($entity, $fieldDefinition, $mediaIds);
     }
@@ -329,5 +346,18 @@ class UsageManager
         }
 
         return false;
+    }
+
+    protected function getIdsFromText(string $text): array
+    {
+        $mediaIds = [];
+        $dom = Html::load($text);
+        $xpath = new DOMXPath($dom);
+        foreach ($xpath->query('//a[@data-media-file-link]') as $element) {
+             /* @var \DOMElement $element */
+            $mediaIds[(int) $element->getAttribute('data-media-file-link')] = 'file';
+        }
+
+        return $mediaIds;
     }
 }
