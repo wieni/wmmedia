@@ -2,24 +2,38 @@
 
 namespace Drupal\wmmedia\Service;
 
+use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 abstract class OverviewFormBuilderBase
 {
+    use DependencySerializationTrait;
     use StringTranslationTrait;
 
-    public static function filterSubmit(array $form, FormStateInterface $formState): void
-    {
-        // TODO: Make abstract service & inject dependencies
-        $routeMatch = \Drupal::routeMatch();
-        $request = \Drupal::request();
+    /** @var RequestStack */
+    protected $requestStack;
+    /** @var RouteMatchInterface */
+    protected $routeMatch;
 
+    public function __construct(
+        RequestStack $requestStack,
+        RouteMatchInterface $routeMatch
+    ) {
+        $this->requestStack = $requestStack;
+        $this->routeMatch = $routeMatch;
+    }
+
+    public function filterSubmit(array $form, FormStateInterface $formState): void
+    {
+        $request = $this->requestStack->getCurrentRequest();
         $triggeringElement = $formState->getTriggeringElement();
         $parents = $triggeringElement['#parents'] ?? [];
         $parent = array_pop($parents);
-        $routeName = $routeMatch->getRouteName();
-        $routeParameters = $routeMatch->getParameters()->all();
+        $routeName = $this->routeMatch->getRouteName();
+        $routeParameters = $this->routeMatch->getParameters()->all();
 
         $query = $request->query->all();
 
@@ -51,13 +65,14 @@ abstract class OverviewFormBuilderBase
     protected function getFilters(): array
     {
         $filters = [];
+        $request = $this->requestStack->getCurrentRequest();
 
-        if (!$this->request) {
+        if (!$request) {
             return $filters;
         }
 
         foreach (static::getFilterKeys() as $key) {
-            $filter = $this->request->query->get($key);
+            $filter = $request->query->get($key);
             if ($filter) {
                 $filters[$key] = $filter;
             }
@@ -103,13 +118,13 @@ abstract class OverviewFormBuilderBase
             '#attributes' => [
                 'class' => ['wmmedia__filters__submit'],
             ],
-            '#submit' => [[static::class, 'filterSubmit']],
+            '#submit' => [[$this, 'filterSubmit']],
             '#type' => 'submit',
             '#value' => $this->t('Search'),
         ];
 
         $form['filters']['reset'] = [
-            '#submit' => [[static::class, 'filterSubmit']],
+            '#submit' => [[$this, 'filterSubmit']],
             '#type' => 'submit',
             '#value' => $this->t('Reset'),
         ];

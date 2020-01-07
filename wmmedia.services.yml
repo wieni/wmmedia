@@ -7,13 +7,12 @@ services:
 
     wmmedia.image.form_builder:
         class: Drupal\wmmedia\Service\ImageOverviewFormBuilder
+        parent: wmmedia.base.form_builder
         arguments:
             - '@wmmedia.image.repository'
             - '@imgix.manager'
             - '@entity_type.manager'
             - '@entity_field.manager'
-            - '@request_stack'
-            - '@current_route_match'
 
     wmmedia.image.json_formatter:
         class: Drupal\wmmedia\Service\ImageJsonFormatter
@@ -28,13 +27,19 @@ services:
             - '@database'
             - '@entity_field.manager'
 
+    wmmedia.base.form_builder:
+        class: Drupal\wmmedia\Service\OverviewFormBuilderBase
+        abstract: true
+        arguments:
+            - '@request_stack'
+            - '@current_route_match'
+
     wmmedia.file.form_builder:
         class: Drupal\wmmedia\Service\FileOverviewFormBuilder
+        parent: wmmedia.base.form_builder
         arguments:
             - '@wmmedia.file.repository'
             - '@entity_type.manager'
-            - '@request_stack'
-            - '@current_route_match'
 
     wmmedia.usage:
         class: Drupal\wmmedia\Service\UsageManager

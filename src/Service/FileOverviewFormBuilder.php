@@ -7,7 +7,6 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\file\FileInterface;
 use Drupal\media\Entity\Media;
 use Drupal\wmmedia\Plugin\EntityBrowser\Widget\MediaBrowserBase;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class FileOverviewFormBuilder extends OverviewFormBuilderBase
@@ -18,21 +17,16 @@ class FileOverviewFormBuilder extends OverviewFormBuilderBase
     protected $entityTypeManager;
     /** @var FileRepository */
     protected $fileRepository;
-    /** @var Request|null */
-    protected $request;
-    /** @var RouteMatchInterface */
-    protected $routeMatch;
 
     public function __construct(
-        FileRepository $fileRepository,
-        EntityTypeManagerInterface $entityTypeManager,
         RequestStack $requestStack,
-        RouteMatchInterface $routeMatch
+        RouteMatchInterface $routeMatch,
+        FileRepository $fileRepository,
+        EntityTypeManagerInterface $entityTypeManager
     ) {
+        parent::__construct($requestStack, $routeMatch);
         $this->fileRepository = $fileRepository;
         $this->entityTypeManager = $entityTypeManager;
-        $this->request = $requestStack->getCurrentRequest();
-        $this->routeMatch = $routeMatch;
     }
 
     public function setForm(array &$form, FormOptions $options): void

@@ -24,25 +24,20 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
     protected $imageRepository;
     /** @var ImgixManagerInterface */
     protected $imgixManager;
-    /** @var Request|null */
-    protected $request;
-    /** @var RouteMatchInterface */
-    protected $routeMatch;
 
     public function __construct(
+        RequestStack $requestStack,
+        RouteMatchInterface $routeMatch,
         ImageRepository $imageRepository,
         ImgixManagerInterface $imgixManager,
         EntityTypeManagerInterface $entityTypeManager,
-        EntityFieldManagerInterface $entityFieldManager,
-        RequestStack $requestStack,
-        RouteMatchInterface $routeMatch
+        EntityFieldManagerInterface $entityFieldManager
     ) {
+        parent::__construct($requestStack, $routeMatch);
         $this->imageRepository = $imageRepository;
         $this->imgixManager = $imgixManager;
         $this->entityTypeManager = $entityTypeManager;
         $this->entityFieldManager = $entityFieldManager;
-        $this->request = $requestStack->getCurrentRequest();
-        $this->routeMatch = $routeMatch;
     }
 
     public function setForm(array &$form, FormOptions $options, ?array $configuration = null): void
