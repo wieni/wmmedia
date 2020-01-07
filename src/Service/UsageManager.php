@@ -12,6 +12,7 @@ use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
@@ -171,6 +172,7 @@ class UsageManager
             $this->t('Type'),
             $this->t('Title'),
             $this->t('Field'),
+            $this->t('Required'),
         ];
 
         if ($showOperations) {
@@ -199,6 +201,7 @@ class UsageManager
                 'type' => $entity->getEntityType()->getLabel(),
                 'label' => $entity->label(),
                 'field' => $field->getLabel(),
+                'required' => $field->isRequired() ? $this->t('Yes') : $this->t('No'),
             ];
 
             if (!$showOperations) {
@@ -228,7 +231,7 @@ class UsageManager
         }
 
         return [
-            '#empty' => $this->t('No usage available.'),
+            '#empty' => $this->t(':label is not in use.', [':label' => $media->getName()]),
             '#header' => $header,
             '#rows' => $rows,
             '#type' => 'table',
@@ -239,13 +242,12 @@ class UsageManager
     {
         $value = $entity->get($fieldDefinition->getName())->value;
 
-        $mediaIds = [];
-        $dom = Html::load($value);
-        $xpath = new DOMXPath($dom);
-        foreach ($xpath->query('//a[@data-media-file-link]') as $element) {
-             /* @var \DOMElement $element */
-            $mediaIds[(int) $element->getAttribute('data-media-file-link')] = 'file';
+        if (empty($value)) {
+            $this->setUsage($entity, $fieldDefinition, []);
+            return;
         }
+
+        $mediaIds = $this->getIdsFromText($value);
 
         $this->setUsage($entity, $fieldDefinition, $mediaIds);
     }
@@ -276,14 +278,24 @@ class UsageManager
     {
         $list = $entity->get($fieldDefinition->getName());
 
-        if (!$list instanceof EntityReferenceFieldItemListInterface) {
+        if (!$list instanceof FieldItemListInterface) {
             return;
         }
 
-        $mediaIds = array_reduce($list->referencedEntities(), static function($mediaIds, EntityInterface $item) {
-            $mediaIds[(int) $item->id()] = $item->bundle();
-            return $mediaIds;
-        }, []);
+        $imageIds = [];
+        $textIds = [];
+
+        foreach ($list->getValue() as $value) {
+            if (isset($value['description'])) {
+                $textIds[] = $this->getIdsFromText($value['description']);
+            }
+
+            if (isset($value['target_id'])) {
+                $imageIds[(int) $value['target_id']] = 'image';
+            }
+        }
+
+        $mediaIds = array_replace($imageIds, array_replace(...$textIds));
 
         $this->setUsage($entity, $fieldDefinition, $mediaIds);
     }
@@ -350,5 +362,18 @@ class UsageManager
         }
 
         return false;
+    }
+
+    protected function getIdsFromText(string $text): array
+    {
+        $mediaIds = [];
+        $dom = Html::load($text);
+        $xpath = new DOMXPath($dom);
+        foreach ($xpath->query('//a[@data-media-file-link]') as $element) {
+             /* @var \DOMElement $element */
+            $mediaIds[(int) $element->getAttribute('data-media-file-link')] = 'file';
+        }
+
+        return $mediaIds;
     }
 }
