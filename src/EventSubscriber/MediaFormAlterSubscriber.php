@@ -10,7 +10,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class MediaFormAlterSubscriber implements EventSubscriberInterface
 {
-
     public static function getSubscribedEvents(): array
     {
         return [
@@ -24,7 +23,6 @@ class MediaFormAlterSubscriber implements EventSubscriberInterface
         $form = &$event->getForm();
         $formObject = $event->getFormState()->getFormObject();
 
-
         $this->removeRevisionElement($form);
 
         if ($formObject instanceof MediaForm && $formObject->getEntity()->bundle() === 'file') {
@@ -36,7 +34,11 @@ class MediaFormAlterSubscriber implements EventSubscriberInterface
     {
         $formState = $event->getFormState();
         $buildInfo = $formState->getBuildInfo();
-        $entityBrowsers = ['entity_browser_images_form', 'entity_browser_files_form', 'entity_browser_files_editor_form'];
+        $entityBrowsers = [
+            'entity_browser_images_form',
+            'entity_browser_files_form',
+            'entity_browser_files_editor_form',
+        ];
 
         if (!isset($buildInfo['form_id']) || !in_array($buildInfo['form_id'], $entityBrowsers, true)) {
             return;

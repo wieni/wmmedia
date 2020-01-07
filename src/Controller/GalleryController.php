@@ -2,60 +2,51 @@
 
 namespace Drupal\wmmedia\Controller;
 
-use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\wmmedia\Form\MediaImageOverview;
+use Drupal\wmmedia\Service\ImageJsonFormatter;
+use Drupal\wmmedia\Service\ImageOverviewFormBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-class GalleryController extends ControllerBase
+class GalleryController implements ContainerInjectionInterface
 {
-
-    /**
-     * @var \Drupal\wmmedia\Service\ImageJsonFormatter
-     */
+    /** @var FormBuilderInterface */
+    protected $formBuilder;
+    /** @var ImageJsonFormatter */
     protected $imageJsonFormatter;
-
-    /**
-     * @var \Drupal\wmmedia\Service\ImageOverviewFormBuilder
-     */
+    /** @var ImageOverviewFormBuilder */
     protected $imageOverviewFormBuilder;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $limit = 30;
-
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $page = 0;
-
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $total;
 
-    /**
-     * @inheritDoc
-     */
     public static function create(ContainerInterface $container)
     {
-        $instance = parent::create($container);
+        $instance = new static();
+        $instance->formBuilder = $container->get('form_builder');
         $instance->imageOverviewFormBuilder = $container->get('wmmedia.image.form_builder');
         $instance->imageJsonFormatter = $container->get('wmmedia.image.json_formatter');
 
-        /* @var \Symfony\Component\HttpFoundation\RequestStack $requestStack */
+        /* @var RequestStack $requestStack */
         $requestStack = $container->get('request_stack');
         $request = $requestStack->getCurrentRequest();
         $instance->page = $request && $request->get('page') ? $request->get('page') : $instance->page;
         $instance->limit = $request && $request->get('limit') ? $request->get('limit') : $instance->limit;
         $instance->total = $instance->getTotalMediaCount();
+
         return $instance;
     }
 
     public function show(): array
     {
-        $form = $this->formBuilder()->getForm(MediaImageOverview::class);
+        $form = $this->formBuilder->getForm(MediaImageOverview::class);
 
         $media = [
             'page' => $this->page,
@@ -81,7 +72,7 @@ class GalleryController extends ControllerBase
         ]);
     }
 
-    public function getMedia()
+    public function getMedia(): array
     {
         $items = $this->imageOverviewFormBuilder->getImages();
 

@@ -2,6 +2,8 @@
 
 namespace Drupal\wmmedia\Plugin\CKEditorPlugin;
 
+use Drupal\ckeditor\CKEditorPluginBase;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Url;
 use Drupal\editor\Entity\Editor;
@@ -13,31 +15,24 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *     label = @Translation("Media file link")
  * )
  */
-class MediaFileLink extends \Drupal\ckeditor\CKEditorPluginBase implements ContainerFactoryPluginInterface
+class MediaFileLink extends CKEditorPluginBase implements ContainerFactoryPluginInterface
 {
-    /**
-     * @var \Drupal\Core\Extension\ModuleHandlerInterface
-     */
+    /** @var ModuleHandlerInterface */
     protected $moduleHandler;
 
-    /**
-     * @inheritDoc
-     */
     public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
     {
         $instance = new static($configuration, $plugin_id, $plugin_definition);
         $instance->moduleHandler = $container->get('module_handler');
+
         return $instance;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getConfig(Editor $editor): array
     {
         return [
             'media_file_link_url' => Url::fromRoute('wmmedia.file.browser.editor')
-                ->toString(TRUE)
+                ->toString(true)
                 ->getGeneratedUrl(),
             'media_file_link_dialog_options' => [
                 'dialogClass' => 'media-file-browser-editor',
@@ -48,9 +43,6 @@ class MediaFileLink extends \Drupal\ckeditor\CKEditorPluginBase implements Conta
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getFile(): string
     {
         return sprintf(
@@ -59,9 +51,6 @@ class MediaFileLink extends \Drupal\ckeditor\CKEditorPluginBase implements Conta
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLibraries(Editor $editor)
     {
         return [
@@ -71,9 +60,6 @@ class MediaFileLink extends \Drupal\ckeditor\CKEditorPluginBase implements Conta
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getButtons(): array
     {
         return [
@@ -84,9 +70,6 @@ class MediaFileLink extends \Drupal\ckeditor\CKEditorPluginBase implements Conta
         ];
     }
 
-    /**
-     * @return string
-     */
     private function getPath(): string
     {
         return sprintf(

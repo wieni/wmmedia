@@ -7,50 +7,23 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 
 class Usage
 {
-
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $id;
-
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $mediaId;
-
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $mediaType;
-
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $entityId;
-
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $entityType;
-
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $fieldName;
-
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $fieldType;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $required;
-
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $languageCode;
 
     public function __construct(
@@ -75,79 +48,52 @@ class Usage
         $this->languageCode = $languageCode;
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return int
-     */
     public function getMediaId(): int
     {
         return $this->mediaId;
     }
 
-    /**
-     * @return string
-     */
     public function getMediaType(): string
     {
         return $this->mediaType;
     }
 
-    /**
-     * @return int
-     */
     public function getEntityId(): int
     {
         return $this->entityId;
     }
 
-    /**
-     * @return string
-     */
     public function getEntityType(): string
     {
         return $this->entityType;
     }
 
-    /**
-     * @return string
-     */
     public function getFieldName(): string
     {
         return $this->fieldName;
     }
 
-    /**
-     * @return string
-     */
     public function getFieldType(): string
     {
         return $this->fieldType;
     }
 
-    /**
-     * @return bool
-     */
     public function isRequired(): bool
     {
         return $this->required;
     }
 
-    /**
-     * @return string
-     */
     public function getLanguageCode(): string
     {
         return $this->languageCode;
     }
 
-    public static function createFromEntityAndField(EntityInterface $entity, FieldDefinitionInterface $fieldDefinition, $mediaId, $mediaType): Usage
+    public static function createFromEntityAndField(EntityInterface $entity, FieldDefinitionInterface $fieldDefinition, $mediaId, $mediaType): self
     {
         return new static(
             0,

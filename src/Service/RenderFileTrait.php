@@ -7,12 +7,11 @@ use Drupal\file\Entity\File;
 
 trait RenderFileTrait
 {
-
     protected function renderFile(File $file, string $name): array
     {
         // @see template_preprocess_file_link()
         $options = ['attributes' => []];
-        $url = $file->createFileUrl(FALSE);
+        $url = $file->createFileUrl(false);
 
         $mimeType = $file->getMimeType();
         $options['attributes']['type'] = $mimeType . '; length=' . $file->getSize();
@@ -40,5 +39,4 @@ trait RenderFileTrait
             '#url' => Url::fromUri($url, $options),
         ];
     }
-
 }

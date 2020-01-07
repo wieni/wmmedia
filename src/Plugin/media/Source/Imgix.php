@@ -2,10 +2,11 @@
 
 namespace Drupal\wmmedia\Plugin\media\Source;
 
+use Drupal\field\FieldConfigInterface;
 use Drupal\file\FileInterface;
 use Drupal\media\MediaInterface;
-use Drupal\media\MediaTypeInterface;
 use Drupal\media\MediaSourceBase;
+use Drupal\media\MediaTypeInterface;
 
 /**
  * Imgix entity media source.
@@ -13,54 +14,63 @@ use Drupal\media\MediaSourceBase;
  * @see \Drupal\file\FileInterface
  *
  * @MediaSource(
- *   id = "imgix",
- *   label = @Translation("Imgix"),
- *   description = @Translation("Use Imgix image fields for reusable media."),
- *   allowed_field_types = {"imgix"},
- *   default_thumbnail_filename = "generic.png"
+ *     id = "imgix",
+ *     label = @Translation("Imgix"),
+ *     description = @Translation("Use Imgix image fields for reusable media."),
+ *     allowed_field_types = {"imgix"},
+ *     default_thumbnail_filename = "generic.png"
  * )
  */
-class Imgix extends MediaSourceBase {
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMetadataAttributes() {
+class Imgix extends MediaSourceBase
+{
+    public function getMetadataAttributes(): array
+    {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMetadata(MediaInterface $media, $attribute_name) {
-        /** @var \Drupal\file\FileInterface $file */
+    public function getMetadata(MediaInterface $media, $attribute_name)
+    {
+        /** @var FileInterface $file */
         $file = $media->get($this->configuration['source_field'])->entity;
+
         // If the source field is not required, it may be empty.
         if (!$file) {
             return parent::getMetadata($media, $attribute_name);
         }
+
         switch ($attribute_name) {
             case 'default_name':
                 return $file->getFilename();
-
             case 'thumbnail_uri':
                 return $this->getThumbnail($file) ?: parent::getMetadata($media, $attribute_name);
-
             default:
                 return parent::getMetadata($media, $attribute_name);
         }
     }
 
+    public function createSourceField(MediaTypeInterface $type): self
+    {
+        /** @var FieldConfigInterface $field */
+        $field = parent::createSourceField($type);
+
+        // Reset the field to its default settings so that we don't inherit the
+        // settings from the parent class' source field.
+        $settings = $this->fieldTypeManager->getDefaultFieldSettings($field->getType());
+
+        return $field->set('settings', $settings);
+    }
+
     /**
      * Gets the thumbnail image URI based on a file entity.
      *
-     * @param \Drupal\file\FileInterface $file
+     * @param FileInterface $file
      *   A file entity.
      *
-     * @return string
+     * @return string|null
      *   File URI of the thumbnail image or NULL if there is no specific icon.
      */
-    protected function getThumbnail(FileInterface $file) {
+    protected function getThumbnail(FileInterface $file): ?string
+    {
         $icon_base = $this->configFactory->get('media.settings')->get('icon_base_uri');
 
         // We try to automatically use the most specific icon present in the
@@ -75,6 +85,7 @@ class Imgix extends MediaSourceBase {
             $mimetype[1],
             $mimetype[0],
         ];
+
         foreach ($icon_names as $icon_name) {
             $thumbnail = $icon_base . '/' . $icon_name . '.png';
             if (is_file($thumbnail)) {
@@ -82,21 +93,6 @@ class Imgix extends MediaSourceBase {
             }
         }
 
-        return NULL;
+        return null;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createSourceField(MediaTypeInterface $type) {
-        /** @var \Drupal\field\FieldConfigInterface $field */
-        $field = parent::createSourceField($type);
-
-        // Reset the field to its default settings so that we don't inherit the
-        // settings from the parent class' source field.
-        $settings = $this->fieldTypeManager->getDefaultFieldSettings($field->getType());
-
-        return $field->set('settings', $settings);
-    }
-
 }

@@ -4,38 +4,20 @@ namespace Drupal\wmmedia\Service;
 
 class FormOptions
 {
-
     public const CONTEXT_OVERVIEW = 'overview';
     public const CONTEXT_BROWSER = 'browser';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $context;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $operations;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $selectable;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $showUsage;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $multiple;
-
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $pagerLimit;
 
     public function __construct(
@@ -84,18 +66,18 @@ class FormOptions
         return $this->pagerLimit;
     }
 
-    public static function createForOverview(): FormOptions
+    public static function createForOverview(): self
     {
         return new static(
             true,
             false,
             false,
             true,
-            self::CONTEXT_OVERVIEW,
+            self::CONTEXT_OVERVIEW
         );
     }
 
-    public static function createForBrowser(): FormOptions
+    public static function createForBrowser(): self
     {
         return new static(
             false,

@@ -4,29 +4,31 @@ namespace Drupal\wmmedia\Form;
 
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseModalDialogCommand;
-use Drupal\Core\Form\FormBase;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\DependencyInjection\DependencySerializationTrait;
+use Drupal\Core\Form\FormInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\editor\Ajax\EditorDialogSave;
 use Drupal\entity_browser\Events\Events;
 use Drupal\entity_browser\Events\RegisterJSCallbacks;
-use Drupal\media\Entity\Media;
+use Drupal\media\MediaInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class MediaFileOverviewEditor extends FormBase
+class MediaFileOverviewEditor implements FormInterface, ContainerInjectionInterface
 {
+    use DependencySerializationTrait;
+    use StringTranslationTrait;
 
-    /**
-     * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
-     */
+    /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
-    /**
-     * @inheritDoc
-     */
-    public static function create(ContainerInterface $container): FormBase
+    public static function create(ContainerInterface $container)
     {
-        $instance = parent::create($container);
+        $instance = new static();
         $instance->eventDispatcher = $container->get('event_dispatcher');
+
         return $instance;
     }
 
@@ -62,18 +64,16 @@ class MediaFileOverviewEditor extends FormBase
         return $form;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getFormId(): string
     {
-       return 'wmcmedia_file_browser_editor';
+        return 'wmcmedia_file_browser_editor';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function submitForm(array &$form, FormStateInterface $form_state): void
+    {
+    }
+
+    public function validateForm(array &$form, FormStateInterface $form_state): void
     {
     }
 
@@ -84,13 +84,14 @@ class MediaFileOverviewEditor extends FormBase
         $values = $formState->getValues();
         $entity = $values['entity_browser']['entities'][0] ?? null;
 
-        if ($entity instanceof Media) {
+        if ($entity instanceof MediaInterface) {
             $value = $entity->id();
         }
 
         $response = new AjaxResponse();
         $response->addCommand(new EditorDialogSave($value));
         $response->addCommand(new CloseModalDialogCommand());
+
         return $response;
     }
 

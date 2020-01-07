@@ -2,31 +2,33 @@
 
 namespace Drupal\wmmedia\Controller;
 
-use Drupal\Core\Controller\ControllerBase;
-use Drupal\media\Entity\Media;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\media\MediaInterface;
+use Drupal\wmmedia\Service\UsageManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class UsageController extends ControllerBase
+class UsageController implements ContainerInjectionInterface
 {
+    use StringTranslationTrait;
 
-    /**
-     * @var \Drupal\wmmedia\Service\UsageManager
-     */
+    /** @var UsageManager */
     protected $usage;
 
-    public static function create(ContainerInterface $container): ControllerBase
+    public static function create(ContainerInterface $container)
     {
-        $instance = parent::create($container);
+        $instance = new static();
         $instance->usage = $container->get('wmmedia.usage');
+
         return $instance;
     }
 
-    public function overview(Media $media): array
+    public function overview(MediaInterface $media): array
     {
         return $this->usage->getUsageAsTable($media);
     }
 
-    public function title(Media $media): string
+    public function title(MediaInterface $media): string
     {
         return $this->t('Media usage for :media', [':media' => $media->label()]);
     }

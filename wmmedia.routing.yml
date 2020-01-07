@@ -8,7 +8,7 @@ wmmedia.api.paginate:
         _admin_route: TRUE
 
 wmmedia.usage:
-    path: 'media/{media}/usage'
+    path: '/media/{media}/usage'
     defaults:
         _title_callback: Drupal\wmmedia\Controller\UsageController::title
         _controller: Drupal\wmmedia\Controller\UsageController::overview
@@ -18,7 +18,7 @@ wmmedia.usage:
         _admin_route: TRUE
 
 wmmedia.file.overview:
-    path: 'admin/content/media/file'
+    path: '/admin/content/media/file'
     defaults:
         _title: 'Media: files'
         _form: Drupal\wmmedia\Form\MediaFileOverview
@@ -28,7 +28,7 @@ wmmedia.file.overview:
         _admin_route: TRUE
 
 wmmedia.file.browser.editor:
-    path: 'admin/content/media/file/editor'
+    path: '/admin/content/media/file/editor'
     defaults:
         _title: 'Media: files'
         _form: Drupal\wmmedia\Form\MediaFileOverviewEditor

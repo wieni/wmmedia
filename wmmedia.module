@@ -2,10 +2,8 @@
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\media\Entity\Media;
+use Drupal\wmmedia\Service\UsageManager;
 
-/**
- * Implements hook_theme().
- */
 function wmmedia_theme()
 {
     $data = [];
@@ -42,14 +40,11 @@ function wmmedia_theme_set_variables(&$variables)
     unset($variables['_data']);
 }
 
-/**
- * Implements hook_menu_local_actions_alter().
- */
 function wmmedia_menu_local_actions_alter(&$local_actions)
 {
     if (isset($local_actions['media.add'])) {
         $appearsOn = &$local_actions['media.add']['appears_on'];
-        $key = array_search('entity.media.collection', $appearsOn);
+        $key = array_search('entity.media.collection', $appearsOn, true);
 
         if ($key !== false) {
             unset($appearsOn[$key]);
@@ -66,9 +61,8 @@ function wmmedia_locale_translation_projects_alter(&$projects)
 function wmmedia_entity_operation_alter(array &$operations, EntityInterface $entity)
 {
     if ($entity instanceof Media) {
-        /* @var \Drupal\wmmedia\Service\UsageManager $service */
+        /* @var UsageManager $service */
         $service = \Drupal::service('wmmedia.usage');
         $service->setOperations($entity, $operations);
     }
 }
-

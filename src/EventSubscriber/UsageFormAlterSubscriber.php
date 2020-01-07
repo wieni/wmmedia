@@ -6,18 +6,15 @@ use Drupal\Core\Entity\ContentEntityDeleteForm;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\hook_event_dispatcher\Event\Form\BaseFormEvent;
-use Drupal\media\Entity\Media;
+use Drupal\media\MediaInterface;
 use Drupal\wmmedia\Service\UsageManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class UsageFormAlterSubscriber implements EventSubscriberInterface
 {
-
     use StringTranslationTrait;
 
-    /**
-     * @var \Drupal\wmmedia\Service\UsageManager
-     */
+    /** @var UsageManager */
     protected $usageManager;
 
     public function __construct(UsageManager $usageManager)
@@ -43,7 +40,7 @@ class UsageFormAlterSubscriber implements EventSubscriberInterface
 
         $entity = $callBackObject->getEntity();
 
-        if (!$entity instanceof Media) {
+        if (!$entity instanceof MediaInterface) {
             return;
         }
 

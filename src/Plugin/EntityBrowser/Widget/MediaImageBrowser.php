@@ -4,34 +4,27 @@ namespace Drupal\wmmedia\Plugin\EntityBrowser\Widget;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\entity_browser\Form\EntityBrowserForm;
+use Drupal\imgix\ImgixManagerInterface;
 use Drupal\wmmedia\Service\FormOptions;
+use Drupal\wmmedia\Service\ImageOverviewFormBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @EntityBrowserWidget(
- *   id = "wmmedia_media_image_browser",
- *   label = @Translation("Media image browser"),
- *   provider = "wmmedia",
- *   description = @Translation("Image listings for media browser"),
- *   auto_select = TRUE
+ *     id = "wmmedia_media_image_browser",
+ *     label = @Translation("Media image browser"),
+ *     provider = "wmmedia",
+ *     description = @Translation("Image listings for media browser"),
+ *     auto_select = TRUE
  * )
  */
 class MediaImageBrowser extends MediaBrowserBase
 {
-
-    /**
-     * @var \Drupal\imgix\ImgixManagerInterface
-     */
+    /** @var ImgixManagerInterface */
     protected $imgixManager;
-
-    /**
-     * @var \Drupal\wmmedia\Service\ImageOverviewFormBuilder
-     */
+    /** @var ImageOverviewFormBuilder */
     protected $overviewFormBuilder;
 
-    /**
-     * {@inheritdoc}
-     */
     public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition)
     {
         $instance = parent::create(
@@ -40,19 +33,15 @@ class MediaImageBrowser extends MediaBrowserBase
             $pluginId,
             $pluginDefinition
         );
-
         $instance->overviewFormBuilder = $container->get('wmmedia.image.form_builder');
         $instance->imgixManager = $container->get('imgix.manager');
+
         return $instance;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getForm(array &$originalForm, FormStateInterface $formState, array $additionalWidgetParameters)
     {
         $form = parent::getForm($originalForm, $formState, $additionalWidgetParameters);
-
         $formObject = $formState->getFormObject();
 
         if (!$formObject instanceof EntityBrowserForm) {
@@ -65,9 +54,6 @@ class MediaImageBrowser extends MediaBrowserBase
         return $form;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function defaultConfiguration()
     {
         return [
@@ -75,9 +61,6 @@ class MediaImageBrowser extends MediaBrowserBase
         ] + parent::defaultConfiguration();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildConfigurationForm(array $form, FormStateInterface $form_state)
     {
         $form = parent::buildConfigurationForm($form, $form_state);
@@ -99,9 +82,6 @@ class MediaImageBrowser extends MediaBrowserBase
         return $form;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function submitConfigurationForm(array &$form, FormStateInterface $formState): void
     {
         $values = $formState->getValues()['table'][$this->uuid()]['form'];

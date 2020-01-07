@@ -26,12 +26,8 @@ use Drupal\wmmedia\Service\RenderFileTrait;
  */
 class MediaFile extends EntityReferenceBrowserWidget
 {
-
     use RenderFileTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $formState): array
     {
         $entities = $this->formElementEntities($items, $element, $formState);
@@ -121,9 +117,6 @@ class MediaFile extends EntityReferenceBrowserWidget
         return $element;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function displayCurrentSelection($detailsId, array $fieldParents, array $entities): array
     {
         $targetEntityType = $this->fieldDefinition->getFieldStorageDefinition()->getSetting('target_type');
@@ -248,7 +241,7 @@ class MediaFile extends EntityReferenceBrowserWidget
         return $entities;
     }
 
-    private function getEntitiesFromUserInput(FieldItemListInterface $items,array $element, FormStateInterface $formState): array
+    private function getEntitiesFromUserInput(FieldItemListInterface $items, array $element, FormStateInterface $formState): array
     {
         // Highly experimental for a very specific use case of an inline entity form with media field and the
         // parent form does not pass validation.
@@ -267,7 +260,7 @@ class MediaFile extends EntityReferenceBrowserWidget
         $entityType = $this->fieldDefinition->getFieldStorageDefinition()->getSetting('target_type');
         $entityStorage = $this->entityTypeManager->getStorage($entityType);
 
-        return array_filter(array_map(static function(string $id) use ($entityStorage) {
+        return array_filter(array_map(static function (string $id) use ($entityStorage) {
             return $entityStorage->load(str_replace('media:', '', $id));
         }, $values));
     }

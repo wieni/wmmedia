@@ -2,7 +2,6 @@
 
 namespace Drupal\wmmedia\Service;
 
-use DOMXPath;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\ContentEntityInterface;
@@ -13,44 +12,27 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Queue\QueueFactory;
+use Drupal\Core\Queue\QueueInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
-use Drupal\media\Entity\Media;
+use Drupal\media\MediaInterface;
 use Drupal\wmmedia\Plugin\QueueWorker\MediaUsageQueueWorker;
 
 class UsageManager
 {
-
     use StringTranslationTrait;
 
-    /**
-     * @var \Drupal\Core\Database\Connection
-     */
+    /** @var Connection */
     protected $connection;
-
-    /**
-     * @var \Drupal\Core\Entity\EntityFieldManagerInterface
-     */
+    /** @var EntityFieldManagerInterface */
     protected $entityFieldManager;
-
-    /**
-     * @var \Drupal\Core\Entity\EntityTypeBundleInfoInterface
-     */
+    /** @var EntityTypeBundleInfoInterface */
     protected $entityTypeBundleInfo;
-
-    /**
-     * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-     */
+    /** @var EntityTypeManagerInterface */
     protected $entityTypeManager;
-
-    /**
-     * @var \Drupal\Core\Queue\QueueInterface
-     */
+    /** @var QueueInterface */
     protected $queue;
-
-    /**
-     * @var \Drupal\wmmedia\Service\UsageRepository
-     */
+    /** @var UsageRepository */
     protected $repository;
 
     public function __construct(
@@ -65,20 +47,17 @@ class UsageManager
         $this->entityTypeManager = $entityTypeManager;
         $this->entityTypeBundleInfo = $entityTypeBundleInfo;
         $this->connection = $connection;
-        $this->queue = $queueFactory->get(MediaUSageQueueWorker::ID);
+        $this->queue = $queueFactory->get(MediaUsageQueueWorker::ID);
         $this->repository = $repository;
     }
 
-    public function hasUsage(Media $media): bool
+    public function hasUsage(MediaInterface $media): bool
     {
         return !empty($this->getUsage($media));
     }
 
-    /**
-     * @param \Drupal\media\Entity\Media $media
-     * @return array|\Drupal\wmmedia\Service\Usage[]
-     */
-    public function getUsage(Media $media): array
+    /** @return Usage[] */
+    public function getUsage(MediaInterface $media): array
     {
         static $usages = [];
 
@@ -116,7 +95,7 @@ class UsageManager
 
     public function clear(EntityInterface $entity): void
     {
-        if ($entity instanceof Media) {
+        if ($entity instanceof MediaInterface) {
             $this->repository->deleteByMedia($entity);
             return;
         }
@@ -150,7 +129,7 @@ class UsageManager
         }
     }
 
-    public function setOperations(Media $media, array &$operations): void
+    public function setOperations(MediaInterface $media, array &$operations): void
     {
         if (!$this->hasUsage($media)) {
             return;
@@ -163,7 +142,7 @@ class UsageManager
         ];
     }
 
-    public function getUsageAsTable(Media $media, bool $showOperations = true): array
+    public function getUsageAsTable(MediaInterface $media, bool $showOperations = true): array
     {
         $usage = $this->getUsage($media);
 
@@ -241,9 +220,9 @@ class UsageManager
 
         $mediaIds = [];
         $dom = Html::load($value);
-        $xpath = new DOMXPath($dom);
+        $xpath = new \DOMXPath($dom);
         foreach ($xpath->query('//a[@data-media-file-link]') as $element) {
-             /* @var \DOMElement $element */
+            /* @var \DOMElement $element */
             $mediaIds[(int) $element->getAttribute('data-media-file-link')] = 'file';
         }
 
@@ -264,7 +243,7 @@ class UsageManager
             return;
         }
 
-        $mediaIds = array_reduce($list->referencedEntities(), static function($mediaIds, EntityInterface $item) {
+        $mediaIds = array_reduce($list->referencedEntities(), static function ($mediaIds, EntityInterface $item) {
             $mediaIds[(int) $item->id()] = $item->bundle();
             return $mediaIds;
         }, []);
@@ -280,7 +259,7 @@ class UsageManager
             return;
         }
 
-        $mediaIds = array_reduce($list->referencedEntities(), static function($mediaIds, EntityInterface $item) {
+        $mediaIds = array_reduce($list->referencedEntities(), static function ($mediaIds, EntityInterface $item) {
             $mediaIds[(int) $item->id()] = $item->bundle();
             return $mediaIds;
         }, []);
@@ -314,7 +293,7 @@ class UsageManager
 
     protected function queue(string $entityType, string $idKey, string $bundleKey, array $bundles, string $table): void
     {
-        $activeBundles = array_filter($bundles, function(string $bundle) use($entityType) {
+        $activeBundles = array_filter($bundles, function (string $bundle) use ($entityType) {
             return $this->bundleHasUsageFields($entityType, $bundle);
         });
 

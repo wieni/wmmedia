@@ -4,6 +4,7 @@ namespace Drupal\wmmedia\Plugin\EntityBrowser\Widget;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\entity_browser\Form\EntityBrowserForm;
+use Drupal\wmmedia\Service\FileOverviewFormBuilder;
 use Drupal\wmmedia\Service\FormOptions;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -18,15 +19,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class MediaFileBrowser extends MediaBrowserBase
 {
-
-    /**
-     * @var \Drupal\wmmedia\Service\FileOverviewFormBuilder;
-     */
+    /** @var FileOverviewFormBuilder */
     protected $overviewFormBuilder;
 
-    /**
-     * {@inheritdoc}
-     */
     public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition)
     {
         $instance = parent::create(
@@ -35,18 +30,14 @@ class MediaFileBrowser extends MediaBrowserBase
             $pluginId,
             $pluginDefinition
         );
-
         $instance->overviewFormBuilder = $container->get('wmmedia.file.form_builder');
+
         return $instance;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getForm(array &$originalForm, FormStateInterface $formState, array $additionalWidgetParameters)
     {
         $form = parent::getForm($originalForm, $formState, $additionalWidgetParameters);
-
         $formObject = $formState->getFormObject();
 
         if (!$formObject instanceof EntityBrowserForm) {

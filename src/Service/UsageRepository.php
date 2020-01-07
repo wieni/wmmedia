@@ -5,17 +5,13 @@ namespace Drupal\wmmedia\Service;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\media\Entity\Media;
-use PDO;
+use Drupal\media\MediaInterface;
 
 class UsageRepository
 {
-
     public const TABLE = 'wmmedia_usage';
 
-    /**
-     * @var \Drupal\Core\Database\Connection
-     */
+    /** @var Connection */
     protected $connection;
 
     public function __construct(
@@ -24,11 +20,7 @@ class UsageRepository
         $this->connection = $connection;
     }
 
-    /**
-     * @param \Drupal\Core\Entity\EntityInterface $entity
-     * @param \Drupal\Core\Field\FieldDefinitionInterface $field
-     * @return \Drupal\wmmedia\Service\Usage[]
-     */
+    /** @return Usage[] */
     public function getUsageByField(EntityInterface $entity, FieldDefinitionInterface $field): array
     {
         $select = $this->connection->select(self::TABLE, 'u');
@@ -46,18 +38,15 @@ class UsageRepository
         }
 
         return array_map(
-            static function($row) {
-                return new Usage(... array_values($row));
+            static function ($row) {
+                return new Usage(...array_values($row));
             },
-            $result->fetchAll(PDO::FETCH_ASSOC)
+            $result->fetchAll(\PDO::FETCH_ASSOC)
         );
     }
 
-    /**
-     * @param \Drupal\media\Entity\Media $media
-     * @return \Drupal\wmmedia\Service\Usage[]
-     */
-    public function getUsageByMedia(Media $media): array
+    /** @return Usage[] */
+    public function getUsageByMedia(MediaInterface $media): array
     {
         $select = $this->connection->select(self::TABLE, 'u');
         $select->fields('u');
@@ -70,10 +59,10 @@ class UsageRepository
         }
 
         return array_map(
-            static function($row) {
-                return new Usage(... array_values($row));
+            static function ($row) {
+                return new Usage(...array_values($row));
             },
-            $result->fetchAll(PDO::FETCH_ASSOC)
+            $result->fetchAll(\PDO::FETCH_ASSOC)
         );
     }
 
@@ -107,7 +96,7 @@ class UsageRepository
         $delete->execute();
     }
 
-    public function deleteByMedia(Media $media): void
+    public function deleteByMedia(MediaInterface $media): void
     {
         $delete = $this->connection->delete(self::TABLE);
         $delete->condition('media_id', $media->id());

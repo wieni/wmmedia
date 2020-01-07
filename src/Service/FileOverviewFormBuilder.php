@@ -4,33 +4,23 @@ namespace Drupal\wmmedia\Service;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\file\FileInterface;
 use Drupal\media\Entity\Media;
 use Drupal\wmmedia\Plugin\EntityBrowser\Widget\MediaBrowserBase;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class FileOverviewFormBuilder extends OverviewFormBuilderBase
 {
-
     use RenderFileTrait;
 
-    /**
-     * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-     */
+    /** @var EntityTypeManagerInterface */
     protected $entityTypeManager;
-
-    /**
-     * @var \Drupal\wmmedia\Service\FileRepository
-     */
+    /** @var FileRepository */
     protected $fileRepository;
-
-    /**
-     * @var \Symfony\Component\HttpFoundation\Request|null
-     */
+    /** @var Request|null */
     protected $request;
-
-    /**
-     * @var \Drupal\Core\Routing\RouteMatchInterface
-     */
+    /** @var RouteMatchInterface */
     protected $routeMatch;
 
     public function __construct(
@@ -156,7 +146,7 @@ class FileOverviewFormBuilder extends OverviewFormBuilderBase
         $storage = $this->entityTypeManager->getStorage('media');
         $listBuilder = $this->entityTypeManager->getListBuilder('media');
 
-        return array_filter(array_map(function(array $data) use ($storage, $listBuilder, $options) {
+        return array_filter(array_map(function (array $data) use ($storage, $listBuilder, $options) {
             $mid = $data['mid'] ?? '';
 
             if (!$mid) {
@@ -171,7 +161,7 @@ class FileOverviewFormBuilder extends OverviewFormBuilderBase
 
             $key = sprintf('media:%s', $media->id());
 
-            /* @var \Drupal\file\Entity\File $file */
+            /* @var FileInterface $file */
             $file = $media->get('field_media_file')->entity;
 
             $operations = $listBuilder->getOperations($media);

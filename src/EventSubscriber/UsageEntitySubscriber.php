@@ -8,10 +8,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class UsageEntitySubscriber implements EventSubscriberInterface
 {
-
-    /**
-     * @var \Drupal\wmmedia\Service\UsageManager
-     */
+    /** @var UsageManager */
     protected $usageManager;
 
     public function __construct(
@@ -20,7 +17,7 @@ class UsageEntitySubscriber implements EventSubscriberInterface
         $this->usageManager = $usageManager;
     }
 
-    public static function getSubscribedEvents():array
+    public static function getSubscribedEvents(): array
     {
         return [
             'hook_event_dispatcher.entity.insert' => 'trackUsage',

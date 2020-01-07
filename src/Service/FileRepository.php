@@ -7,21 +7,14 @@ use Drupal\Core\Database\Query\PagerSelectExtender;
 use Drupal\Core\Database\Query\SelectInterface;
 use Drupal\Core\Database\Query\TableSortExtender;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
-use PDO;
 
 class FileRepository
 {
-
     public const PAGER_LIMIT = 20;
 
-    /**
-     * @var \Drupal\Core\Database\Connection
-     */
+    /** @var Connection */
     protected $connection;
-
-    /**
-     * @var \Drupal\Core\Entity\EntityFieldManagerInterface
-     */
+    /** @var EntityFieldManagerInterface */
     protected $entityFieldManager;
 
     public function __construct(
@@ -37,7 +30,7 @@ class FileRepository
         $query = $this->getQuery();
 
         if (!empty($header)) {
-            /* @var \Drupal\Core\Database\Query\TableSortExtender $query */
+            /* @var TableSortExtender $query */
             $query = $query->extend(TableSortExtender::class);
             $query->orderByHeader($header);
         }
@@ -46,7 +39,7 @@ class FileRepository
             $this->setFilters($query, $filters);
         }
 
-        /* @var \Drupal\Core\Database\Query\PagerSelectExtender $query */
+        /* @var PagerSelectExtender $query */
         $query = $query->extend(PagerSelectExtender::class);
         $query->limit($pagerLimit ?: self::PAGER_LIMIT);
 
@@ -56,7 +49,7 @@ class FileRepository
             return [];
         }
 
-        return $result->fetchAll(PDO::FETCH_ASSOC);
+        return $result->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     protected function setFilters(SelectInterface $query, array $filters): void
@@ -82,7 +75,7 @@ class FileRepository
         $query->innerJoin('media_field_data', 'd', 'm.mid = d.mid');
         $query->innerJoin('media__field_media_file', 'mf', 'm.mid = mf.entity_id');
         $query->innerJoin('file_managed', 'fm', 'mf.field_media_file_target_id = fm.fid');
-        $query->condition('m.bundle','file');
+        $query->condition('m.bundle', 'file');
         $query->addField('m', 'mid');
         $query->addField('d', 'name');
         $query->addField('d', 'created');
@@ -91,6 +84,7 @@ class FileRepository
         $query->addField('fm', 'filesize', 'size');
         $query->addExpression("SUBSTRING_INDEX(fm.filename, '.', -1)", 'extension');
         $query->addExpression(sprintf('EXISTS(SELECT u.media_id FROM %s AS u WHERE u.media_id = m.mid)', UsageRepository::TABLE), 'in_use');
+
         return $query;
     }
 }

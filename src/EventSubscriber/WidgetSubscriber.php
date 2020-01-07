@@ -3,8 +3,8 @@
 namespace Drupal\wmmedia\EventSubscriber;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\imgix\ImgixManagerInterface;
 use Drupal\file\FileInterface;
+use Drupal\imgix\ImgixManagerInterface;
 use Drupal\media\Entity\Media;
 use Drupal\wmmedia\Event\MediaWidgetRenderEvent;
 use Drupal\wmmedia\WmmediaEvents;
@@ -71,7 +71,6 @@ class WidgetSubscriber implements EventSubscriberInterface
                     ];
                 }
                 break;
-
             case 'file':
                 /** @var FileInterface $file */
                 $file = $entity->get('field_media_file')->entity;

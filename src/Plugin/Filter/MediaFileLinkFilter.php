@@ -2,9 +2,8 @@
 
 namespace Drupal\wmmedia\Plugin\Filter;
 
-use DOMElement;
-use DOMXPath;
 use Drupal\Component\Utility\Html;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\file\Entity\File;
 use Drupal\filter\FilterProcessResult;
@@ -22,10 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class MediaFileLinkFilter extends FilterBase implements ContainerFactoryPluginInterface
 {
-
-    /**
-     * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-     */
+    /** @var EntityTypeManagerInterface */
     protected $entityTypeManager;
 
     public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition)
@@ -36,6 +32,7 @@ class MediaFileLinkFilter extends FilterBase implements ContainerFactoryPluginIn
             $pluginDefinition
         );
         $instance->entityTypeManager = $container->get('entity_type.manager');
+
         return $instance;
     }
 
@@ -43,7 +40,7 @@ class MediaFileLinkFilter extends FilterBase implements ContainerFactoryPluginIn
     {
         $result = new FilterProcessResult($text);
         $dom = Html::load($text);
-        $xpath = new DOMXPath($dom);
+        $xpath = new \DOMXPath($dom);
         $storage = $this->entityTypeManager->getStorage('media');
 
         foreach ($xpath->query('//a[@data-media-file-link]') as $element) {
@@ -64,7 +61,7 @@ class MediaFileLinkFilter extends FilterBase implements ContainerFactoryPluginIn
                 continue;
             }
 
-            $url = $file->createFileUrl(FALSE);
+            $url = $file->createFileUrl(false);
 
             $mimeType = $file->getMimeType();
 
@@ -80,7 +77,7 @@ class MediaFileLinkFilter extends FilterBase implements ContainerFactoryPluginIn
         return $result;
     }
 
-    private function stripTag(DOMElement $element)
+    private function stripTag(\DOMElement $element)
     {
         $string = new \DOMText($element->textContent);
         $element->parentNode->replaceChild($string, $element);

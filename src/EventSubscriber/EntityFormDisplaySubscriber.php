@@ -10,7 +10,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class EntityFormDisplaySubscriber implements EventSubscriberInterface
 {
-
     public static function getSubscribedEvents(): array
     {
         return [
@@ -62,7 +61,6 @@ class EntityFormDisplaySubscriber implements EventSubscriberInterface
         switch ($fieldDefinition->get('field_type')) {
             case 'wmmedia_media_image_extras':
                 return 'images';
-
             case 'wmmedia_media_file_extras':
             default:
                 return 'files';

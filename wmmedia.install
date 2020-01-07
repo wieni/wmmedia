@@ -1,5 +1,7 @@
 <?php
 
+use Drupal\wmmedia\Service\UsageManager;
+
 function wmmedia_schema()
 {
     $schema = [];
@@ -94,7 +96,7 @@ function wmmedia_update_8001()
     $query = \Drupal::database()->query('TRUNCATE TABLE wmmedia_usage');
     $query->execute();
 
-    /* @var \Drupal\wmmedia\Service\UsageManager $service */
+    /* @var UsageManager $service */
     $service = \Drupal::service('wmmedia.usage');
     $service->generate();
 }

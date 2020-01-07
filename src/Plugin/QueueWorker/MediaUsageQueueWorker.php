@@ -3,47 +3,38 @@
 namespace Drupal\wmmedia\Plugin\QueueWorker;
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\TranslatableInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
+use Drupal\wmmedia\Service\UsageManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @QueueWorker(
  *     id = \Drupal\wmmedia\Plugin\QueueWorker\MediaUsageQueueWorker::ID,
  *     title = @Translation("Media usage"),
- *     cron = {"time" = 30}
+ *     cron = {"time" : 30}
  * )
  */
 class MediaUsageQueueWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface
 {
-
     public const ID = 'wmmedia.usage';
 
-    /**
-     * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-     */
+    /** @var EntityTypeManagerInterface */
     protected $entityTypeManager;
-
-    /**
-     * @var \Drupal\wmmedia\Service\UsageManager
-     */
+    /** @var UsageManager */
     protected $usageManager;
 
-    /**
-     * @inheritDoc
-     */
     public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition)
     {
         $instance = new static($configuration, $pluginId, $pluginDefinition);
         $instance->entityTypeManager = $container->get('entity_type.manager');
         $instance->usageManager = $container->get('wmmedia.usage');
+
         return $instance;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function processItem($data)
     {
         if (empty($data['type']) || empty($data['id'])) {

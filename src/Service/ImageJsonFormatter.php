@@ -5,26 +5,17 @@ namespace Drupal\wmmedia\Service;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\file\Entity\File;
+use Drupal\file\FileInterface;
 use Drupal\imgix\ImgixManagerInterface;
 use Drupal\media\MediaInterface;
 
 class ImageJsonFormatter
 {
-
-    /**
-     * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-     */
+    /** @var EntityTypeManagerInterface */
     protected $entityTypeManager;
-
-    /**
-     * @var \Drupal\imgix\ImgixManagerInterface
-     */
+    /** @var ImgixManagerInterface */
     protected $imgixManager;
-
-    /**
-     * @var \Drupal\Core\Language\LanguageManagerInterface
-     */
+    /** @var LanguageManagerInterface */
     protected $languageManager;
 
     public function __construct(
@@ -48,7 +39,7 @@ class ImageJsonFormatter
         $result = [
             'id' => $entity->id(),
             'label' => $entity->label(),
-            'author' => $entity->getOwner()->getDisplayName()  ?: '',
+            'author' => $entity->getOwner()->getDisplayName() ?: '',
             'dateCreated' => (int) $entity->getCreatedTime(),
         ];
 
@@ -72,7 +63,7 @@ class ImageJsonFormatter
             $result['width'] = (int) $entity->get('field_width')->value;
         }
 
-        /** @var File $file */
+        /** @var FileInterface $file */
         if ($file = $entity->get('field_media_imgix')->entity) {
             $result['originalUrl'] = $this->imgixManager->getImgixUrl($file, []);
             $result['thumbUrl'] = $this->imgixManager->getImgixUrl($file, ['fit' => 'max', 'h' => 250]);

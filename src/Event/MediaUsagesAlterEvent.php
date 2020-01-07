@@ -21,7 +21,7 @@ class MediaUsagesAlterEvent extends Event
      * @return FieldableEntityInterface[]
      *   The usages.
      */
-    public function &getUsages()
+    public function &getUsages(): array
     {
         return $this->usages;
     }

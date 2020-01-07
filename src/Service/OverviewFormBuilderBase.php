@@ -7,11 +7,11 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 abstract class OverviewFormBuilderBase
 {
-
     use StringTranslationTrait;
 
     public static function filterSubmit(array $form, FormStateInterface $formState): void
     {
+        // TODO: Make abstract service & inject dependencies
         $routeMatch = \Drupal::routeMatch();
         $request = \Drupal::request();
 
@@ -86,7 +86,7 @@ abstract class OverviewFormBuilderBase
 
     protected function setFormFilterDefaults(&$form, FormOptions $options, array $filters): void
     {
-         if ($options->showUsage()) {
+        if ($options->showUsage()) {
             $form['filters']['in_use'] = [
                 '#default_value' => $filters['in_use'] ?? '',
                 '#empty_option' => '- ' . $this->t('Any') . ' -',

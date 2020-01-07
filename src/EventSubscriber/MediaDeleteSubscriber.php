@@ -2,18 +2,18 @@
 
 namespace Drupal\wmmedia\EventSubscriber;
 
-use Drupal\file\Entity\File;
+use Drupal\file\FileInterface;
 use Drupal\hook_event_dispatcher\Event\Entity\EntityDeleteEvent;
-use Drupal\media\Entity\Media;
+use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
+use Drupal\media\MediaInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class MediaDeleteSubscriber implements EventSubscriberInterface
 {
-
-    public static function getSubscribedEvents():array
+    public static function getSubscribedEvents(): array
     {
         return [
-            'hook_event_dispatcher.entity.delete' => 'deleteFile',
+            HookEventDispatcherInterface::ENTITY_DELETE => 'deleteFile',
         ];
     }
 
@@ -21,13 +21,13 @@ class MediaDeleteSubscriber implements EventSubscriberInterface
     {
         $entity = $event->getEntity();
 
-        if (!$entity instanceof Media) {
+        if (!$entity instanceof MediaInterface) {
             return;
         }
 
         $file = $entity->get('field_media_file')->entity;
 
-        if (!$file instanceof File) {
+        if (!$file instanceof FileInterface) {
             return;
         }
 

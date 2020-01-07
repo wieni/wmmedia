@@ -8,12 +8,8 @@ use Drupal\entity_browser\WidgetBase;
 
 class MediaBrowserBase extends WidgetBase
 {
-
     public const BROWSER_KEY = 'entity_browser_select';
 
-    /**
-     * {@inheritdoc}
-     */
     public function validate(array &$form, FormStateInterface $formState): void
     {
         $selectedRows = $this->getSelectionFromUserInput($formState);
@@ -47,18 +43,12 @@ class MediaBrowserBase extends WidgetBase
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function submit(array &$element, array &$form, FormStateInterface $form_state)
     {
         $entities = $this->prepareEntities($form, $form_state);
         $this->selectEntities($entities, $form_state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function prepareEntities(array $form, FormStateInterface $formState): array
     {
         $entities = [];
@@ -93,6 +83,8 @@ class MediaBrowserBase extends WidgetBase
             return [];
         }
 
-        return is_array($userInput[self::BROWSER_KEY]) ? array_values(array_filter($userInput[self::BROWSER_KEY])) : [$userInput[self::BROWSER_KEY]];
+        return is_array($userInput[self::BROWSER_KEY])
+            ? array_values(array_filter($userInput[self::BROWSER_KEY]))
+            : [$userInput[self::BROWSER_KEY]];
     }
 }

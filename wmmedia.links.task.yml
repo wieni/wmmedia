@@ -1,6 +1,5 @@
-
 wmmedia.usage:
-  route_name: wmmedia.usage
-  title: 'Usage'
-  base_route: entity.media.canonical
-  weight: 5
+    route_name: wmmedia.usage
+    title: 'Usage'
+    base_route: entity.media.canonical
+    weight: 5

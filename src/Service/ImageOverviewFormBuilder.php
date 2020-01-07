@@ -5,46 +5,28 @@ namespace Drupal\wmmedia\Service;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\file\FileInterface;
 use Drupal\imgix\ImgixManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ImageOverviewFormBuilder extends OverviewFormBuilderBase
 {
-
     protected const SIZE_SMALL = 'small';
     protected const SIZE_MEDIUM = 'medium';
     protected const SIZE_LARGE = 'large';
 
-
-
-    /**
-     * @var \Drupal\Core\Entity\EntityFieldManagerInterface
-     */
+    /** @var EntityFieldManagerInterface */
     protected $entityFieldManager;
-
-    /**
-     * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-     */
+    /** @var EntityTypeManagerInterface */
     protected $entityTypeManager;
-
-    /**
-     * @var \Drupal\wmmedia\Service\ImageRepository
-     */
+    /** @var ImageRepository */
     protected $imageRepository;
-
-    /**
-     * @var \Drupal\imgix\ImgixManagerInterface
-     */
+    /** @var ImgixManagerInterface */
     protected $imgixManager;
-
-    /**
-     * @var \Symfony\Component\HttpFoundation\Request|null
-     */
+    /** @var Request|null */
     protected $request;
-
-    /**
-     * @var \Drupal\Core\Routing\RouteMatchInterface
-     */
+    /** @var RouteMatchInterface */
     protected $routeMatch;
 
     public function __construct(
@@ -63,7 +45,7 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
         $this->routeMatch = $routeMatch;
     }
 
-    public function setForm(array &$form, FormOptions $options, array $configuration = null): void
+    public function setForm(array &$form, FormOptions $options, ?array $configuration = null): void
     {
         $this->setFormContainer($form, $options);
 
@@ -99,7 +81,7 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
             ];
 
             if ($image['field_media_imgix_target_id']) {
-                /* @var \Drupal\file\Entity\File $file */
+                /* @var FileInterface $file */
                 $file = $this->entityTypeManager->getStorage('file')->load($image['field_media_imgix_target_id']);
                 if ($file) {
                     $form['container']['list'][$key]['preview'] = [

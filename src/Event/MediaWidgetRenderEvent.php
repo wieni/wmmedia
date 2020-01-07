@@ -6,12 +6,12 @@ use Symfony\Component\EventDispatcher\Event;
 
 class MediaWidgetRenderEvent extends Event
 {
-    /** @var string */
+    /** @var int */
     private $targetId;
     /** @var array */
     private $render;
 
-    public function __construct($targetId)
+    public function __construct(int $targetId)
     {
         $this->targetId = $targetId;
     }
@@ -21,13 +21,12 @@ class MediaWidgetRenderEvent extends Event
         return $this->targetId;
     }
 
-    /** @return array|null */
-    public function getPreview()
+    public function getPreview(): ?array
     {
         return $this->render;
     }
 
-    public function setPreview(array $render)
+    public function setPreview(array $render): void
     {
         $this->render = $render;
     }

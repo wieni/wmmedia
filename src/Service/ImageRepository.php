@@ -6,28 +6,20 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Query\PagerSelectExtender;
 use Drupal\Core\Database\Query\SelectInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
-use PDO;
 
 class ImageRepository
 {
-
     public const PAGER_LIMIT = 20;
 
-    /**
-     * @var \Drupal\Core\Database\Connection
-     */
+    /** @var Connection */
     protected $connection;
-
-    /**
-     * @var \Drupal\Core\Entity\EntityFieldManagerInterface
-     */
+    /** @var EntityFieldManagerInterface */
     protected $entityFieldManager;
 
     public function __construct(
         Connection $connection,
         EntityFieldManagerInterface $entityFieldManager
-    )
-    {
+    ) {
         $this->connection = $connection;
         $this->entityFieldManager = $entityFieldManager;
     }
@@ -40,7 +32,7 @@ class ImageRepository
             $this->setFilters($query, $filters);
         }
 
-        /* @var \Drupal\Core\Database\Query\PagerSelectExtender $query */
+        /* @var PagerSelectExtender $query */
         $query = $query->extend(PagerSelectExtender::class);
         $query->limit($pagerLimit ?: self::PAGER_LIMIT);
 
@@ -50,7 +42,7 @@ class ImageRepository
             return [];
         }
 
-        return $result->fetchAll(PDO::FETCH_ASSOC);
+        return $result->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function getImagesCount(array $filters = []): int
@@ -123,7 +115,7 @@ class ImageRepository
         $query->fields('m', ['mid']);
         $query->innerJoin('media_field_data', 'd', 'm.mid = d.mid');
         $query->fields('d', ['name']);
-        $query->condition('m.bundle','image');
+        $query->condition('m.bundle', 'image');
 
         $fields = [
             'field_copyright' => 'field_copyright_value',
@@ -152,10 +144,9 @@ class ImageRepository
         static $fieldStorages;
 
         if (!isset($fieldStorages)) {
-             $fieldStorages = $this->entityFieldManager->getFieldStorageDefinitions('media');
+            $fieldStorages = $this->entityFieldManager->getFieldStorageDefinitions('media');
         }
 
         return $fieldStorages;
     }
-
 }
