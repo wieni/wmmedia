@@ -44,13 +44,7 @@ class MediaWidget extends WidgetBase
 
     public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
     {
-        $instance = parent::create(
-            $plugin_id,
-            $plugin_definition,
-            $configuration['field_definition'],
-            $configuration['settings'],
-            $configuration['third_party_settings']
-        );
+        $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition);
         $instance->entityTypeManager = $container->get('entity_type.manager');
         $instance->eventDispatcher = $container->get('event_dispatcher');
 
