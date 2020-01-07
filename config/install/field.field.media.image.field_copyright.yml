@@ -5,16 +5,8 @@ dependencies:
     - field.storage.media.field_copyright
     - media.type.image
   module:
-    - allowed_formats
     - text
-third_party_settings:
-  allowed_formats:
-    basic: basic
-    advanced: '0'
-    embed: '0'
-    plaintext: '0'
-    plain: '0'
-    plain_text: '0'
+third_party_settings: {  }
 id: media.image.field_copyright
 field_name: field_copyright
 entity_type: media

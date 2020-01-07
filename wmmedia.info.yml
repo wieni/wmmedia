@@ -4,7 +4,6 @@ description: A media library for Drupal 8, built by Wieni
 core: 8.x
 package: Wieni
 dependencies:
-    - allowed_formats
     - entity_browser
     - file
     - hook_event_dispatcher

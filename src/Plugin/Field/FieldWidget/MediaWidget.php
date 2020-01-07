@@ -6,6 +6,7 @@ use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
@@ -41,12 +42,15 @@ class MediaWidget extends WidgetBase
     protected $entityTypeManager;
     /** @var EventDispatcherInterface */
     protected $eventDispatcher;
+    /** @var ModuleHandlerInterface */
+    protected $moduleHandler;
 
     public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
     {
         $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition);
         $instance->entityTypeManager = $container->get('entity_type.manager');
         $instance->eventDispatcher = $container->get('event_dispatcher');
+        $instance->moduleHandler = $container->get('module_handler');
 
         return $instance;
     }
@@ -328,7 +332,8 @@ class MediaWidget extends WidgetBase
             ];
 
             if (
-                $item->getMedia()->hasField('field_description')
+                $this->moduleHandler->moduleExists('allowed_formats')
+                && $item->getMedia()->hasField('field_description')
                 && ($fieldDefinition = $item->getMedia()->get('field_description')->getFieldDefinition())
                 && ($allowedFormats = $fieldDefinition->getThirdPartySettings('allowed_formats'))
             ) {
