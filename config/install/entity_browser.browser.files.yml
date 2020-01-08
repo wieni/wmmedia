@@ -1,18 +1,29 @@
 langcode: en
 status: true
 dependencies:
+  config:
+    - media.type.file
   module:
+    - media
     - wmmedia
 name: files
 label: Files
 display: modal
 display_configuration:
-  width: '1024'
-  height: '768'
+  width: '830'
+  height: '500'
   link_text: 'Select file'
   auto_open: false
 selection_display: no_display
 selection_display_configuration: {  }
 widget_selector: tabs
 widget_selector_configuration: {  }
-widgets: {  }
+widgets:
+  2087c530-bf3d-47ff-bd17-75759709f8d0:
+    settings:
+      submit_text: 'Select file'
+      auto_select: 0
+    uuid: 2087c530-bf3d-47ff-bd17-75759709f8d0
+    weight: 1
+    label: Library
+    id: wmmedia_media_file_browser

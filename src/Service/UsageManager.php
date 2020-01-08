@@ -221,12 +221,9 @@ class UsageManager
     {
         $value = $entity->get($fieldDefinition->getName())->value;
 
-        $mediaIds = [];
-        $dom = Html::load($value);
-        $xpath = new \DOMXPath($dom);
-        foreach ($xpath->query('//a[@data-media-file-link]') as $element) {
-            /* @var \DOMElement $element */
-            $mediaIds[(int) $element->getAttribute('data-media-file-link')] = 'file';
+        if (!$value) {
+            $this->setUsage($entity, $fieldDefinition, []);
+            return;
         }
 
         $mediaIds = $this->getIdsFromText($value);
@@ -281,7 +278,7 @@ class UsageManager
             $textIds = array_replace(...$textIds);
         }
 
-        $mediaIds = array_replace($imageIds, $textIds) ?? [];
+        $mediaIds = array_replace($imageIds, $textIds);
 
         $this->setUsage($entity, $fieldDefinition, $mediaIds);
     }
