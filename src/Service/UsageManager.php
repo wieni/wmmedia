@@ -264,10 +264,8 @@ class UsageManager
             return;
         }
 
-        $mediaIds = array_reduce($list->referencedEntities(), static function ($mediaIds, EntityInterface $item) {
-            $mediaIds[(int) $item->id()] = $item->bundle();
-            return $mediaIds;
-        }, []);
+        $textIds = [];
+        $imageIds = [];
 
         foreach ($list->getValue() as $value) {
             if (isset($value['description'])) {
@@ -279,7 +277,11 @@ class UsageManager
             }
         }
 
-        $mediaIds = array_replace($imageIds, array_replace(...$textIds));
+        if (!empty($textIds)) {
+            $textIds = array_replace(...$textIds);
+        }
+
+        $mediaIds = array_replace($imageIds, $textIds) ?? [];
 
         $this->setUsage($entity, $fieldDefinition, $mediaIds);
     }
