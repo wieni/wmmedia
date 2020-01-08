@@ -25,7 +25,7 @@ installed using Composer:
 
 ## How does it work?
 * For images use the wmmedia image field.
-* For files use the wmmedia widget on an entiry reference field.
+* For files use the wmmedia widget on an entity reference field.
 
 ## Changelog
 All notable changes to this project will be documented in the

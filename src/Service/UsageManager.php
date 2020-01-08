@@ -352,7 +352,7 @@ class UsageManager
     {
         $mediaIds = [];
         $dom = Html::load($text);
-        $xpath = new DOMXPath($dom);
+        $xpath = new \DOMXPath($dom);
         foreach ($xpath->query('//a[@data-media-file-link]') as $element) {
              /* @var \DOMElement $element */
             $mediaIds[(int) $element->getAttribute('data-media-file-link')] = 'file';

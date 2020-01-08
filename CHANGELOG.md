@@ -7,9 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
-## [Unreleased]
+## [2.0.0] - 2020-01-08
 ### Added
-- Add support for file media
+- Add support for file media including wysiwyg inline linking
 - Add coding standard fixers
 - Add issue & pull request templates
 - Add ext-dom dependency
@@ -31,13 +31,6 @@ are welcome.
   ([#10](https://github.com/wieni/wmmedia/issues/10))
 - Remove unnecessary dropzone_js dependency
   ([#8](https://github.com/wieni/wmmedia/issues/8))
-
-## [2.0.0] - 2020-01-08
-### Added
-- Add file handling including wysiwyg inline linking
-### Changed
-- Refactor the codebase so base classes can be used for both images and files.
-- Change class names for consistency between image and file handling.
 
 ## [1.7.20] - 2019-11-22
 ### Added
