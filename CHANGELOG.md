@@ -32,6 +32,13 @@ are welcome.
 - Remove unnecessary dropzone_js dependency
   ([#8](https://github.com/wieni/wmmedia/issues/8))
 
+## [2.0.0] - 2020-01-08
+### Added
+- Add file handling including wysiwyg inline linking
+### Changed
+- Refactor the codebase so base classes can be used for both images and files.
+- Change class names for consistency between image and file handling.
+
 ## [1.7.20] - 2019-11-22
 ### Added
 - Add bundle condition to media filter query

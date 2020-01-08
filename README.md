@@ -8,7 +8,11 @@ wmmedia
 > A media library for Drupal 8, built by Wieni
 
 ## Why?
-TODO
+The wmmedia module provides custom fields, widgets and media browsers for both images (imgix) and files.
+* Images don't use the core drupal image styles but imgix presets, these are both used backend and frontend.
+* The image widget provides the possibility to overwrite image meta info (title, alt,description) on the field level.
+* Inline linking of files inside the wysiwyg is supported in the media browser (<-> embedding files).
+* Integration of media usage tracking (<-> file usage), the tracking includes in which entities and fields the media items are used.
 
 ## Installation
 
@@ -20,7 +24,8 @@ installed using Composer:
 ```
 
 ## How does it work?
-TODO
+* For images use the wmmedia image field.
+* For files use the wmmedia widget on an entiry reference field.
 
 ## Changelog
 All notable changes to this project will be documented in the
