@@ -142,7 +142,7 @@ class MediaImageExtras extends EntityReferenceItem
         return $media->{$field}->entity;
     }
 
-    public function getMedia(): MediaInterface
+    public function getMedia(): ?MediaInterface
     {
         $langcode = $this->getLangcode();
         $media = $this->entity;
