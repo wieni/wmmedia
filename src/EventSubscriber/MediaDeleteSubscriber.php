@@ -25,12 +25,18 @@ class MediaDeleteSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $file = $entity->get('field_media_file')->entity;
+        $configuration = $entity->getSource()->getConfiguration();
 
-        if (!$file instanceof FileInterface) {
+        if (!isset($configuration['source_field'])) {
             return;
         }
 
-        $file->delete();
+        $source = $entity->get($configuration['source_field'])->entity;
+
+        if (!$source instanceof FileInterface) {
+            return;
+        }
+
+        $source->delete();
     }
 }
