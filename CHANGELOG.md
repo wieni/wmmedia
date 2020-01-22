@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## [2.0.3] - 2020-01-22
+### Changed
+- Change getMedia return type to nullable
+- Change MediaDeleteSubscriber to work with all media with file sources
+
+## [2.0.2] - 2020-01-08
+### Changed
+- Update entity browser configs
+
+### Fixed
+- Ensure usage manager doesn't crash on empty values
+
+### Removed
+- Remove implicit dropzonejs dependency
+
+## [2.0.1] - 2020-01-08
+### Fixed
+- Fix undefined arrays in usage manager
+
 ## [2.0.0] - 2020-01-08
 ### Added
 - Add support for file media including wysiwyg inline linking
