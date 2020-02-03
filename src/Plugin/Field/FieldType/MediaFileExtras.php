@@ -112,7 +112,7 @@ class MediaFileExtras extends EntityReferenceItem
         return null;
     }
 
-    public function getMedia(): MediaInterface
+    public function getMedia(): ?MediaInterface
     {
         return $this->entity;
     }
