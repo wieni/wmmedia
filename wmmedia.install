@@ -84,6 +84,10 @@ function wmmedia_update_8001()
 
     $schema = \Drupal::database()->schema();
 
+    if (!$schema->tableExists('wmmedia_usage')) {
+        return;
+    }
+
     if ($schema->fieldExists('wmmedia_usage', 'required')) {
         return;
     }
@@ -99,4 +103,20 @@ function wmmedia_update_8001()
     /* @var UsageManager $service */
     $service = \Drupal::service('wmmedia.usage');
     $service->generate();
+}
+
+
+/**
+ * Create the wmmedia_usage table if it does not yet exist.
+ */
+function wmmedia_update_8002()
+{
+    $definition = wmmedia_schema();
+    $schema = \Drupal::database()->schema();
+
+    if ($schema->tableExists('wmmedia_usage')) {
+        return;
+    }
+
+    $schema->createTable('wmmedia_usage', $definition['wmmedia_usage']);
 }
