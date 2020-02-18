@@ -24,6 +24,7 @@ wmmedia.file.overview:
         _form: Drupal\wmmedia\Form\MediaFileOverview
     requirements:
         _permission: 'access media overview'
+        _custom_access: 'wmmedia.media_file.access_checker::access'
     options:
         _admin_route: TRUE
 
@@ -34,6 +35,7 @@ wmmedia.file.browser.editor:
         _form: Drupal\wmmedia\Form\MediaFileOverviewEditor
     requirements:
         _permission: 'access media overview'
+        _custom_access: 'wmmedia.media_file.access_checker::access'
     options:
         _admin_route: TRUE
 

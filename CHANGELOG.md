@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## Unreleased
+### Fixed
+- Allow uninstalling the file media type by adding an access check to file 
+media routes that makes sure the bundle exists
+
 ## [2.0.5] - 2020-02-03
 ### Changed
 - Make MediaFileExtras::getMedia nullable to prevent errors when
