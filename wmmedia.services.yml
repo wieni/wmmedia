@@ -94,3 +94,8 @@ services:
     wmmedia.entity_form_display.subscriber:
         class:  Drupal\wmmedia\EventSubscriber\EntityFormDisplaySubscriber
         tags: [{ name: event_subscriber }]
+
+    wmmedia.media_file.access_checker:
+        class: Drupal\wmmedia\Access\MediaFileAccessCheck
+        arguments:
+            - '@entity_type.manager'
