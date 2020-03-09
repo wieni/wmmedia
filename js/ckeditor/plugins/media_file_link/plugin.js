@@ -70,11 +70,14 @@
                             range.select();
 
                             linkElement = getSelectedLink(editor);
-                        } else if (linkElement) {
-                            if (value) {
-                                linkElement.setAttribute('href', 'entity:media/' + value);
-                                linkElement.setAttribute('data-media-file-link', value);
-                            }
+                        } else if (linkElement && value) {
+                            linkElement.setAttribute('href', 'entity:media/' + value);
+                            linkElement.setAttribute('data-media-file-link', value);
+                            // In case this was an existing standard link.
+                            linkElement.removeAttribute('data-entity-substitution');
+                            linkElement.removeAttribute('data-entity-type');
+                            linkElement.removeAttribute('data-entity-uuid');
+                            linkElement.removeAttribute('data-cke-saved-href');
                         }
 
                         editor.fire('saveSnapshot');
