@@ -93,6 +93,7 @@ class UsageRepository
     {
         $delete = $this->connection->delete(self::TABLE);
         $delete->condition('entity_id', $entity->id());
+        $delete->condition('entity_type', $entity->getEntityTypeId());
         $delete->execute();
     }
 

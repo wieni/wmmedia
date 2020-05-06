@@ -104,9 +104,13 @@ class UsageManager
         $this->repository->deleteByEntity($entity);
     }
 
-    public function generate(): void
+    public function generate(string $entityTypeId = null): void
     {
         $entityTypeDefinitions = $this->entityTypeManager->getDefinitions();
+        if ($entityTypeId && $entityTypeDefinition = $this->entityTypeManager->getDefinition($entityTypeId)) {
+            $entityTypeDefinitions = [$entityTypeDefinition];
+        }
+
         $excludedEntityTypes = ['media', 'menu_link_content', 'redirect', 'webform_submission'];
 
         foreach ($entityTypeDefinitions as $definition) {
