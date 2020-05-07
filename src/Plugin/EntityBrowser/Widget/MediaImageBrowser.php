@@ -3,6 +3,7 @@
 namespace Drupal\wmmedia\Plugin\EntityBrowser\Widget;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\entity_browser\Element\EntityBrowserElement;
 use Drupal\entity_browser\Form\EntityBrowserForm;
 use Drupal\imgix\ImgixManagerInterface;
 use Drupal\wmmedia\Service\FormOptions;
@@ -48,7 +49,12 @@ class MediaImageBrowser extends MediaBrowserBase
             return $form;
         }
 
-        $this->overviewFormBuilder->setForm($form, FormOptions::createForBrowser(), $this->configuration);
+        $cardinality = $formState->get(['entity_browser', 'validators', 'cardinality', 'cardinality']);
+        $isMultiple = $cardinality > 1 || $cardinality === EntityBrowserElement::CARDINALITY_UNLIMITED;
+        $options = FormOptions::createForBrowser()
+            ->setMultiple($isMultiple);
+
+        $this->overviewFormBuilder->setForm($form, $options, $this->configuration);
         $form['#attached']['library'][] = 'wmmedia/image_browser';
 
         return $form;

@@ -41,9 +41,23 @@ class FormOptions
         return $this->operations;
     }
 
+    public function setShowOperations(bool $value): self
+    {
+        $this->operations = $value;
+
+        return $this;
+    }
+
     public function isSelectable(): bool
     {
         return $this->selectable;
+    }
+
+    public function setSelectable(bool $value): self
+    {
+        $this->selectable = $value;
+
+        return $this;
     }
 
     public function isMultiple(): bool
@@ -51,9 +65,23 @@ class FormOptions
         return $this->multiple;
     }
 
+    public function setMultiple(bool $value): self
+    {
+        $this->multiple = $value;
+
+        return $this;
+    }
+
     public function showUsage(): bool
     {
         return $this->showUsage;
+    }
+
+    public function setShowUsage(bool $value): self
+    {
+        $this->showUsage = $value;
+
+        return $this;
     }
 
     public function getContext(): string
@@ -61,9 +89,23 @@ class FormOptions
         return $this->context;
     }
 
+    public function setContext(string $value): self
+    {
+        $this->context = $value;
+
+        return $this;
+    }
+
     public function getPagerLimit(): int
     {
         return $this->pagerLimit;
+    }
+
+    public function setPagerLimit(int $value): self
+    {
+        $this->pagerLimit = $value;
+
+        return $this;
     }
 
     public static function createForOverview(): self
