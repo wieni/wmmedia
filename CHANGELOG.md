@@ -7,10 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
-## Unreleased
+## [2.0.9] - 2020-05-07
 ### Fixed
+- Fix entity browser widget with cardinality > 1 never showing checkboxes
+
+## [2.0.8] - 2020-05-06
+### Fixed
+- Fix deletion bug and allow generation by entity type.
+
+## [2.0.7] - 2020-03-09
+### Changed
 - Allow uninstalling the file media type by adding an access check to file 
 media routes that makes sure the bundle exists
+
+## [2.0.6] - 2020-02-17
+### Fixed
+- Remove lingering link attributes in ckeditor when changing existing link.
 
 ## [2.0.5] - 2020-02-03
 ### Changed
