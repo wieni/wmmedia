@@ -59,6 +59,7 @@ services:
     wmmedia.usage.subscriber.entity:
         class: Drupal\wmmedia\EventSubscriber\UsageEntitySubscriber
         arguments:
+            - '@database'
             - '@wmmedia.usage'
         tags: [{ name: event_subscriber }]
 

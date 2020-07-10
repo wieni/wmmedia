@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## [2.0.10] - 2020-07-10
+### Fixed
+- Prevent errors when entities are deleted during update hooks before the 
+ wmmedia_usage schema is installed.
+
 ## [2.0.9] - 2020-05-07
 ### Fixed
 - Fix entity browser widget with cardinality > 1 never showing checkboxes
