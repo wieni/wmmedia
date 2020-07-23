@@ -2,25 +2,15 @@
 
 namespace Drupal\wmmedia\EventSubscriber;
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\file\FileInterface;
-use Drupal\hook_event_dispatcher\Event\Entity\EntityPresaveEvent;
-use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\media\Entity\Media;
 use Drupal\media\MediaInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ImageSubscriber implements EventSubscriberInterface
+class ImageSubscriber
 {
-    public static function getSubscribedEvents(): array
+    public function onPreSave(EntityInterface $entity): void
     {
-        return [
-            HookEventDispatcherInterface::ENTITY_PRE_SAVE => 'onPreSave',
-        ];
-    }
-
-    public function onPreSave(EntityPresaveEvent $event): void
-    {
-        $entity = $event->getEntity();
         if (!$entity instanceof Media) {
             return;
         }

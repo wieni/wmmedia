@@ -3,12 +3,11 @@
 namespace Drupal\wmmedia\EventSubscriber;
 
 use Drupal\Core\Database\Connection;
-use Drupal\hook_event_dispatcher\Event\Entity\BaseEntityEvent;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\wmmedia\Service\UsageManager;
 use Drupal\wmmedia\Service\UsageRepository;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class UsageEntitySubscriber implements EventSubscriberInterface
+class UsageEntitySubscriber
 {
     /** @var Connection */
     protected $database;
@@ -23,32 +22,21 @@ class UsageEntitySubscriber implements EventSubscriberInterface
         $this->usageManager = $usageManager;
     }
 
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            'hook_event_dispatcher.entity.insert' => 'trackUsage',
-            'hook_event_dispatcher.entity.update' => 'trackUsage',
-            'hook_event_dispatcher.entity.delete' => 'clearUsage',
-        ];
-    }
-
-    public function trackUsage(BaseEntityEvent $event): void
+    public function trackUsage(EntityInterface $entity): void
     {
         if (!$this->isTableInstalled()) {
             return;
         }
 
-        $entity = $event->getEntity();
         $this->usageManager->track($entity);
     }
 
-    public function clearUsage(BaseEntityEvent $event): void
+    public function clearUsage(EntityInterface $entity): void
     {
         if (!$this->isTableInstalled()) {
             return;
         }
 
-        $entity = $event->getEntity();
         $this->usageManager->clear($entity);
     }
 

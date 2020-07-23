@@ -3,14 +3,13 @@
 namespace Drupal\wmmedia\EventSubscriber;
 
 use Drupal\Core\Entity\ContentEntityDeleteForm;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
-use Drupal\hook_event_dispatcher\Event\Form\BaseFormEvent;
 use Drupal\media\MediaInterface;
 use Drupal\wmmedia\Service\UsageManager;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class UsageFormAlterSubscriber implements EventSubscriberInterface
+class UsageFormAlterSubscriber
 {
     use StringTranslationTrait;
 
@@ -22,16 +21,8 @@ class UsageFormAlterSubscriber implements EventSubscriberInterface
         $this->usageManager = $usageManager;
     }
 
-    public static function getSubscribedEvents(): array
+    public function addWarning(array &$form, FormStateInterface $formState): void
     {
-        return [
-            'hook_event_dispatcher.form_media_file_delete_form.alter' => 'addWarning',
-        ];
-    }
-
-    public function addWarning(BaseFormEvent $event): void
-    {
-        $formState = $event->getFormState();
         $callBackObject = $formState->getFormObject();
 
         if (!$callBackObject instanceof ContentEntityDeleteForm) {
@@ -43,8 +34,6 @@ class UsageFormAlterSubscriber implements EventSubscriberInterface
         if (!$entity instanceof MediaInterface) {
             return;
         }
-
-        $form = &$event->getForm();
 
         if (!isset($form['description']['#markup'])) {
             return;

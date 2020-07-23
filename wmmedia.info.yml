@@ -6,7 +6,6 @@ package: Wieni
 dependencies:
     - entity_browser
     - file
-    - hook_event_dispatcher
     - image
     - imgix
     - media

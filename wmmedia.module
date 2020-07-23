@@ -1,6 +1,7 @@
 <?php
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\media\Entity\Media;
 use Drupal\wmmedia\Service\UsageManager;
 
@@ -65,4 +66,61 @@ function wmmedia_entity_operation_alter(array &$operations, EntityInterface $ent
         $service = \Drupal::service('wmmedia.usage');
         $service->setOperations($entity, $operations);
     }
+}
+
+function wmmedia_form_media_form_alter(&$form, FormStateInterface $formState, $formId)
+{
+    \Drupal::getContainer()
+        ->get('wmmedia.form_alter.subscriber')
+        ->mediaFormAlter($form, $formState);
+}
+
+function wmmedia_form_media_file_delete_form_alter(&$form, FormStateInterface $formState)
+{
+    \Drupal::getContainer()
+        ->get('wmmedia.usage.subscriber.form')
+        ->addWarning($form, $formState);
+}
+
+function wmmedia_inline_entity_form_entity_form_alter(array &$form, FormStateInterface $formState)
+{
+    \Drupal::getContainer()
+        ->get('wmmedia.form_alter.subscriber')
+        ->entityBrowserImagesFormAlter($form, $formState);
+}
+
+function wmmedia_entity_presave(EntityInterface $entity)
+{
+    \Drupal::getContainer()
+        ->get('wmmedia.entity.image.subscriber')
+        ->onPreSave($entity);
+
+    \Drupal::getContainer()
+        ->get('wmmedia.entity_form_display.subscriber')
+        ->onPreSave($entity);
+}
+
+function wmmedia_entity_delete(EntityInterface $entity)
+{
+    \Drupal::getContainer()
+        ->get('wmmedia.entity.delete.subscriber')
+        ->deleteFile($entity);
+
+    \Drupal::getContainer()
+        ->get('wmmedia.usage.subscriber.entity')
+        ->clearUsage($entity);
+}
+
+function wmmedia_entity_insert(EntityInterface $entity)
+{
+    \Drupal::getContainer()
+        ->get('wmmedia.usage.subscriber.entity')
+        ->trackUsage($entity);
+}
+
+function wmmedia_entity_update(EntityInterface $entity)
+{
+    \Drupal::getContainer()
+        ->get('wmmedia.usage.subscriber.entity')
+        ->trackUsage($entity);
 }

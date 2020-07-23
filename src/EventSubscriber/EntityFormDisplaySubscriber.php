@@ -3,24 +3,13 @@
 namespace Drupal\wmmedia\EventSubscriber;
 
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\field\Entity\FieldConfig;
-use Drupal\hook_event_dispatcher\Event\Entity\EntityPresaveEvent;
-use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class EntityFormDisplaySubscriber implements EventSubscriberInterface
+class EntityFormDisplaySubscriber
 {
-    public static function getSubscribedEvents(): array
+    public function onPreSave(EntityInterface $entity): void
     {
-        return [
-            HookEventDispatcherInterface::ENTITY_PRE_SAVE => 'onPreSave',
-        ];
-    }
-
-    public function onPreSave(EntityPresaveEvent $event): void
-    {
-        $entity = $event->getEntity();
-
         if (!$entity instanceof EntityFormDisplay) {
             return;
         }

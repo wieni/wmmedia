@@ -14,7 +14,6 @@
         "ext-dom": "*",
         "drupal/core": "^8.5 || ^9.0",
         "drupal/entity_browser": "^2.0",
-        "drupal/hook_event_dispatcher": "^1.20",
         "wieni/imgix": "^8.2"
     },
     "require-dev": {

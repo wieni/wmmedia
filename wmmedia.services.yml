@@ -61,25 +61,20 @@ services:
         arguments:
             - '@database'
             - '@wmmedia.usage'
-        tags: [{ name: event_subscriber }]
 
     wmmedia.usage.subscriber.form:
         class: Drupal\wmmedia\EventSubscriber\UsageFormAlterSubscriber
         arguments:
             - '@wmmedia.usage'
-        tags: [{ name: event_subscriber }]
 
     wmmedia.form_alter.subscriber:
         class: Drupal\wmmedia\EventSubscriber\MediaFormAlterSubscriber
-        tags: [{ name: event_subscriber }]
 
     wmmedia.entity.image.subscriber:
         class: Drupal\wmmedia\EventSubscriber\ImageSubscriber
-        tags: [{ name: event_subscriber }]
 
     wmmedia.entity.delete.subscriber:
         class: Drupal\wmmedia\EventSubscriber\MediaDeleteSubscriber
-        tags: [{ name: event_subscriber }]
 
     wmmedia.media_widget.subscriber:
         class: Drupal\wmmedia\EventSubscriber\WidgetSubscriber
@@ -94,7 +89,6 @@ services:
 
     wmmedia.entity_form_display.subscriber:
         class:  Drupal\wmmedia\EventSubscriber\EntityFormDisplaySubscriber
-        tags: [{ name: event_subscriber }]
 
     wmmedia.media_file.access_checker:
         class: Drupal\wmmedia\Access\MediaFileAccessCheck
