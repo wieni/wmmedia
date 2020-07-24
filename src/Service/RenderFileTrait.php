@@ -25,7 +25,7 @@ trait RenderFileTrait
 
         return [
             '#attached' => [
-                'library' => ['classy/file'],
+                'library' => ['file/drupal.file'],
             ],
             '#attributes' => [
                 'class' => $classes,
