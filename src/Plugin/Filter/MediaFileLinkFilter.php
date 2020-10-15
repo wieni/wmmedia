@@ -66,7 +66,6 @@ class MediaFileLinkFilter extends FilterBase implements ContainerFactoryPluginIn
             $mimeType = $file->getMimeType();
 
             $element->setAttribute('href', $url);
-            $element->setAttribute('target', '_blank');
             $element->setAttribute('type', $mimeType . '; length=' . $file->getSize());
             $element->setAttribute('title', $media->label());
             $element->removeAttribute('data-media-file-link');
