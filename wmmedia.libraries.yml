@@ -62,3 +62,8 @@ modal:
     css:
         theme:
             css/modal.css: {}
+
+media_widget:
+    css:
+        theme:
+            css/media_widget.css: {}

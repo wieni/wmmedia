@@ -454,6 +454,7 @@ class MediaWidget extends WidgetBase
         }
 
         $element['container']['#attached']['library'][] = 'entity_browser/common';
+        $element['container']['#attached']['library'][] = 'wmmedia/media_widget';
         $element['container']['#attached']['library'][] = 'wmmedia/modal';
 
         return $element;

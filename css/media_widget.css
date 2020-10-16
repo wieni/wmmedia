@@ -1,0 +1,36 @@
+.field--widget-wmmedia-media-widget table {
+    border: 1px solid #eee;
+    border-bottom: none;
+}
+
+.field--widget-wmmedia-media-widget table thead {
+    display: none;
+}
+
+.field--widget-wmmedia-media-widget table tbody > tr {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.field--widget-wmmedia-media-widget table tbody > tr:hover {
+    background: none;
+}
+
+.field--widget-wmmedia-media-widget table tbody > tr > td {
+    height: auto;
+    padding: 0;
+}
+
+.field--widget-wmmedia-media-widget table tbody > tr > td:first-child {
+    align-self: flex-start;
+}
+
+.field--widget-wmmedia-media-widget table tbody .tabledrag-handle {
+    margin-bottom: 20px;
+}
+
+.field--widget-wmmedia-media-widget .form-actions {
+    margin: 0;
+}

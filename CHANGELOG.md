@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## [Unreleased]
+### Added
+- Add media widget styles
+
 ## [2.0.13] - 2020-10-15
 ### Removed
 - Stop automatically opening linked media in new tab/window
