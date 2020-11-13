@@ -11,6 +11,9 @@ are welcome.
 ### Added
 - Add media widget styles
 
+### Removed
+- Remove unnecessary base field override configs
+
 ## [2.0.13] - 2020-10-15
 ### Removed
 - Stop automatically opening linked media in new tab/window
