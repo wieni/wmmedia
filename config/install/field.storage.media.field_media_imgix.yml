@@ -13,7 +13,7 @@ settings:
   target_type: file
   display_field: false
   display_default: false
-  uri_scheme: s3
+  uri_scheme: public
 module: imgix
 locked: false
 cardinality: 1
