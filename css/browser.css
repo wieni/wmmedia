@@ -18,5 +18,5 @@
 }
 
 .wmmedia__list__select.active {
-    background: #007acc36;
+    box-shadow: 0 0 0 0.2rem rgba(38,143,255,.5);
 }
