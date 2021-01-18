@@ -14,6 +14,7 @@ are welcome.
   
 ### Changed
 - Clean up existing theming
+- Replace yarn with npm
 
 ### Removed
 - Remove unnecessary base field override configs
