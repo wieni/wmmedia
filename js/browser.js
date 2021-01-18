@@ -7,6 +7,7 @@
 
             if (!Drupal.isBrowserMultiple()) {
                 $('.is-entity-browser-submit').hide();
+                $('.wmmedia__list__select .form-type--checkbox').hide();
             }
 
             $('.wmmedia__filters__search').keypress(function(e) {

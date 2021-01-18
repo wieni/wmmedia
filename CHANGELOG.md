@@ -7,9 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
-## [Unreleased]
+## [2.0.14] - 2021-01-18
 ### Added
 - Add media widget styles
+- Add compatibility with Gin, Claro & Seven themes
+  
+### Changed
+- Clean up existing theming
 
 ### Removed
 - Remove unnecessary base field override configs

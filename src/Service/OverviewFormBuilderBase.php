@@ -114,7 +114,12 @@ abstract class OverviewFormBuilderBase
             ];
         }
 
-        $form['filters']['submit'] = [
+        $form['filters']['actions']['wrapper'] = [
+            '#type' => 'container',
+            '#attributes' => ['class' => ['wmmedia__filters__actions']],
+        ];
+
+        $form['filters']['actions']['wrapper']['submit'] = [
             '#attributes' => [
                 'class' => ['wmmedia__filters__submit'],
             ],
@@ -123,7 +128,7 @@ abstract class OverviewFormBuilderBase
             '#value' => $this->t('Search'),
         ];
 
-        $form['filters']['reset'] = [
+        $form['filters']['actions']['wrapper']['reset'] = [
             '#submit' => [[$this, 'filterSubmit']],
             '#type' => 'submit',
             '#value' => $this->t('Reset'),

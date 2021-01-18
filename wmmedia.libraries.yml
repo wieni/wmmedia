@@ -8,7 +8,6 @@ browser:
         js/browser.js: {}
     css:
         theme:
-            css/browser.css: {}
             assets/dist/filters.css: {}
     dependencies:
         - core/jquery
@@ -18,7 +17,8 @@ image_browser:
         js/image_browser.js: {}
     css:
         theme:
-            assets/dist/image.css: {}
+            assets/dist/image_browser.css: {}
+            assets/dist/image_browser_checkbox.css: {}
     dependencies:
         - wmmedia/browser
 
@@ -27,7 +27,7 @@ file_browser:
         js/file_browser.js: {}
     css:
         theme:
-            assets/dist/file.css: {}
+            assets/dist/file_browser.css: {}
     dependencies:
         - wmmedia/browser
 
@@ -55,13 +55,6 @@ file_widget:
     css:
         theme:
             css/file_widget.css: {}
-    dependencies:
-        - wmmedia/modal
-
-modal:
-    css:
-        theme:
-            css/modal.css: {}
 
 media_widget:
     css:
