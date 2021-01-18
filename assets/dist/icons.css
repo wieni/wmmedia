@@ -25,23 +25,23 @@
 }
 
 .media-icon.media-icon--delete::before {
-    content: "\ea02";
-}
-
-.media-icon.media-icon--download::before {
     content: "\ea03";
 }
 
-.media-icon.media-icon--edit::before {
-    content: "\ea07";
+.media-icon.media-icon--download::before {
+    content: "\ea02";
 }
 
-.media-icon.media-icon--link::before {
+.media-icon.media-icon--edit::before {
     content: "\ea04";
 }
 
-.media-icon.media-icon--next::before {
+.media-icon.media-icon--link::before {
     content: "\ea05";
+}
+
+.media-icon.media-icon--next::before {
+    content: "\ea07";
 }
 
 .media-icon.media-icon--preview::before {

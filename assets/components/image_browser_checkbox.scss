@@ -1,61 +1,6 @@
-$checkbox-background-color: #4c5661;
-
-.wmmedia__list {
-    display: flex;
-    flex-flow: row wrap;
-    margin: 0 -20px -20px 0;
-    padding-bottom: 30px;
-}
-
-.wmmedia__list__select.form-wrapper  {
-    cursor: pointer;
-    position: relative;
-
-    .imgix-image .caption,
-    .form-item-view-media1-checkbox {
-        margin: 0;
-    }
-
-    .imgix-image {
-        height: 150px;
-        width: 150px;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        background-color: rgba(0, 0, 0, .2);
-    }
-
-    &,
-    &:last-child {
-        margin: 0 20px 20px 0;
-    }
-
-    > p {
-        margin: 0;
-
-        &:first-of-type {
-            width: 150px;
-            margin-top: 7px;
-
-            font-weight: 600;
-            word-break: break-all;
-        }
-
-        &:last-of-type {
-            font-weight: 500;
-            font-size: .8rem;
-        }
-    }
-
+.wmmedia__list__select {
+    .form-type--checkbox,
     .form-type-checkbox {
-        margin: 0;
-
-        position: absolute;
-        top: 114px; right: 13px;
-
         color: #fff;
         pointer-events: none;
 
@@ -89,12 +34,12 @@ $checkbox-background-color: #4c5661;
             &:before {
                 transition-delay: 50ms;
                 transform: rotate(45deg);
-                top: 10px; left: 7px;
+                top: 12px; left: 8px;
             }
 
             &:after {
                 transform: rotate(305deg);
-                top: 13px; left: 8px;
+                top: 15px; left: 10px;
             }
         }
 
@@ -110,7 +55,7 @@ $checkbox-background-color: #4c5661;
 
                     &:after,
                     &:before {
-                        background: $checkbox-background-color;
+                        background: #4c5661;
                         transition: width 150ms ease 100ms;
                     }
 

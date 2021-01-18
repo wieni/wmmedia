@@ -3,7 +3,6 @@
 
     font-size: .9rem;
     line-height: 1;
-    color: white;
 
     &:focus,
     &:hover,
@@ -12,6 +11,7 @@
     }
 
     &::before {
+        color: white;
         margin-right: .5rem;
     }
 
@@ -25,7 +25,14 @@
         margin-top: 1.2rem;
     }
 
-    a, button {
+    a,
+    button {
+        color: white;
         text-decoration: none;
+
+        &:hover {
+            color: white;
+            text-decoration: underline;
+        }
     }
 }

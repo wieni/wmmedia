@@ -6,16 +6,8 @@
   "author": "Dieter Holvoet <dieter@wieni.be>",
   "license": "ISC",
   "scripts": {
-    "dev": "rimraf .cache && run-p dev:*",
-    "dev:gallery": "parcel watch components/gallery/gallery.js",
-    "dev:filters": "parcel watch components/filters/filters.js",
-    "dev:image": "parcel watch components/image/image.js",
-    "dev:file": "parcel watch components/file/file.js",
-    "build": "run-p build:*",
-    "build:gallery": "parcel build components/gallery/gallery.js",
-    "build:filters": "parcel build components/filters/filters.js",
-    "build:image": "parcel build components/image/image.js",
-    "build:file": "parcel build components/file/file.js",
+    "dev": "rimraf .cache && run-p parcel watch components/*",
+    "build": "parcel build components/*",
     "build:webfont": "webfont 'icons/**/*.svg' -d './dist' && postcss -r dist/icons.css"
   },
   "devDependencies": {

@@ -120,7 +120,7 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
 
         $form['filters'] = [
             '#attributes' => [
-                'class' => ['container-inline', 'wmmedia__filters'],
+                'class' => ['wmmedia__filters'],
             ],
             '#tree' => true,
             '#type' => 'container',
