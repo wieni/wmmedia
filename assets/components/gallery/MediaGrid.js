@@ -37,6 +37,11 @@ class MediaGrid extends React.Component {
         let query = queryString.parse(window.location.search);
         query.page = page;
 
+        // Set/override the destination query param so the entity_operation
+        // links don't redirect to the api endpoint but back to this
+        // originating page.
+        query.destination = encodeURIComponent(window.location.pathname + window.location.search)
+
         fetch(`/admin/api/media/paginate?${queryString.stringify(query)}`, { credentials: 'include' })
             .then((response) => {
                 if (response.status >= 400) {

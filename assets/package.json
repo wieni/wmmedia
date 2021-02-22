@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Gallery belonging to the WmMedia module",
   "main": "",
-  "author": "Dieter Holvoet <dieter@wieni.be>",
+  "author": "Wieni <info@wieni.be>",
   "license": "ISC",
   "scripts": {
     "dev": "rimraf .cache && run-p parcel watch components/*",

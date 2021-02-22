@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## [2.0.15] - 2021-02-22
+### Fixed
+- Fix redirects to '/admin/api/media/paginate' when editing images through the media content overview
+
 ## [2.0.14] - 2021-01-18
 ### Added
 - Add media widget styles
