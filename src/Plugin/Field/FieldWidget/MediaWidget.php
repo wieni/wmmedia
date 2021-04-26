@@ -432,7 +432,7 @@ class MediaWidget extends WidgetBase
         ];
 
         // Add entity_browser element.
-        $selectionMode = $this->getSetting('selection_mode');
+        $element['#selection_mode'] = $selectionMode = $this->getSetting('selection_mode');
 
         // Enable entity browser if requirements for that are fulfilled.
         if (EntityBrowserElement::isEntityBrowserAvailable($selectionMode, $cardinality, $mediaItems->count())) {
@@ -573,13 +573,14 @@ class MediaWidget extends WidgetBase
         $element = NestedArray::getValue($form, $array_parents);
         $fieldParents = $element['#field_parents'];
         $fieldName = $element['#field_name'];
+        $selectionMode = $element['#selection_mode'];
         $storageKey = static::getStorageKey($fieldParents, $fieldName);
 
         $items = static::getMediaItems($formState, $storageKey);
 
         switch ($button) {
             case 'entity_browser_add':
-                static::addMediaItems($items, $formState, $parents);
+                static::addMediaItems($items, $formState, $parents, $selectionMode);
                 break;
             case 'remove':
                 $index = $triggering_element['#parents'][count($triggering_element['#parents']) - 2];
@@ -599,7 +600,8 @@ class MediaWidget extends WidgetBase
     public static function addMediaItems(
         EntityReferenceFieldItemListInterface $items,
         FormStateInterface $formState,
-        array $parents
+        array $parents,
+        string $selectionMode
     ) {
         // Form state values is empty on a new node form for some reason.
         $media = NestedArray::getValue($formState->getUserInput(), array_merge($parents, ['container', 'entity_browser_target']));
@@ -634,7 +636,14 @@ class MediaWidget extends WidgetBase
                 $item['description'] = $entity->get('field_description')->value;
             }
 
-            $items->appendItem($item);
+            if ($selectionMode === EntityBrowserElement::SELECTION_MODE_PREPEND) {
+                $value = $items->getValue();
+                array_unshift($value, $item);
+                $items->setValue($value);
+                self::clearFormInput($formState);
+            } else {
+                $items->appendItem($item);
+            }
         }
     }
 
