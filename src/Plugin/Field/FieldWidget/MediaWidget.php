@@ -453,6 +453,10 @@ class MediaWidget extends WidgetBase
             ];
         }
 
+        if ($selectionMode === EntityBrowserElement::SELECTION_MODE_PREPEND) {
+            $element['container']['table']['#weight'] = 1;
+        }
+
         $element['container']['#attached']['library'][] = 'entity_browser/common';
         $element['container']['#attached']['library'][] = 'wmmedia/media_widget';
         $element['container']['#attached']['library'][] = 'wmmedia/modal';

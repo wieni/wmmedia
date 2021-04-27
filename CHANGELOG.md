@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## [2.0.18] - 2021-04-27
+### Changed
+- Show add image button before the existing images table when prepending
+
 ## [2.0.17] - 2021-04-26
 ### Fixed
 - Allow prepending items using the field widget
