@@ -1,14 +1,14 @@
 overview:
     css:
         theme:
-            assets/dist/filters.css: {}
+            assets/dist/filters.css: { preprocess: false, minified: true }
 
 browser:
     js:
         js/browser.js: {}
     css:
         theme:
-            assets/dist/filters.css: {}
+            assets/dist/filters.css: { preprocess: false, minified: true }
     dependencies:
         - core/jquery
 
@@ -17,8 +17,8 @@ image_browser:
         js/image_browser.js: {}
     css:
         theme:
-            assets/dist/image_browser.css: {}
-            assets/dist/image_browser_checkbox.css: {}
+            assets/dist/image_browser.css: { preprocess: false, minified: true }
+            assets/dist/image_browser_checkbox.css: { preprocess: false, minified: true }
     dependencies:
         - wmmedia/browser
 
@@ -27,7 +27,7 @@ file_browser:
         js/file_browser.js: {}
     css:
         theme:
-            assets/dist/file_browser.css: {}
+            assets/dist/file_browser.css: { preprocess: false, minified: true }
     dependencies:
         - wmmedia/browser
 
@@ -43,11 +43,11 @@ editor_file_browser:
 
 gallery:
     js:
-        assets/dist/gallery.js: {}
+        assets/dist/gallery.js: { preprocess: false, minified: true }
     css:
         theme:
-            assets/dist/icons.css: {}
-            assets/dist/gallery.css: {}
+            assets/dist/icons.css: { preprocess: false }
+            assets/dist/gallery.css: { preprocess: false, minified: true }
     dependencies:
         - core/drupal
 
