@@ -302,7 +302,7 @@ class MediaWidget extends WidgetBase
             if ($media->bundle() === 'image') {
                 $row['preview'] = [
                     '#theme' => 'image_style',
-                    '#style_name' => 'thumbnail',
+                    '#style_name' => 'medium',
                     '#uri' => $file->getFileUri(),
                     '#prefix' => '<a href="' . file_create_url($file->getFileUri()) . '" target="_blank">',
                     '#suffix' => '</a>',
