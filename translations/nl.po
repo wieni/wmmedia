@@ -16,7 +16,6 @@
 #  src/Plugin/Field/FieldWidget/MediaWidget.php: n/a
 #  src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php: n/a
 #  src/Plugin/Field/FieldFormatter/DefaultMediaImageFieldFormatter.php: n/a
-#  src/Plugin/media/Source/Imgix.php: n/a
 #
 msgid ""
 msgstr ""
@@ -214,10 +213,6 @@ msgstr ""
 msgid "Add"
 msgstr "Toevoegen"
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:48
-msgid "The configured media type is not using the imgix plugin."
-msgstr "Het geconfigureerde mediatype gebruikt de imgix-plugin niet."
-
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:68
 msgid "Alternate (Alt) text"
 msgstr "Alternatieve (Alt) tekst"
@@ -278,14 +273,6 @@ msgstr "De @type entiteit @id bestaat niet."
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:395
 msgid "The Entity Type @type does not exist."
 msgstr "Het entiteitstype @type bestaat niet."
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:435
-msgid "Imgix preset"
-msgstr "Imgix preset"
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:438
-msgid "- Select a preset -"
-msgstr "- Selecteer een preset -"
 
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:18
 msgid "Media image browser"
@@ -480,11 +467,3 @@ msgstr "Mediabrowser met extra velden"
 #: src/Plugin/Field/FieldWidget/MediaWidget.php:26
 msgid "A widget containing a media reference with an extra title/description."
 msgstr "Een widget met een mediaverwijzing met een extra titel / beschrijving."
-
-#: src/Plugin/media/Source/Imgix.php:10
-msgid "Imgix"
-msgstr "Imgix"
-
-#: src/Plugin/media/Source/Imgix.php:10
-msgid "Use Imgix image fields for reusable media."
-msgstr "Gebruik Imgix-afbeeldingsvelden voor herbruikbare media."

@@ -5,7 +5,7 @@ namespace Drupal\wmmedia\Plugin\EntityBrowser\Widget;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\entity_browser\Element\EntityBrowserElement;
 use Drupal\entity_browser\Form\EntityBrowserForm;
-use Drupal\imgix\ImgixManagerInterface;
+use Drupal\image\Entity\ImageStyle;
 use Drupal\wmmedia\Service\FormOptions;
 use Drupal\wmmedia\Service\ImageOverviewFormBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -21,8 +21,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class MediaImageBrowser extends MediaBrowserBase
 {
-    /** @var ImgixManagerInterface */
-    protected $imgixManager;
     /** @var ImageOverviewFormBuilder */
     protected $overviewFormBuilder;
 
@@ -35,7 +33,6 @@ class MediaImageBrowser extends MediaBrowserBase
             $pluginDefinition
         );
         $instance->overviewFormBuilder = $container->get('wmmedia.image.form_builder');
-        $instance->imgixManager = $container->get('imgix.manager');
 
         return $instance;
     }
@@ -63,7 +60,7 @@ class MediaImageBrowser extends MediaBrowserBase
     public function defaultConfiguration()
     {
         return [
-            'preset' => null,
+            'image_style' => 'thumbnail',
         ] + parent::defaultConfiguration();
     }
 
@@ -71,17 +68,16 @@ class MediaImageBrowser extends MediaBrowserBase
     {
         $form = parent::buildConfigurationForm($form, $form_state);
 
-        $options = [];
-        foreach ($this->imgixManager->getPresets() as $preset) {
-            $options[$preset['key']] = $preset['key'];
-        }
-
-        $form['preset'] = [
+        $form['image_style'] = [
             '#type' => 'select',
-            '#title' => $this->t('Imgix preset'),
+            '#title' => $this->t('Image style'),
             '#default_value' => $this->configuration['preset'],
-            '#options' => $options,
-            '#empty_option' => $this->t('- Select a preset -'),
+            '#options' => array_map(
+                static function (ImageStyle $imageStyle) {
+                    return $imageStyle->label();
+                },
+                ImageStyle::loadMultiple()
+            ),
             '#required' => true,
         ];
 
@@ -93,6 +89,6 @@ class MediaImageBrowser extends MediaBrowserBase
         $values = $formState->getValues()['table'][$this->uuid()]['form'];
         $this->configuration['submit_text'] = $values['submit_text'];
         $this->configuration['auto_select'] = $values['auto_select'];
-        $this->configuration['preset'] = $values['preset'];
+        $this->configuration['image_style'] = $values['image_style'];
     }
 }

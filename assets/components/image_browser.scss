@@ -9,21 +9,8 @@
     cursor: pointer;
     position: relative;
 
-    .imgix-image .caption,
     .form-item-view-media1-checkbox {
         margin: 0;
-    }
-
-    .imgix-image {
-        height: 150px;
-        width: 150px;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        background-color: rgba(0, 0, 0, .2);
     }
 
     &,

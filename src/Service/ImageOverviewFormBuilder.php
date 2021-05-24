@@ -6,8 +6,9 @@ use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\file\FileInterface;
-use Drupal\imgix\ImgixManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Drupal\media\Entity\MediaType;
+use Drupal\media\MediaSourceInterface;
+use Drupal\media\MediaTypeInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ImageOverviewFormBuilder extends OverviewFormBuilderBase
@@ -22,20 +23,16 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
     protected $entityTypeManager;
     /** @var ImageRepository */
     protected $imageRepository;
-    /** @var ImgixManagerInterface */
-    protected $imgixManager;
 
     public function __construct(
         RequestStack $requestStack,
         RouteMatchInterface $routeMatch,
         ImageRepository $imageRepository,
-        ImgixManagerInterface $imgixManager,
         EntityTypeManagerInterface $entityTypeManager,
         EntityFieldManagerInterface $entityFieldManager
     ) {
         parent::__construct($requestStack, $routeMatch);
         $this->imageRepository = $imageRepository;
-        $this->imgixManager = $imgixManager;
         $this->entityTypeManager = $entityTypeManager;
         $this->entityFieldManager = $entityFieldManager;
     }
@@ -43,13 +40,6 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
     public function setForm(array &$form, FormOptions $options, ?array $configuration = null): void
     {
         $this->setFormContainer($form, $options);
-
-        $presets = $this->imgixManager->getPresets();
-        $parameters = [];
-
-        if (!empty($presets[$configuration['preset']])) {
-            parse_str($presets[$configuration['preset']]['query'], $parameters);
-        }
 
         $filters = $this->getFilters();
         $images = $this->imageRepository->getImages($filters);
@@ -75,14 +65,20 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
                 ],
             ];
 
-            if ($image['field_media_imgix_target_id']) {
-                /* @var FileInterface $file */
-                $file = $this->entityTypeManager->getStorage('file')->load($image['field_media_imgix_target_id']);
-                if ($file) {
+            $sourceField = $this->getSourceField();
+            $sourceFieldColumn = sprintf('%s_target_id', $sourceField);
+
+            if (isset($image[$sourceFieldColumn])) {
+                $file = $this->entityTypeManager
+                    ->getStorage('file')
+                    ->load($image[$sourceFieldColumn]);
+
+                if ($file instanceof FileInterface) {
                     $form['container']['list'][$key]['preview'] = [
                         '#weight' => -10,
-                        '#theme' => 'imgix_image',
-                        '#url' => $this->imgixManager->getImgixUrl($file, $parameters),
+                        '#theme' => 'image_style',
+                        '#style_name' => $configuration['image_style'] ?? 'thumbnail',
+                        '#uri' => $file->getFileUri(),
                         '#title' => '',
                         '#caption' => '',
                     ];
@@ -171,6 +167,16 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
     {
         $filters = $this->getFilters();
         return $this->imageRepository->getImagesCount($filters);
+    }
+
+    protected function getSourceField(): string
+    {
+        /** @var MediaTypeInterface $mediaType */
+        $mediaType = MediaType::load('image');
+        /** @var MediaSourceInterface $source */
+        $source = $mediaType->getSource();
+
+        return $source->getConfiguration()['source_field'];
     }
 
     public static function getFilterKeys(): array

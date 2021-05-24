@@ -20,7 +20,6 @@
 #  src/Plugin/Field/FieldType/MediaImageExtras.php: n/a
 #  src/Service/MediaFilterService.php: n/a
 #  src/Plugin/Field/FieldFormatter/DefaultMediaImageFieldFormatter.php: n/a
-#  src/Plugin/media/Source/Imgix.php: n/a
 #
 #, fuzzy
 msgid ""
@@ -185,10 +184,6 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:48
-msgid "The configured media type is not using the imgix plugin."
-msgstr ""
-
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:68
 msgid "Alternate (Alt) text"
 msgstr ""
@@ -239,14 +234,6 @@ msgstr ""
 
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:395
 msgid "The Entity Type @type does not exist."
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:435
-msgid "Imgix preset"
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:438
-msgid "- Select a preset -"
 msgstr ""
 
 #: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:18
@@ -417,12 +404,3 @@ msgstr ""
 #: src/Plugin/Field/FieldWidget/MediaWidget.php:26
 msgid "A widget containing a media reference with an extra title/description."
 msgstr ""
-
-#: src/Plugin/media/Source/Imgix.php:10
-msgid "Imgix"
-msgstr ""
-
-#: src/Plugin/media/Source/Imgix.php:10
-msgid "Use Imgix image fields for reusable media."
-msgstr ""
-

@@ -6,6 +6,9 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Query\PagerSelectExtender;
 use Drupal\Core\Database\Query\SelectInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\media\Entity\MediaType;
+use Drupal\media\MediaSourceInterface;
+use Drupal\media\MediaTypeInterface;
 
 class ImageRepository
 {
@@ -109,6 +112,7 @@ class ImageRepository
 
     protected function getQuery(): SelectInterface
     {
+        $sourceField = $this->getSourceField();
         $fieldStorages = $this->getFieldStorages();
 
         $query = $this->connection->select('media', 'm');
@@ -120,7 +124,7 @@ class ImageRepository
         $fields = [
             'field_copyright' => 'field_copyright_value',
             'field_description' => 'field_description_value',
-            'field_media_imgix' => 'field_media_imgix_target_id',
+            $sourceField => sprintf('%s_target_id', $sourceField),
             'field_width' => 'field_width_value',
             'field_height' => 'field_height_value',
         ];
@@ -148,5 +152,15 @@ class ImageRepository
         }
 
         return $fieldStorages;
+    }
+
+    protected function getSourceField(): string
+    {
+        /** @var MediaTypeInterface $mediaType */
+        $mediaType = MediaType::load('image');
+        /** @var MediaSourceInterface $source */
+        $source = $mediaType->getSource();
+
+        return $source->getConfiguration()['source_field'];
     }
 }

@@ -7,7 +7,6 @@ dependencies:
     - entity_browser
     - file
     - image
-    - imgix
     - media
     - path
     - text

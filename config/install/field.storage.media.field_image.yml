@@ -1,20 +1,26 @@
-langcode: en
+langcode: nl
 status: true
 dependencies:
   module:
     - file
-    - imgix
+    - image
     - media
-id: media.field_media_imgix
-field_name: field_media_imgix
+id: media.field_image
+field_name: field_image
 entity_type: media
-type: imgix
+type: image
 settings:
+  uri_scheme: s3
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
   target_type: file
   display_field: false
   display_default: false
-  uri_scheme: public
-module: imgix
+module: image
 locked: false
 cardinality: 1
 translatable: true

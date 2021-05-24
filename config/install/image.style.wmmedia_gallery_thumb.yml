@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: wmmedia_gallery_thumb
+label: 'Media gallery (thumbnail)'
+effects:
+  ede52fd8-9421-4f4a-a58e-ffe84092084b:
+    uuid: ede52fd8-9421-4f4a-a58e-ffe84092084b
+    id: image_scale
+    weight: 1
+    data:
+      width: null
+      height: 250
+      upscale: false
