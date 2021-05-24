@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+### Added
+- Add _Media gallery (thumbnail)_ and _Media gallery (large)_ image styles. 
+
+### Changed
+- Change the Image media type source from `imgix` to the core `image` source.
+- Replace `field_media_imgix` with `field_image`
+- Replace hardcoded field references with dynamic references to the current media source field
+
+### Removed
+- Remove `wieni/imgix` dependency
+- Remove `wmmedia_image` theme hook. Use `image_style` instead.
+- Remove `MediaWidgetRenderEvent` without replacement.
+
 ## [2.0.20] - 2021-05-17
 ### Fixed
 - Fix not being able to click on image browser toggles

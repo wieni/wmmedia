@@ -14,11 +14,10 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Validation\Plugin\Validation\Constraint\NotNullConstraint;
 use Drupal\entity_browser\Element\EntityBrowserElement;
 use Drupal\entity_browser\EntityBrowserInterface;
+use Drupal\file\FileInterface;
 use Drupal\media\MediaInterface;
-use Drupal\wmmedia\Event\MediaWidgetRenderEvent;
 use Drupal\wmmedia\Plugin\Field\FieldType\MediaFileExtras;
 use Drupal\wmmedia\Plugin\Field\FieldType\MediaImageExtras;
-use Drupal\wmmedia\WmmediaEvents;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -291,18 +290,29 @@ class MediaWidget extends WidgetBase
                 continue;
             }
 
-            /* @var MediaWidgetRenderEvent $event */
-            $event = $this->eventDispatcher->dispatch(
-                WmmediaEvents::MEDIA_WIDGET_RENDER,
-                new MediaWidgetRenderEvent($item->getMedia()->id())
-            );
-
             $row['preview'] = [
                 '#markup' => $item->getMedia()->id(),
             ];
 
-            if ($event->getPreview()) {
-                $row['preview'] = $event->getPreview();
+            $media = $item->getMedia();
+            $sourceField = $media->getSource()->getConfiguration()['source_field'];
+            /** @var FileInterface $file */
+            $file = $media->get($sourceField)->entity;
+
+            if ($media->bundle() === 'image') {
+                $row['preview'] = [
+                    '#theme' => 'image_style',
+                    '#style_name' => 'thumbnail',
+                    '#uri' => $file->getFileUri(),
+                    '#prefix' => '<a href="' . file_create_url($file->getFileUri()) . '" target="_blank">',
+                    '#suffix' => '</a>',
+                ];
+            }
+
+            if ($media->bundle() === 'file') {
+                $row['preview'] = [
+                    '#markup' => '<a href="' . file_create_url($file->getFileUri()) . '" target="_blank">' . $file->label() . '</a>',
+                ];
             }
 
             $row['data']['target_id'] = [

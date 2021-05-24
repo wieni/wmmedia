@@ -2,13 +2,10 @@
 
 namespace Drupal\wmmedia\Plugin\Field\FieldFormatter;
 
-use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\imgix\ImgixManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\image\Entity\ImageStyle;
 
 /**
  * @FieldFormatter(
@@ -19,40 +16,21 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *     }
  * )
  */
-class DefaultMediaImageFieldFormatter extends FormatterBase implements ContainerFactoryPluginInterface
+class DefaultMediaImageFieldFormatter extends FormatterBase
 {
-    /** @var ImgixManagerInterface */
-    protected $imgixManager;
-
-    public static function create(
-        ContainerInterface $container,
-        array $configuration,
-        $plugin_id,
-        $plugin_definition
-    ) {
-        $instance = new static(
-            $plugin_id,
-            $plugin_definition,
-            $configuration['field_definition'],
-            $configuration['settings'],
-            $configuration['label'],
-            $configuration['view_mode'],
-            $configuration['third_party_settings']
-        );
-        $instance->imgixManager = $container->get('imgix.manager');
-
-        return $instance;
-    }
-
     public function viewElements(FieldItemListInterface $items, $langcode)
     {
         $elements = [];
 
         foreach ($items as $delta => $item) {
+            if (!$file = $item->getFile()) {
+                continue;
+            }
+
             $elements[$delta] = [
-                '#theme' => 'wmmedia_image',
-                '#field' => $item,
-                '#preset' => $this->getSetting('preset'),
+                '#theme' => 'image_style',
+                '#style_name' => $this->getSetting('image_style'),
+                '#uri' => $file->getFileUri(),
             ];
         }
 
@@ -61,35 +39,34 @@ class DefaultMediaImageFieldFormatter extends FormatterBase implements Container
 
     public function settingsForm(array $form, FormStateInterface $form_state)
     {
-        $options = array_keys($this->imgixManager->getPresets());
-        $build = [];
-
-        $build['preset'] = [
+        $form['image_style'] = [
             '#type' => 'select',
-            '#options' => array_combine($options, $options),
-            '#default_value' => $this->getSetting('preset'),
+            '#title' => $this->t('Image style'),
+            '#default_value' => $this->settings['image_style'],
+            '#options' => array_map(
+                static function (ImageStyle $imageStyle) {
+                    return $imageStyle->label();
+                },
+                ImageStyle::loadMultiple()
+            ),
             '#required' => true,
         ];
 
-        return $build;
+        return $form;
     }
 
     public function settingsSummary()
     {
         $summary = [];
 
-        $preset = $this->getSetting('preset');
-        $presets = $this->imgixManager->getPresets();
-        parse_str($presets[$preset]['query'], $params);
-
-        $markup = [];
-        foreach ($params as $key => $value) {
-            $markup[] = $key . ': ' . $value;
+        if ($imageStyle = ImageStyle::load($this->getSetting('image_style'))) {
+            $imageStyleLabel = $imageStyle->label();
+        } else {
+            $imageStyleLabel = 'Broken';
         }
 
-        $summary['summary']['#markup'] = new FormattableMarkup('@preset (@params)', [
-            '@preset' => $preset,
-            '@params' => trim(implode(', ', $markup)),
+        $summary['summary']['#markup'] = $this->t('Image style: @imageStyleLabel', [
+            '@imageStyleLabel' => $imageStyleLabel,
         ]);
 
         return $summary;
@@ -98,7 +75,7 @@ class DefaultMediaImageFieldFormatter extends FormatterBase implements Container
     public static function defaultSettings()
     {
         return [
-            'preset' => 'default',
+            'image_style' => 'thumbnail',
         ];
     }
 }

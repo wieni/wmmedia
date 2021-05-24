@@ -19,14 +19,6 @@ function wmmedia_theme()
         ],
     ];
 
-    $data['wmmedia_image'] = [
-        'template' => 'wmmedia-image',
-        'variables' => [
-            'field' => null,
-            'preset' => 'default',
-        ],
-    ];
-
     return $data;
 }
 

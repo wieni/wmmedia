@@ -20,12 +20,17 @@ class ImageSubscriber
 
     protected function addWidthHeight(MediaInterface $entity): void
     {
-        if (!$entity->isNew() || $entity->bundle() !== 'image' || $entity->get('field_media_imgix')->isEmpty()) {
+        if (!$entity->isNew() || $entity->bundle() !== 'image') {
             return;
         }
 
-        /** @var FileInterface $file */
-        $file = $entity->get('field_media_imgix')->entity;
+        $sourceField = $entity->getSource()->getConfiguration()['source_field'];
+        $file = $entity->get($sourceField)->entity;
+
+        if (!$file instanceof FileInterface) {
+            return;
+        }
+
         $size = @getimagesize($file->getFileUri());
 
         if (!isset($size[0], $size[1])) {
