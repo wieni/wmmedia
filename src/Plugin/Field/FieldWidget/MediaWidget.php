@@ -15,6 +15,7 @@ use Drupal\Core\Validation\Plugin\Validation\Constraint\NotNullConstraint;
 use Drupal\entity_browser\Element\EntityBrowserElement;
 use Drupal\entity_browser\EntityBrowserInterface;
 use Drupal\file\FileInterface;
+use Drupal\image\Entity\ImageStyle;
 use Drupal\media\MediaInterface;
 use Drupal\wmmedia\Plugin\Field\FieldType\MediaFileExtras;
 use Drupal\wmmedia\Plugin\Field\FieldType\MediaImageExtras;
@@ -67,6 +68,7 @@ class MediaWidget extends WidgetBase
             'description_field_label' => 'Description',
             'field_widget_remove' => true,
             'selection_mode' => EntityBrowserElement::SELECTION_MODE_APPEND,
+            'image_style' => 'medium',
         ] + parent::defaultSettings();
     }
 
@@ -132,6 +134,16 @@ class MediaWidget extends WidgetBase
             '#default_value' => $this->getSetting('description_field_label'),
         ];
 
+        $element['image_style'] = [
+            '#title' => $this->t('Image style'),
+            '#type' => 'select',
+            '#default_value' => $this->getSetting('image_style'),
+            '#options' => array_map(
+                static function (ImageStyle $imageStyle) { return $imageStyle->label(); },
+                ImageStyle::loadMultiple()
+            )
+        ];
+
         return $element;
     }
 
@@ -172,6 +184,13 @@ class MediaWidget extends WidgetBase
                 '@enabled' => $this->getSetting('title_field_enabled') ? $this->t('Yes') : $this->t('No'),
                 '@required' => $this->getSetting('title_field_required') ? $this->t('Yes') : $this->t('No'),
                 '@label' => $this->getSetting('title_field_label'),
+            ]
+        );
+
+        $summary[] = $this->t(
+            'Image style: @style',
+            [
+                '@style' => $this->getSetting('image_style'),
             ]
         );
 
@@ -302,7 +321,7 @@ class MediaWidget extends WidgetBase
             if ($media->bundle() === 'image') {
                 $row['preview'] = [
                     '#theme' => 'image_style',
-                    '#style_name' => 'medium',
+                    '#style_name' => $this->getSetting('image_style'),
                     '#uri' => $file->getFileUri(),
                     '#prefix' => '<a href="' . file_create_url($file->getFileUri()) . '" target="_blank">',
                     '#suffix' => '</a>',

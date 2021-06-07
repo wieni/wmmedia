@@ -9,6 +9,7 @@ are welcome.
 
 ### Added
 - Add _Media gallery (thumbnail)_ and _Media gallery (large)_ image styles. 
+- Add option to change the media widget image style 
 
 ### Changed
 - Change the Image media type source from `imgix` to the core `image` source.
