@@ -67,6 +67,7 @@ class MediaWidget extends WidgetBase
             'description_field_required' => false,
             'description_field_label' => 'Description',
             'field_widget_remove' => true,
+            'field_widget_edit' => true,
             'selection_mode' => EntityBrowserElement::SELECTION_MODE_APPEND,
             'image_style' => 'medium',
         ] + parent::defaultSettings();
@@ -94,6 +95,12 @@ class MediaWidget extends WidgetBase
             '#title' => $this->t('Display Remove button'),
             '#type' => 'checkbox',
             '#default_value' => $this->getSetting('field_widget_remove'),
+        ];
+
+        $element['field_widget_edit'] = [
+            '#title' => $this->t('Display Edit button'),
+            '#type' => 'checkbox',
+            '#default_value' => $this->getSetting('field_widget_edit'),
         ];
 
         $element['show_field_label'] = [
@@ -162,6 +169,12 @@ class MediaWidget extends WidgetBase
             'Display remove button: @value',
             [
                 '@value' => $this->getSetting('field_widget_remove') ? $this->t('Yes') : $this->t('No'),
+            ]
+        );
+        $summary[] = $this->t(
+            'Display edit button: @value',
+            [
+                '@value' => $this->getSetting('field_widget_edit') ? $this->t('Yes') : $this->t('No'),
             ]
         );
         $summary[] = $this->t(
@@ -394,12 +407,15 @@ class MediaWidget extends WidgetBase
                 '#type' => 'actions',
             ];
 
-            $row['operations']['edit'] = [
-                '#markup' => new FormattableMarkup('<a href=":url" target="_blank" class="button">:title</a>', [
-                    ':url' => $item->getMedia()->toUrl('edit-form')->toString(),
-                    ':title' => $this->t('Edit'),
-                ]),
-            ];
+            if ($this->getSetting('field_widget_edit')) {
+                $row['operations']['edit'] = [
+                    '#access' => (bool) $this->getSetting('field_widget_edit'),
+                    '#markup' => new FormattableMarkup('<a href=":url" target="_blank" class="button">:title</a>', [
+                        ':url' => $item->getMedia()->toUrl('edit-form')->toString(),
+                        ':title' => $this->t('Edit'),
+                    ]),
+                ];
+            }
 
             if ($this->getSetting('field_widget_remove')) {
                 $row['operations']['remove'] = [
