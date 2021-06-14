@@ -1,7 +1,15 @@
 <?php
 
+use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
 use Drupal\entity_browser\Entity\EntityBrowser;
 use Drupal\entity_browser\WidgetInterface;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\image\Entity\ImageStyle;
+use Drupal\media\Entity\MediaType;
+use Drupal\media\MediaInterface;
 use Drupal\wmmedia\Service\UsageManager;
 
 function wmmedia_schema()
@@ -146,6 +154,166 @@ function wmmedia_update_8003(): void
             if ($widget->id() === 'wmmedia_media_image_add') {
                 $widgets->remove('wmmedia_media_image_add');
             }
+        }
+    }
+}
+
+/**
+ * Migrate field_media_imgix to field_image
+ */
+function wmmedia_update_8004(): void
+{
+    $storage = new FileStorage(__DIR__ . '/config/install');
+
+    // Install field_image
+    if (!FieldStorageConfig::loadByName('media', 'field_image')) {
+        $data = $storage->read('field.storage.media.field_image');
+        $config = FieldStorageConfig::create($data);
+        $config->save();
+    }
+
+    if (!FieldConfig::loadByName('media', 'image', 'field_image')) {
+        $data = $storage->read('field.field.media.image.field_image');
+        $config = FieldConfig::create($data);
+        $config->save();
+    }
+
+    // Migrate existing entities
+    /** @var MediaInterface[] $entities */
+    $entities = \Drupal::entityTypeManager()
+        ->getStorage('media')
+        ->loadByProperties(['bundle' => 'image']);
+
+    foreach ($entities as $entity) {
+        $values = $entity->get('field_media_imgix')->getValue();
+
+        if (empty($values)) {
+            continue;
+        }
+
+        $value = reset($values);
+        $entity->set('field_image', [
+            'target_id' => $value['target_id'],
+            'alt' => $value['description'],
+            'title' => $value['title'],
+            'width' => $value['width'],
+            'height' => $value['height'],
+        ]);
+        $entity->set('field_media_imgix', []);
+        $entity->save();
+    }
+
+    // Delete field_media_imgix
+    if ($field = FieldConfig::loadByName('media', 'image', 'field_media_imgix')) {
+        $field->delete();
+    }
+
+    if ($fieldStorage = FieldStorageConfig::loadByName('media', 'field_media_imgix')) {
+        $fieldStorage->delete();
+    }
+}
+
+/**
+ * Update media image form & view display
+ */
+function wmmedia_update_8005(): void
+{
+    /** @var EntityFormDisplay $formDisplay */
+    if ($formDisplay = EntityFormDisplay::load('media.image.default')) {
+        if ($formDisplay->getComponent('field_media_imgix')) {
+            $formDisplay->removeComponent('field_media_imgix');
+        }
+
+        $formDisplay->setComponent('field_image', [
+            'weight' => 1,
+            'settings' => [
+                'progress_indicator' => 'throbber',
+                'preview_image_style' => 'thumbnail',
+            ],
+            'third_party_settings' => [],
+            'type' => 'image_image',
+            'region' => 'content',
+        ]);
+        $formDisplay->save();
+    }
+
+    /** @var EntityViewDisplay $viewDisplay */
+    if ($viewDisplay = EntityViewDisplay::load('media.image.default')) {
+        if ($viewDisplay->getComponent('field_media_imgix')) {
+            $viewDisplay->removeComponent('field_media_imgix');
+        }
+
+        $viewDisplay->setComponent('field_image', [
+            'weight' => 0,
+            'label' => 'above',
+            'settings' => [
+                'image_style' => 'thumbnail',
+                'image_link' => '',
+            ],
+            'third_party_settings' => [],
+            'type' => 'image',
+            'region' => 'content',
+        ]);
+        $viewDisplay->save();
+    }
+}
+
+/**
+ * Update the image media type
+ */
+function wmmedia_update_8006(): void
+{
+    /** @var MediaType $mediaType */
+    if (!$mediaType = MediaType::load('image')) {
+        return;
+    }
+
+    $mediaType->set('source', 'image');
+    $mediaType->set('source_configuration', [
+        'source_field' => 'field_image',
+    ]);
+    $mediaType->save();
+}
+
+/**
+ * Install the gallery thumb & large image styles
+ */
+function wmmedia_update_8007(): void
+{
+    $storage = new FileStorage(__DIR__ . '/config/install');
+    $styleNames = [
+        'wmmedia_gallery_large',
+        'wmmedia_gallery_thumb',
+    ];
+
+    foreach ($styleNames as $styleName) {
+        $data = $storage->read('image.style.' . $styleName);
+
+        if (!ImageStyle::load($styleName)) {
+            ImageStyle::create($data)->save();
+        }
+    }
+}
+
+/**
+ * Update the image entity browsers
+ */
+function wmmedia_update_8008(): void
+{
+    /** @var EntityBrowser $entityBrowser */
+    foreach (EntityBrowser::loadMultiple() as $entityBrowser) {
+        /** @var WidgetInterface $widget */
+        foreach ($entityBrowser->getWidgets() as $widget) {
+            if ($widget->id() !== 'wmmedia_media_image_browser') {
+                continue;
+            }
+
+            $configuration = $widget->getConfiguration();
+            $configuration['settings']['image_style'] = 'medium';
+            unset($configuration['settings']['preset']);
+
+            $widget->setConfiguration($configuration);
+            $entityBrowser->save();
         }
     }
 }
