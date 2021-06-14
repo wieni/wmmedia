@@ -1,5 +1,7 @@
 <?php
 
+use Drupal\entity_browser\Entity\EntityBrowser;
+use Drupal\entity_browser\WidgetInterface;
 use Drupal\wmmedia\Service\UsageManager;
 
 function wmmedia_schema()
@@ -119,4 +121,31 @@ function wmmedia_update_8002()
     }
 
     $schema->createTable('wmmedia_usage', $definition['wmmedia_usage']);
+}
+
+/**
+ * Change old entity browser to the new ones
+ */
+function wmmedia_update_8003(): void
+{
+    /** @var EntityBrowser $entityBrowser */
+    foreach (EntityBrowser::loadMultiple() as $entityBrowser) {
+
+        /** @var WidgetInterface $widget */
+        $widgets = $entityBrowser->getWidgets();
+        foreach ($widgets as $widget) {
+            if ($widget->id() === 'wmmedia_media_file_add') {
+                $widget->setConfiguration([
+                    'id' => 'wmmedia_media_file_browser',
+                    'submit_text' => 'Select file',
+                    'auto_select' => 0,
+                ]);
+                $entityBrowser->save();
+            }
+
+            if ($widget->id() === 'wmmedia_media_image_add') {
+                $widgets->remove('wmmedia_media_image_add');
+            }
+        }
+    }
 }

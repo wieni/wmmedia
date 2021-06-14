@@ -17,6 +17,9 @@ are welcome.
 - Replace `field_media_imgix` with `field_image`
 - Replace hardcoded field references with dynamic references to the current media source field
 
+### Fixed
+- Fix entity browser upgrade path from wmmedia v1 to v2
+
 ### Removed
 - Remove `wieni/imgix` dependency
 - Remove `wmmedia_image` theme hook. Use `image_style` instead.
