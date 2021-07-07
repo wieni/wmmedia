@@ -22,7 +22,6 @@ are welcome.
 
 ### Removed
 - Remove `wieni/imgix` dependency
-- Remove `wmmedia_image` theme hook. Use `image_style` instead.
 - Remove `MediaWidgetRenderEvent` without replacement.
 
 ## [2.0.20] - 2021-05-17

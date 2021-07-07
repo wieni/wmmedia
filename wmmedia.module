@@ -2,10 +2,12 @@
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\image\Entity\ImageStyle;
 use Drupal\media\Entity\Media;
+use Drupal\wmmedia\Plugin\Field\FieldType\MediaImageExtras;
 use Drupal\wmmedia\Service\UsageManager;
 
-function wmmedia_theme()
+function wmmedia_theme(): array
 {
     $data = [];
 
@@ -16,6 +18,14 @@ function wmmedia_theme()
         ],
         'preprocess functions' => [
             'wmmedia_theme_set_variables',
+        ],
+    ];
+
+    $data['wmmedia_image'] = [
+        'template' => 'wmmedia-image',
+        'variables' => [
+            'field' => null,
+            'image_style' => 'default',
         ],
     ];
 
@@ -32,6 +42,39 @@ function wmmedia_theme_set_variables(&$variables)
     $variables = array_merge($variables, $variables['_data']);
     unset($variables['_data']);
 }
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function wmmedia_preprocess_wmmedia_image(array &$variables): void
+{
+    if (!isset($variables['field']) || !$variables['field'] instanceof MediaImageExtras) {
+        return;
+    }
+
+    if (!$file = $variables['field']->getFile()) {
+        return;
+    }
+
+    $path = $file->getFileUri();
+    $imageStyleName = $variables['image_style'] ?? $variables['preset'] ?? 'medium';
+
+    if (!$imageStyle = ImageStyle::load($variables['image_style'])) {
+        return;
+    }
+
+    if (!$imageStyle->supportsUri($path)) {
+        return;
+    }
+
+    $variables['uri'] = file_url_transform_relative($imageStyle->buildUrl($path));
+    $variables['alternate'] = $variables['field']->getAlternate();
+    $variables['caption'] = $variables['field']->getDescription();
+    $variables['copyright'] = $variables['field']->getCopyright();
+    $variables['title'] = $variables['field']->getTitle();
+    $variables['image_style'] = $imageStyleName;
+}
+
 
 function wmmedia_menu_local_actions_alter(&$local_actions)
 {

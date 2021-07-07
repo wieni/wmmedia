@@ -1,0 +1,19 @@
+<figure class="media-image media-image--{{ image_style }}">
+    <picture class="media-image__image">
+        <img src="{{ uri }}" alt="{{ alternate }}" title="{{ title }}" />
+    </picture>
+    {% if caption or copyright %}
+        <figcaption class="media-image__info">
+            {% if caption %}
+                <div class="media-image__info__caption">
+                    {{ caption | raw }}
+                </div>
+            {% endif %}
+            {% if copyright %}
+                <div class="media-image__info__copyright">
+                    {{ copyright }}
+                </div>
+            {% endif %}
+        </figcaption>
+    {% endif %}
+</figure>
