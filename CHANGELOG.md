@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## [2.1.0] - 2021-07-07
 ### Added
 - Add _Media gallery (thumbnail)_ and _Media gallery (large)_ image styles. 
 - Add option to change the media widget image style 
@@ -21,7 +22,8 @@ are welcome.
 - Fix entity browser upgrade path from wmmedia v1 to v2
 
 ### Removed
-- Remove `wieni/imgix` dependency
+- Remove `wieni/imgix` dependency. If you plan to keep using the `imgix` module, make sure to install v9 since previous 
+  versions don't support image styles.
 - Remove `MediaWidgetRenderEvent` without replacement.
 
 ## [2.0.20] - 2021-05-17
