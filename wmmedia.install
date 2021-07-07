@@ -3,6 +3,7 @@
 use Drupal\Core\Config\FileStorage;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\Core\Site\Settings;
 use Drupal\entity_browser\Entity\EntityBrowser;
 use Drupal\entity_browser\WidgetInterface;
 use Drupal\field\Entity\FieldConfig;
@@ -163,17 +164,28 @@ function wmmedia_update_8003(): void
  */
 function wmmedia_update_8004(): void
 {
-    $storage = new FileStorage(__DIR__ . '/config/install');
+    $moduleStorage = new FileStorage(__DIR__ . '/config/install');
+    $siteStorage = new FileStorage(Settings::get('config_sync_directory'));
 
     // Install field_image
     if (!FieldStorageConfig::loadByName('media', 'field_image')) {
-        $data = $storage->read('field.storage.media.field_image');
+        if ($siteStorage->exists('field.storage.media.field_image')) {
+            $data = $siteStorage->read('field.storage.media.field_image');
+        } else {
+            $data = $moduleStorage->read('field.storage.media.field_image');
+        }
+
         $config = FieldStorageConfig::create($data);
         $config->save();
     }
 
     if (!FieldConfig::loadByName('media', 'image', 'field_image')) {
-        $data = $storage->read('field.field.media.image.field_image');
+        if ($siteStorage->exists('field.field.media.image.field_image')) {
+            $data = $siteStorage->read('field.field.media.image.field_image');
+        } else {
+            $data = $moduleStorage->read('field.field.media.image.field_image');
+        }
+
         $config = FieldConfig::create($data);
         $config->save();
     }
