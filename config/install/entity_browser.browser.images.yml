@@ -21,7 +21,7 @@ widget_selector_configuration: {  }
 widgets:
   50386ba5-f1be-4ef0-965f-4818a244a259:
     settings:
-      preset: thumb
+      image_style: medium
       submit_text: 'Select image'
       auto_select: 0
     uuid: 50386ba5-f1be-4ef0-965f-4818a244a259

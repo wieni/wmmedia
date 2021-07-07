@@ -3,20 +3,35 @@ status: true
 dependencies:
   config:
     - field.field.media.image.field_alternate
+    - field.field.media.image.field_copyright
+    - field.field.media.image.field_description
     - field.field.media.image.field_height
-    - field.field.media.image.field_media_imgix
+    - field.field.media.image.field_image
     - field.field.media.image.field_width
+    - image.style.thumbnail
     - media.type.image
+  module:
+    - image
 id: media.image.default
 targetEntityType: media
 bundle: image
 mode: default
-content: {  }
+content:
+  field_image:
+    weight: 0
+    label: above
+    settings:
+      image_style: thumbnail
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
 hidden:
   created: true
   field_alternate: true
+  field_copyright: true
+  field_description: true
   field_height: true
-  field_media_imgix: true
   field_width: true
   langcode: true
   name: true

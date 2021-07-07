@@ -14,11 +14,11 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Validation\Plugin\Validation\Constraint\NotNullConstraint;
 use Drupal\entity_browser\Element\EntityBrowserElement;
 use Drupal\entity_browser\EntityBrowserInterface;
+use Drupal\file\FileInterface;
+use Drupal\image\Entity\ImageStyle;
 use Drupal\media\MediaInterface;
-use Drupal\wmmedia\Event\MediaWidgetRenderEvent;
 use Drupal\wmmedia\Plugin\Field\FieldType\MediaFileExtras;
 use Drupal\wmmedia\Plugin\Field\FieldType\MediaImageExtras;
-use Drupal\wmmedia\WmmediaEvents;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -67,7 +67,9 @@ class MediaWidget extends WidgetBase
             'description_field_required' => false,
             'description_field_label' => 'Description',
             'field_widget_remove' => true,
+            'field_widget_edit' => true,
             'selection_mode' => EntityBrowserElement::SELECTION_MODE_APPEND,
+            'image_style' => 'medium',
         ] + parent::defaultSettings();
     }
 
@@ -93,6 +95,12 @@ class MediaWidget extends WidgetBase
             '#title' => $this->t('Display Remove button'),
             '#type' => 'checkbox',
             '#default_value' => $this->getSetting('field_widget_remove'),
+        ];
+
+        $element['field_widget_edit'] = [
+            '#title' => $this->t('Display Edit button'),
+            '#type' => 'checkbox',
+            '#default_value' => $this->getSetting('field_widget_edit'),
         ];
 
         $element['show_field_label'] = [
@@ -133,6 +141,16 @@ class MediaWidget extends WidgetBase
             '#default_value' => $this->getSetting('description_field_label'),
         ];
 
+        $element['image_style'] = [
+            '#title' => $this->t('Image style'),
+            '#type' => 'select',
+            '#default_value' => $this->getSetting('image_style'),
+            '#options' => array_map(
+                static function (ImageStyle $imageStyle) { return $imageStyle->label(); },
+                ImageStyle::loadMultiple()
+            )
+        ];
+
         return $element;
     }
 
@@ -151,6 +169,12 @@ class MediaWidget extends WidgetBase
             'Display remove button: @value',
             [
                 '@value' => $this->getSetting('field_widget_remove') ? $this->t('Yes') : $this->t('No'),
+            ]
+        );
+        $summary[] = $this->t(
+            'Display edit button: @value',
+            [
+                '@value' => $this->getSetting('field_widget_edit') ? $this->t('Yes') : $this->t('No'),
             ]
         );
         $summary[] = $this->t(
@@ -173,6 +197,13 @@ class MediaWidget extends WidgetBase
                 '@enabled' => $this->getSetting('title_field_enabled') ? $this->t('Yes') : $this->t('No'),
                 '@required' => $this->getSetting('title_field_required') ? $this->t('Yes') : $this->t('No'),
                 '@label' => $this->getSetting('title_field_label'),
+            ]
+        );
+
+        $summary[] = $this->t(
+            'Image style: @style',
+            [
+                '@style' => $this->getSetting('image_style'),
             ]
         );
 
@@ -291,18 +322,29 @@ class MediaWidget extends WidgetBase
                 continue;
             }
 
-            /* @var MediaWidgetRenderEvent $event */
-            $event = $this->eventDispatcher->dispatch(
-                WmmediaEvents::MEDIA_WIDGET_RENDER,
-                new MediaWidgetRenderEvent($item->getMedia()->id())
-            );
-
             $row['preview'] = [
                 '#markup' => $item->getMedia()->id(),
             ];
 
-            if ($event->getPreview()) {
-                $row['preview'] = $event->getPreview();
+            $media = $item->getMedia();
+            $sourceField = $media->getSource()->getConfiguration()['source_field'];
+            /** @var FileInterface $file */
+            $file = $media->get($sourceField)->entity;
+
+            if ($media->bundle() === 'image') {
+                $row['preview'] = [
+                    '#theme' => 'image_style',
+                    '#style_name' => $this->getSetting('image_style'),
+                    '#uri' => $file->getFileUri(),
+                    '#prefix' => '<a href="' . file_create_url($file->getFileUri()) . '" target="_blank">',
+                    '#suffix' => '</a>',
+                ];
+            }
+
+            if ($media->bundle() === 'file') {
+                $row['preview'] = [
+                    '#markup' => '<a href="' . file_create_url($file->getFileUri()) . '" target="_blank">' . $file->label() . '</a>',
+                ];
             }
 
             $row['data']['target_id'] = [
@@ -365,12 +407,15 @@ class MediaWidget extends WidgetBase
                 '#type' => 'actions',
             ];
 
-            $row['operations']['edit'] = [
-                '#markup' => new FormattableMarkup('<a href=":url" target="_blank" class="button">:title</a>', [
-                    ':url' => $item->getMedia()->toUrl('edit-form')->toString(),
-                    ':title' => $this->t('Edit'),
-                ]),
-            ];
+            if ($this->getSetting('field_widget_edit')) {
+                $row['operations']['edit'] = [
+                    '#access' => (bool) $this->getSetting('field_widget_edit'),
+                    '#markup' => new FormattableMarkup('<a href=":url" target="_blank" class="button">:title</a>', [
+                        ':url' => $item->getMedia()->toUrl('edit-form')->toString(),
+                        ':title' => $this->t('Edit'),
+                    ]),
+                ];
+            }
 
             if ($this->getSetting('field_widget_remove')) {
                 $row['operations']['remove'] = [

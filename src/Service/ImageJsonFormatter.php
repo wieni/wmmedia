@@ -6,26 +6,22 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\file\FileInterface;
-use Drupal\imgix\ImgixManagerInterface;
+use Drupal\image\Entity\ImageStyle;
 use Drupal\media\MediaInterface;
 
 class ImageJsonFormatter
 {
     /** @var EntityTypeManagerInterface */
     protected $entityTypeManager;
-    /** @var ImgixManagerInterface */
-    protected $imgixManager;
     /** @var LanguageManagerInterface */
     protected $languageManager;
 
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
-        LanguageManagerInterface $languageManager,
-        ImgixManagerInterface $imgixManager
+        LanguageManagerInterface $languageManager
     ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->languageManager = $languageManager;
-        $this->imgixManager = $imgixManager;
     }
 
     public function toJson(array $item): ?array
@@ -63,11 +59,13 @@ class ImageJsonFormatter
             $result['width'] = (int) $entity->get('field_width')->value;
         }
 
-        /** @var FileInterface $file */
-        if ($file = $entity->get('field_media_imgix')->entity) {
-            $result['originalUrl'] = $this->imgixManager->getImgixUrl($file, []);
-            $result['thumbUrl'] = $this->imgixManager->getImgixUrl($file, ['fit' => 'max', 'h' => 250]);
-            $result['largeUrl'] = $this->imgixManager->getImgixUrl($file, ['fit' => 'max', 'h' => 1200]);
+        $sourceField = $entity->getSource()->getConfiguration()['source_field'];
+        $file = $entity->{$sourceField}->entity;
+
+        if ($file instanceof FileInterface) {
+            $result['originalUrl'] = $file->createFileUrl(false);
+            $result['thumbUrl'] = $this->getImageUrl($file, 'wmmedia_gallery_thumb');
+            $result['largeUrl'] = $this->getImageUrl($file, 'wmmedia_gallery_large');
             $result['size'] = format_size($file->getSize());
         }
 
@@ -87,6 +85,21 @@ class ImageJsonFormatter
         );
 
         return $result;
+    }
+
+    protected function getImageUrl(FileInterface $file, string $imageStyleId): ?string
+    {
+        $path = $file->getFileUri();
+
+        if (!$imageStyle = ImageStyle::load($imageStyleId)) {
+            return null;
+        }
+
+        if (!$imageStyle->supportsUri($path)) {
+            return null;
+        }
+
+        return $imageStyle->buildUrl($path);
     }
 
     private function getTranslatedMediaItem($row): ?MediaInterface

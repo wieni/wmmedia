@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: wmmedia_gallery_large
+label: 'Media gallery (large)'
+effects:
+  6126cba3-9d1d-4176-b63f-3e9ebe7c1bf0:
+    uuid: 6126cba3-9d1d-4176-b63f-3e9ebe7c1bf0
+    id: image_scale
+    weight: 1
+    data:
+      width: null
+      height: 1200
+      upscale: false

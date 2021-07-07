@@ -1,17 +1,14 @@
 langcode: en
 status: true
 dependencies:
-  config:
-    - media.type.file
   module:
-    - media
     - wmmedia
 name: files
 label: Files
 display: modal
 display_configuration:
-  width: '830'
-  height: '500'
+  width: '1024'
+  height: '768'
   link_text: 'Select file'
   auto_open: false
 selection_display: no_display

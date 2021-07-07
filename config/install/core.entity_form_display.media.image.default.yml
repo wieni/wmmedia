@@ -6,11 +6,12 @@ dependencies:
     - field.field.media.image.field_copyright
     - field.field.media.image.field_description
     - field.field.media.image.field_height
-    - field.field.media.image.field_media_imgix
+    - field.field.media.image.field_image
     - field.field.media.image.field_width
+    - image.style.thumbnail
     - media.type.image
   module:
-    - imgix
+    - image
     - text
 id: media.image.default
 targetEntityType: media
@@ -41,14 +42,14 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_media_imgix:
-    type: imgix
+  field_image:
     weight: 1
-    region: content
     settings:
-      preview_preset: thumb
       progress_indicator: throbber
+      preview_image_style: thumbnail
     third_party_settings: {  }
+    type: image_image
+    region: content
   name:
     type: string_textfield
     weight: 0

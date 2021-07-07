@@ -10,7 +10,6 @@ services:
         parent: wmmedia.base.form_builder
         arguments:
             - '@wmmedia.image.repository'
-            - '@imgix.manager'
             - '@entity_type.manager'
             - '@entity_field.manager'
 
@@ -19,7 +18,6 @@ services:
         arguments:
             - '@entity_type.manager'
             - '@language_manager'
-            - '@imgix.manager'
 
     wmmedia.file.repository:
         class: Drupal\wmmedia\Service\FileRepository
@@ -75,13 +73,6 @@ services:
 
     wmmedia.entity.delete.subscriber:
         class: Drupal\wmmedia\EventSubscriber\MediaDeleteSubscriber
-
-    wmmedia.media_widget.subscriber:
-        class: Drupal\wmmedia\EventSubscriber\WidgetSubscriber
-        arguments:
-            - '@entity_type.manager'
-            - '@imgix.manager'
-        tags: [{ name: event_subscriber }]
 
     wmmedia.collection_route.subscriber:
         class:  Drupal\wmmedia\EventSubscriber\CollectionRouteSubscriber
