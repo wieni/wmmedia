@@ -191,28 +191,41 @@ function wmmedia_update_8004(): void
     }
 
     // Migrate existing entities
-    /** @var MediaInterface[] $entities */
-    $entities = \Drupal::entityTypeManager()
-        ->getStorage('media')
-        ->loadByProperties(['bundle' => 'image']);
+    $mediaStorage = \Drupal::entityTypeManager()
+        ->getStorage('media');
+    $entityCache = \Drupal::getContainer()
+        ->get('entity.memory_cache');
+    $ids = $mediaStorage->getQuery()
+        ->condition('bundle', 'image')
+        ->execute();
 
-    foreach ($entities as $entity) {
-        $values = $entity->get('field_media_imgix')->getValue();
+    foreach (array_chunk($ids, 25) as $chunk) {
+        /** @var MediaInterface[] $entities */
+        $entities = \Drupal::entityTypeManager()
+            ->getStorage('media')
+            ->loadMultiple($chunk);
 
-        if (empty($values)) {
-            continue;
+        foreach ($entities as $entity) {
+            $values = $entity->get('field_media_imgix')->getValue();
+
+            if (empty($values)) {
+                continue;
+            }
+
+            $value = reset($values);
+            $entity->set('field_image', [
+                'target_id' => $value['target_id'],
+                'alt' => $value['description'],
+                'title' => $value['title'],
+                'width' => $value['width'],
+                'height' => $value['height'],
+            ]);
+            $entity->set('field_media_imgix', []);
+            $entity->save();
         }
 
-        $value = reset($values);
-        $entity->set('field_image', [
-            'target_id' => $value['target_id'],
-            'alt' => $value['description'],
-            'title' => $value['title'],
-            'width' => $value['width'],
-            'height' => $value['height'],
-        ]);
-        $entity->set('field_media_imgix', []);
-        $entity->save();
+        $entityCache->deleteAll();
+        gc_collect_cycles();
     }
 
     // Delete field_media_imgix

@@ -10,6 +10,7 @@ are welcome.
 ## [2.1.1] - 2021-07-26
 ### Fixed
 - Fix issue with media widget when file does not exist anymore
+- Fix memory issues when all media entities are loaded at once
 
 ## [2.1.0] - 2021-07-07
 ### Added
