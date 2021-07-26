@@ -296,7 +296,15 @@ class MediaWidget extends WidgetBase
 
             $row = &$element['container']['table'][$delta];
 
-            if (!$item->getMedia()) {
+            $media = $item->getMedia();
+            $file = null;
+
+            if ($media) {
+                $sourceField = $media->getSource()->getConfiguration()['source_field'];
+                $file = $media->get($sourceField)->entity;
+            }
+
+            if (!$media instanceof MediaInterface || !$file instanceof FileInterface) {
                 $row['preview'] = [
                     '#plain_text' => 'The referenced media does not exist anymore.',
                 ];
@@ -325,11 +333,6 @@ class MediaWidget extends WidgetBase
             $row['preview'] = [
                 '#markup' => $item->getMedia()->id(),
             ];
-
-            $media = $item->getMedia();
-            $sourceField = $media->getSource()->getConfiguration()['source_field'];
-            /** @var FileInterface $file */
-            $file = $media->get($sourceField)->entity;
 
             if ($media->bundle() === 'image') {
                 $row['preview'] = [
