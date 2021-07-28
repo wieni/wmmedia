@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## [2.1.2] - 2021-07-28
+### Fixed
+- Fix wmmedia_update_8004 in case field_media_imgix is already an image field
+
 ## [2.1.1] - 2021-07-26
 ### Fixed
 - Fix issue with media widget when file does not exist anymore

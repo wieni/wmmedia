@@ -215,7 +215,7 @@ function wmmedia_update_8004(): void
             $value = reset($values);
             $entity->set('field_image', [
                 'target_id' => $value['target_id'],
-                'alt' => $value['description'],
+                'alt' => $value['description'] ?? $value['alt'],
                 'title' => $value['title'],
                 'width' => $value['width'],
                 'height' => $value['height'],
