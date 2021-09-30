@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## [2.1.3] - 2021-09-30
+### Fixed
+- Fix error when media author does not exist anymore
+
 ## [2.1.2] - 2021-07-28
 ### Fixed
 - Fix wmmedia_update_8004 in case field_media_imgix is already an image field

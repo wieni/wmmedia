@@ -35,9 +35,13 @@ class ImageJsonFormatter
         $result = [
             'id' => $entity->id(),
             'label' => $entity->label(),
-            'author' => $entity->getOwner()->getDisplayName() ?: '',
+            'author' => '',
             'dateCreated' => (int) $entity->getCreatedTime(),
         ];
+
+        if ($owner = $entity->getOwner()) {
+            $result['author'] = $owner->getDisplayName();
+        }
 
         if ($entity->hasField('field_copyright')) {
             $result['copyright'] = $entity->get('field_copyright')->value;
