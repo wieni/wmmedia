@@ -138,7 +138,7 @@ class MediaPreview extends React.Component {
                             </p>
                         )}
                         <p className="media-preview__field">
-                            <span className="media-preview__field-label">{Drupal.t('Size')}</span>
+                            <span className="media-preview__field-label">{Drupal.t('File size')}</span>
                             {item.size || defaultValue}
                         </p>
                         {item.hasOwnProperty('width') && item.hasOwnProperty('height') && (

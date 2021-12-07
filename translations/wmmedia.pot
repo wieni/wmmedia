@@ -6,26 +6,38 @@
 #  wmmedia.info.yml: n/a
 #  wmmedia.links.action.yml: n/a
 #  wmmedia.links.menu.yml: n/a
+#  wmmedia.links.task.yml: n/a
+#  src/Service/UsageManager.php: n/a
+#  wmmedia.routing.yml: n/a
 #  assets/components/gallery/MediaItem.js: n/a
 #  assets/dist/gallery.js: n/a
 #  src/Plugin/Field/FieldWidget/MediaWidget.php: n/a
 #  assets/components/gallery/MediaPreview.js: n/a
-#  src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php: n/a
-#  src/Form/MediaContentFilterForm.php: n/a
-#  src/EventSubscriber/MediaDeleteFormAlterSubscriber.php: n/a
-#  src/EventSubscriber/MediaEntitySubscriber.php: n/a
-#  src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php: n/a
-#  src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php: n/a
+#  src/Service/FileOverviewFormBuilder.php: n/a
+#  src/Controller/UsageController.php: n/a
+#  src/EventSubscriber/UsageFormAlterSubscriber.php: n/a
+#  src/Form/MediaFileOverviewEditor.php: n/a
+#  src/Plugin/CKEditorPlugin/MediaFileLink.php: n/a
+#  src/Plugin/EntityBrowser/Widget/DoNotUseMediaFileExtrasAdd.php: n/a
+#  src/Plugin/EntityBrowser/Widget/DoNotUseMediaImageExtrasAdd.php: n/a
+#  src/Plugin/EntityBrowser/Widget/MediaBrowserBase.php: n/a
+#  src/Plugin/EntityBrowser/Widget/MediaFileBrowser.php: n/a
+#  src/Plugin/EntityBrowser/Widget/MediaImageBrowser.php: n/a
+#  src/Plugin/Field/FieldFormatter/DefaultMediaImageFieldFormatter.php: n/a
 #  src/Plugin/Field/FieldType/MediaFileExtras.php: n/a
 #  src/Plugin/Field/FieldType/MediaImageExtras.php: n/a
-#  src/Service/MediaFilterService.php: n/a
-#  src/Plugin/Field/FieldFormatter/DefaultMediaImageFieldFormatter.php: n/a
+#  src/Plugin/Field/FieldWidget/MediaFile.php: n/a
+#  src/Service/OverviewFormBuilderBase.php: n/a
+#  src/Plugin/Filter/MediaFileLinkFilter.php: n/a
+#  src/Plugin/QueueWorker/MediaUsageQueueWorker.php: n/a
+#  src/Plugin/media/Source/ImgixDoNotUse.php: n/a
+#  src/Service/ImageOverviewFormBuilder.php: n/a
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-06-14 12:40+0200\n"
+"POT-Creation-Date: 2021-12-07 10:10+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -50,19 +62,39 @@ msgstr ""
 msgid "Add image"
 msgstr ""
 
+#: wmmedia.links.action.yml:0
+msgid "Add file"
+msgstr ""
+
 #: wmmedia.links.menu.yml:0
 msgid "Media"
 msgstr ""
 
-#: assets/components/gallery/MediaItem.js:0 assets/dist/gallery.js:0 src/Plugin/Field/FieldWidget/MediaWidget.php:299
+#: wmmedia.links.menu.yml:0
+msgid "Images"
+msgstr ""
+
+#: wmmedia.links.menu.yml:0
+msgid "Files"
+msgstr ""
+
+#: wmmedia.links.task.yml:0 src/Service/UsageManager.php:144
+msgid "Usage"
+msgstr ""
+
+#: wmmedia.routing.yml:0;0
+msgid "Media: files"
+msgstr ""
+
+#: assets/components/gallery/MediaItem.js:0 assets/dist/gallery.js:0 src/Plugin/Field/FieldWidget/MediaWidget.php:262
 msgid "Preview"
 msgstr ""
 
-#: assets/components/gallery/MediaItem.js:0 assets/components/gallery/MediaPreview.js:0;0 assets/dist/gallery.js:0;0
+#: assets/components/gallery/MediaItem.js:0 assets/components/gallery/MediaPreview.js:0;0 assets/dist/gallery.js:0;0;0
 msgid "Copied!"
 msgstr ""
 
-#: assets/components/gallery/MediaItem.js:0 assets/components/gallery/MediaPreview.js:0;0 assets/dist/gallery.js:0;0
+#: assets/components/gallery/MediaItem.js:0 assets/components/gallery/MediaPreview.js:0;0 assets/dist/gallery.js:0;0;0
 msgid "Copy url"
 msgstr ""
 
@@ -70,24 +102,24 @@ msgstr ""
 msgid "Download original"
 msgstr ""
 
-#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0 src/Service/FileOverviewFormBuilder.php:102
 msgid "Name"
 msgstr ""
 
-#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0 src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:91 src/Plugin/Field/FieldWidget/MediaWidget.php:430
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0 src/Plugin/Field/FieldWidget/MediaWidget.php:396
 msgid "Copyright"
 msgstr ""
 
-#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0 src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:77
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
 msgid "Caption"
 msgstr ""
 
-#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0 src/Plugin/Field/FieldWidget/MediaWidget.php:439
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0 src/Plugin/Field/FieldWidget/MediaWidget.php:404
 msgid "Alternate"
 msgstr ""
 
-#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0 src/Form/MediaContentFilterForm.php:54
-msgid "Size"
+#: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0 src/Service/FileOverviewFormBuilder.php:111
+msgid "File size"
 msgstr ""
 
 #: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
@@ -98,197 +130,127 @@ msgstr ""
 msgid "Date created"
 msgstr ""
 
-#: src/EventSubscriber/MediaDeleteFormAlterSubscriber.php:66
-msgid "Entity of type :bundle"
+#: src/Controller/UsageController.php:33
+msgid "Media usage for :media"
 msgstr ""
 
-#: src/EventSubscriber/MediaDeleteFormAlterSubscriber.php:89
-msgid "When deleting this image, all referencing fields will be deleted."
+#: src/EventSubscriber/UsageFormAlterSubscriber.php:48
+msgid "Are you sure you want to delete :file ?  It is still <a href=\"@link\">in use</a>."
 msgstr ""
 
-#: src/EventSubscriber/MediaDeleteFormAlterSubscriber.php:90
-msgid "Are you sure you want to proceed? This action cannot be undone."
+#: src/Form/MediaFileOverviewEditor.php:54
+msgid "Save"
 msgstr ""
 
-#: src/EventSubscriber/MediaDeleteFormAlterSubscriber.php:54
-msgid "Caution, this image is being referenced by 1 entity:"
-msgid_plural "Caution, this image is being referenced by @count entities."
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/EventSubscriber/MediaDeleteFormAlterSubscriber.php:84
-msgid "This field is required. Please delete it before deleting the image."
-msgid_plural "One of these fields is required. Please remove all required fields before deleting the image."
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/EventSubscriber/MediaEntitySubscriber.php:91
-msgid "Removed 1 reference to image"
-msgid_plural "Removed @count references to image"
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/Form/MediaContentFilterForm.php:46;73
-msgid "Search"
+#: src/Plugin/CKEditorPlugin/MediaFileLink.php:40
+msgid "Add or select media"
 msgstr ""
 
-#: src/Form/MediaContentFilterForm.php:48
-msgid "Filename, title, description, copyright, ..."
+#: src/Plugin/CKEditorPlugin/MediaFileLink.php:67
+msgid "Link media file"
 msgstr ""
 
-#: src/Form/MediaContentFilterForm.php:56
-msgid "None"
+#: src/Plugin/CKEditorPlugin/MediaFileLink.php:12
+msgid "Media file link"
 msgstr ""
 
-#: src/Form/MediaContentFilterForm.php:79 src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:161
-msgid "Reset"
+#: src/Plugin/EntityBrowser/Widget/DoNotUseMediaFileExtrasAdd.php:8
+msgid "Media file upload (DO NOT USE)"
 msgstr ""
 
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:33
-msgid "Select file(s)"
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:44 src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:44
-msgid "The media type is not configured correctly."
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:48
-msgid "The configured media type is not using the file plugin."
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:59 src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:59 src/Plugin/Field/FieldType/MediaFileExtras.php:90 src/Plugin/Field/FieldType/MediaImageExtras.php:113
-msgid "Title"
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:126 src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:170
-msgid "Allowed extensions"
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:144
-msgid "You don't have media type of the File type. You should <a href='!link'>create one</a>"
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:149 src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:193
-msgid "Media type"
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:10
-msgid "Media file upload"
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:10
+#: src/Plugin/EntityBrowser/Widget/DoNotUseMediaFileExtrasAdd.php:8
 msgid "Upload widget that will create media entities of the uploaded files."
 msgstr ""
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:33
-msgid "Add"
+#: src/Plugin/EntityBrowser/Widget/DoNotUseMediaImageExtrasAdd.php:8
+msgid "Media image upload (DO NOT USE)"
 msgstr ""
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:68
-msgid "Alternate (Alt) text"
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:188
-msgid "You don't have media type of the Image type. You should <a href='!link'>create one</a>"
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:10
-msgid "Media image upload"
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:10
+#: src/Plugin/EntityBrowser/Widget/DoNotUseMediaImageExtrasAdd.php:8
 msgid "Upload widget that will create media entities of the uploaded images."
 msgstr ""
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:129
-msgid "Title, description, copyright"
+#: src/Plugin/EntityBrowser/Widget/MediaBrowserBase.php:27
+msgid "The @type entity @id does not exist."
 msgstr ""
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:138
-msgid "Image size"
+#: src/Plugin/EntityBrowser/Widget/MediaBrowserBase.php:34
+msgid "The entity type @type does not exist."
 msgstr ""
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:143
-msgid "Any"
+#: src/Plugin/EntityBrowser/Widget/MediaFileBrowser.php:11
+msgid "Media file browser"
 msgstr ""
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:144 src/Service/MediaFilterService.php:35
-msgid "Small"
+#: src/Plugin/EntityBrowser/Widget/MediaFileBrowser.php:11
+msgid "File listing for media browser"
 msgstr ""
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:145 src/Service/MediaFilterService.php:36
-msgid "Medium"
+#: src/Plugin/EntityBrowser/Widget/MediaImageBrowser.php:73 src/Plugin/Field/FieldFormatter/DefaultMediaImageFieldFormatter.php:44 src/Plugin/Field/FieldWidget/MediaWidget.php:145
+msgid "Image style"
 msgstr ""
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:146 src/Service/MediaFilterService.php:37
-msgid "Large"
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:153
-msgid "Filter"
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:388
-msgid "The @type Entity @id does not exist."
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:395
-msgid "The Entity Type @type does not exist."
-msgstr ""
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:18
+#: src/Plugin/EntityBrowser/Widget/MediaImageBrowser.php:13
 msgid "Media image browser"
 msgstr ""
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:18
+#: src/Plugin/EntityBrowser/Widget/MediaImageBrowser.php:13
 msgid "Image listings for media browser"
 msgstr ""
 
-#: src/Plugin/Field/FieldFormatter/DefaultMediaImageFieldFormatter.php:14
+#: src/Plugin/Field/FieldFormatter/DefaultMediaImageFieldFormatter.php:68
+msgid "Image style: @imageStyleLabel"
+msgstr ""
+
+#: src/Plugin/Field/FieldFormatter/DefaultMediaImageFieldFormatter.php:10
 msgid "Image"
 msgstr ""
 
-#: src/Plugin/Field/FieldType/MediaFileExtras.php:63 src/Plugin/Field/FieldType/MediaImageExtras.php:67
+#: src/Plugin/Field/FieldType/MediaFileExtras.php:53 src/Plugin/Field/FieldType/MediaImageExtras.php:55
 msgid "Enable <em>Title</em> field"
 msgstr ""
 
-#: src/Plugin/Field/FieldType/MediaFileExtras.php:65
+#: src/Plugin/Field/FieldType/MediaFileExtras.php:55
 msgid "The title attribute is used as a tooltip when the mouse hovers over the file. Enabling this field is not recommended as it can cause problems with screen readers."
 msgstr ""
 
-#: src/Plugin/Field/FieldType/MediaFileExtras.php:70 src/Plugin/Field/FieldType/MediaImageExtras.php:74
+#: src/Plugin/Field/FieldType/MediaFileExtras.php:60 src/Plugin/Field/FieldType/MediaImageExtras.php:62
 msgid "<em>Title</em> field required"
 msgstr ""
 
-#: src/Plugin/Field/FieldType/MediaFileExtras.php:11
+#: src/Plugin/Field/FieldType/MediaFileExtras.php:78 src/Plugin/Field/FieldType/MediaImageExtras.php:99 src/Service/UsageManager.php:156
+msgid "Title"
+msgstr ""
+
+#: src/Plugin/Field/FieldType/MediaFileExtras.php:13
 msgid "Media file with extras"
 msgstr ""
 
-#: src/Plugin/Field/FieldType/MediaFileExtras.php:11
+#: src/Plugin/Field/FieldType/MediaFileExtras.php:13
 msgid "An entity field containing an file media entity reference with an extra title."
 msgstr ""
 
-#: src/Plugin/Field/FieldType/MediaFileExtras.php:11 src/Plugin/Field/FieldType/MediaImageExtras.php:13
+#: src/Plugin/Field/FieldType/MediaFileExtras.php:13 src/Plugin/Field/FieldType/MediaImageExtras.php:13
 msgid "Reference"
 msgstr ""
 
-#: src/Plugin/Field/FieldType/MediaImageExtras.php:69
+#: src/Plugin/Field/FieldType/MediaImageExtras.php:57
 msgid "The title attribute is used as a tooltip when the mouse hovers over the image. Enabling this field is not recommended as it can cause problems with screen readers."
 msgstr ""
 
-#: src/Plugin/Field/FieldType/MediaImageExtras.php:86
+#: src/Plugin/Field/FieldType/MediaImageExtras.php:74
 msgid "Enable <em>Description</em> field"
 msgstr ""
 
-#: src/Plugin/Field/FieldType/MediaImageExtras.php:88
+#: src/Plugin/Field/FieldType/MediaImageExtras.php:76
 msgid "The description field allows users to enter a caption for the image."
 msgstr ""
 
-#: src/Plugin/Field/FieldType/MediaImageExtras.php:93
+#: src/Plugin/Field/FieldType/MediaImageExtras.php:81
 msgid "<em>Description</em> field required"
 msgstr ""
 
-#: src/Plugin/Field/FieldType/MediaImageExtras.php:117
+#: src/Plugin/Field/FieldType/MediaImageExtras.php:103
 msgid "Description"
 msgstr ""
 
@@ -300,107 +262,220 @@ msgstr ""
 msgid "An entity field containing an image media entity reference with an extra title / description."
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:125
+#: src/Plugin/Field/FieldWidget/MediaFile.php:170 src/Plugin/Field/FieldWidget/MediaWidget.php:327;436
+msgid "Remove"
+msgstr ""
+
+#: src/Plugin/Field/FieldWidget/MediaFile.php:187
+msgid "Replace"
+msgstr ""
+
+#: src/Plugin/Field/FieldWidget/MediaFile.php:204 src/Plugin/Field/FieldWidget/MediaWidget.php:418 src/Service/UsageManager.php:200
+msgid "Edit"
+msgstr ""
+
+#: src/Plugin/Field/FieldWidget/MediaFile.php:16
+msgid "Media file"
+msgstr ""
+
+#: src/Plugin/Field/FieldWidget/MediaFile.php:16
+msgid "Uses entity browser to select files."
+msgstr ""
+
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:87
 msgid "Entity browser"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:133
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:95
 msgid "Display Remove button"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:139
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:101
+msgid "Display Edit button"
+msgstr ""
+
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:107
 msgid "Show field label above the widget"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:145
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:113
 msgid "Title Enabled"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:150
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:118
 msgid "Title Required"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:155
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:123
 msgid "Title Label"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:161
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:129
 msgid "Description Enabled"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:166
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:134
 msgid "Description Required"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:171
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:139
 msgid "Description Label"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:186
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:161
 msgid "Entity browser: @value"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:193
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:168
 msgid "Display remove button: @value"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:196;202;208;209;216;217
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:171;177;183;189;190;197;198 src/Service/FileOverviewFormBuilder.php:196 src/Service/OverviewFormBuilderBase.php:109 src/Service/UsageManager.php:187
 msgid "Yes"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:196;202;208;209;216;217
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:171;177;183;189;190;197;198 src/Service/FileOverviewFormBuilder.php:196 src/Service/OverviewFormBuilderBase.php:110 src/Service/UsageManager.php:187
 msgid "No"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:199
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:174
+msgid "Display edit button: @value"
+msgstr ""
+
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:180
 msgid "Show field label: @value"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:205
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:186
 msgid "Title field: @enabled, @required, Label: @label"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:213
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:194
 msgid "Description field: @enabled, @required, Label: @label"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:300
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:203
+msgid "Image style: @style"
+msgstr ""
+
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:263
 msgid "Metadata"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:301
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:264
 msgid "Operations"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:306
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:269
 msgid "No media selected"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:311
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:274
 msgctxt "Sort order"
 msgid "Order"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:357;468
-msgid "Remove"
-msgstr ""
-
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:451
-msgid "Edit"
-msgstr ""
-
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:477
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:445
 msgid "Weight for row @number"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:616
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:564
 msgid "@name field is required."
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:26
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:27
 msgid "Media Browser with extra fields"
 msgstr ""
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:26
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:27
 msgid "A widget containing a media reference with an extra title/description."
 msgstr ""
+
+#: src/Plugin/Filter/MediaFileLinkFilter.php:14
+msgid "Process links to media entities."
+msgstr ""
+
+#: src/Plugin/QueueWorker/MediaUsageQueueWorker.php:13
+msgid "Media usage"
+msgstr ""
+
+#: src/Plugin/media/Source/ImgixDoNotUse.php:7
+msgid "Imgix"
+msgstr ""
+
+#: src/Plugin/media/Source/ImgixDoNotUse.php:7
+msgid "Use Imgix image fields for reusable media."
+msgstr ""
+
+#: src/Service/FileOverviewFormBuilder.php:43
+msgid "No files available."
+msgstr ""
+
+#: src/Service/FileOverviewFormBuilder.php:79 src/Service/ImageOverviewFormBuilder.php:142 src/Service/OverviewFormBuilderBase.php:128
+msgid "Search"
+msgstr ""
+
+#: src/Service/FileOverviewFormBuilder.php:106
+msgid "Created"
+msgstr ""
+
+#: src/Service/FileOverviewFormBuilder.php:115
+msgid "Extension"
+msgstr ""
+
+#: src/Service/FileOverviewFormBuilder.php:122 src/Service/OverviewFormBuilderBase.php:112
+msgid "In use"
+msgstr ""
+
+#: src/Service/ImageOverviewFormBuilder.php:125
+msgid "title"
+msgstr ""
+
+#: src/Service/ImageOverviewFormBuilder.php:129
+msgid "copyright"
+msgstr ""
+
+#: src/Service/ImageOverviewFormBuilder.php:133
+msgid "description"
+msgstr ""
+
+#: src/Service/ImageOverviewFormBuilder.php:151 src/Service/OverviewFormBuilderBase.php:107
+msgid "Any"
+msgstr ""
+
+#: src/Service/ImageOverviewFormBuilder.php:153
+msgid "Image size"
+msgstr ""
+
+#: src/Service/ImageOverviewFormBuilder.php:236
+msgid "Small"
+msgstr ""
+
+#: src/Service/ImageOverviewFormBuilder.php:237
+msgid "Medium"
+msgstr ""
+
+#: src/Service/ImageOverviewFormBuilder.php:238
+msgid "Large"
+msgstr ""
+
+#: src/Service/OverviewFormBuilderBase.php:134
+msgid "Reset"
+msgstr ""
+
+#: src/Service/UsageManager.php:155
+msgid "Type"
+msgstr ""
+
+#: src/Service/UsageManager.php:157
+msgid "Field"
+msgstr ""
+
+#: src/Service/UsageManager.php:158
+msgid "Required"
+msgstr ""
+
+#: src/Service/UsageManager.php:217
+msgid ":label is not in use."
+msgstr ""
+

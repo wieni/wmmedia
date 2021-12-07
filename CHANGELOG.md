@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+### Changed
+- Update Dutch translations
+
 ## [2.1.3] - 2021-09-30
 ### Fixed
 - Fix error when media author does not exist anymore

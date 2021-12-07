@@ -20,8 +20,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-06-14 12:40+0200\n"
-"PO-Revision-Date: 2019-06-14 13:00+0200\n"
+"POT-Creation-Date: 2021-12-07 10:10+0000\n"
+"PO-Revision-Date: 2021-12-07 11:20+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "Language: nl\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.3\n"
 
 #: wmmedia.info.yml:0
 msgid "wmmedia"
@@ -47,22 +47,42 @@ msgstr ""
 msgid "Add image"
 msgstr "Afbeelding toevoegen"
 
+#: wmmedia.links.action.yml:0
+msgid "Add file"
+msgstr "Bestand toevoegen"
+
 #: wmmedia.links.menu.yml:0
 msgid "Media"
 msgstr "Media"
 
+#: wmmedia.links.menu.yml:0
+msgid "Images"
+msgstr "Afbeeldingen"
+
+#: wmmedia.links.menu.yml:0
+msgid "Files"
+msgstr "Bestanden"
+
+#: wmmedia.links.task.yml:0 src/Service/UsageManager.php:144
+msgid "Usage"
+msgstr "Gebruik"
+
+#: wmmedia.routing.yml:0;0
+msgid "Media: files"
+msgstr "Media: files"
+
 #: assets/components/gallery/MediaItem.js:0 assets/dist/gallery.js:0
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:299
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:262
 msgid "Preview"
 msgstr "Voorbeeld"
 
 #: assets/components/gallery/MediaItem.js:0
-#: assets/components/gallery/MediaPreview.js:0;0 assets/dist/gallery.js:0;0
+#: assets/components/gallery/MediaPreview.js:0;0 assets/dist/gallery.js:0;0;0
 msgid "Copied!"
 msgstr "Gekopieerd!"
 
 #: assets/components/gallery/MediaItem.js:0
-#: assets/components/gallery/MediaPreview.js:0;0 assets/dist/gallery.js:0;0
+#: assets/components/gallery/MediaPreview.js:0;0 assets/dist/gallery.js:0;0;0
 msgid "Copy url"
 msgstr "Kopieer url"
 
@@ -72,28 +92,27 @@ msgid "Download original"
 msgstr "Download origineel"
 
 #: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
+#: src/Service/FileOverviewFormBuilder.php:102
 msgid "Name"
 msgstr "Naam"
 
 #: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:91
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:430
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:396
 msgid "Copyright"
 msgstr "Copyright"
 
 #: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:77
 msgid "Caption"
 msgstr "Onderschrift"
 
 #: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:439
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:404
 msgid "Alternate"
 msgstr "Alternatieve"
 
 #: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
-#: src/Form/MediaContentFilterForm.php:54
-msgid "Size"
+#: src/Service/FileOverviewFormBuilder.php:111
+msgid "File size"
 msgstr "Bestandsgrootte"
 
 #: assets/components/gallery/MediaPreview.js:0 assets/dist/gallery.js:0
@@ -104,194 +123,102 @@ msgstr "Dimensies"
 msgid "Date created"
 msgstr "Aanmaakdatum"
 
-#: src/EventSubscriber/MediaDeleteFormAlterSubscriber.php:66
-msgid "Entity of type :bundle"
-msgstr "Entiteit van type :bundle"
+#: src/Controller/UsageController.php:33
+msgid "Media usage for :media"
+msgstr "Gebruik van media voor :media"
 
-#: src/EventSubscriber/MediaDeleteFormAlterSubscriber.php:89
-msgid "When deleting this image, all referencing fields will be deleted."
-msgstr ""
-"Bij het verwijderen van deze afbeelding worden ook alle velden die ernaar "
-"verwijzen verwijderd."
-
-#: src/EventSubscriber/MediaDeleteFormAlterSubscriber.php:90
-msgid "Are you sure you want to proceed? This action cannot be undone."
-msgstr ""
-"Weet je zeker dat je verder wilt gaan? Deze actie kan niet ongedaan gemaakt "
-"worden."
-
-#: src/EventSubscriber/MediaDeleteFormAlterSubscriber.php:54
-msgid "Caution, this image is being referenced by 1 entity:"
-msgid_plural "Caution, this image is being referenced by @count entities."
-msgstr[0] "Let op, er wordt naar deze afbeelding verwezen door 1 entiteit:"
-msgstr[1] ""
-"Let op, er wordt naar deze afbeelding verwezen door @count entiteiten."
-
-#: src/EventSubscriber/MediaDeleteFormAlterSubscriber.php:84
-msgid "This field is required. Please delete it before deleting the image."
-msgid_plural ""
-"One of these fields is required. Please remove all required fields before "
-"deleting the image."
-msgstr[0] ""
-"Dit veld is verplicht. Verwijder deze voordat u de afbeelding verwijdert."
-msgstr[1] ""
-"Een van deze velden is verplicht. Verwijder deze voordat u de afbeelding "
-"verwijdert."
-
-#: src/EventSubscriber/MediaEntitySubscriber.php:91
-msgid "Removed 1 reference to image"
-msgid_plural "Removed @count references to image"
-msgstr[0] "Er werd 1 verwijzing naar de afbeelding verwijderd"
-msgstr[1] "Er werden @count verwijzingen naar de afbeelding verwijderd"
-
-#: src/Form/MediaContentFilterForm.php:46;73
-msgid "Search"
-msgstr "Zoeken"
-
-#: src/Form/MediaContentFilterForm.php:48
-msgid "Filename, title, description, copyright, ..."
-msgstr "Bestandsnaam, titel, beschrijving, copyright, ..."
-
-#: src/Form/MediaContentFilterForm.php:56
-msgid "None"
-msgstr "Geen"
-
-#: src/Form/MediaContentFilterForm.php:79
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:161
-msgid "Reset"
-msgstr "Opnieuw instellen"
-
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:33
-msgid "Select file(s)"
-msgstr "Selecteer bestand(en)"
-
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:44
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:44
-msgid "The media type is not configured correctly."
-msgstr "Het mediatype is niet correct geconfigureerd."
-
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:48
-msgid "The configured media type is not using the file plugin."
-msgstr "Het geconfigureerde mediatype gebruikt de file plugin niet."
-
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:59
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:59
-#: src/Plugin/Field/FieldType/MediaFileExtras.php:90
-#: src/Plugin/Field/FieldType/MediaImageExtras.php:113
-msgid "Title"
-msgstr "Titel"
-
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:126
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:170
-msgid "Allowed extensions"
-msgstr "Toegestane extensies"
-
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:144
+#: src/EventSubscriber/UsageFormAlterSubscriber.php:48
 msgid ""
-"You don't have media type of the File type. You should <a href='!"
-"link'>create one</a>"
+"Are you sure you want to delete :file ?  It is still <a href=\"@link\">in "
+"use</a>."
 msgstr ""
-"U hebt geen media type van het File type. <a href='!link'>Maak een nieuwe</"
-"a>."
+"Weet je zeker dat je :file wilt verwijderen? Het is nog steeds <a href="
+"\"@link\">in gebruik</a>."
 
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:149
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:193
-msgid "Media type"
-msgstr "Media type"
+#: src/Form/MediaFileOverviewEditor.php:54
+msgid "Save"
+msgstr "Opslaan"
 
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:10
-msgid "Media file upload"
-msgstr "Uploaden van mediabestanden"
+#: src/Plugin/CKEditorPlugin/MediaFileLink.php:40
+msgid "Add or select media"
+msgstr "Media toevoegen of kiezen"
 
-#: src/Plugin/EntityBrowser/Widget/MediaFileExtrasAdd.php:10
+#: src/Plugin/CKEditorPlugin/MediaFileLink.php:67
+msgid "Link media file"
+msgstr "Link toevoegen naar mediabestand"
+
+#: src/Plugin/CKEditorPlugin/MediaFileLink.php:12
+msgid "Media file link"
+msgstr "Link toevoegen naar mediabestand"
+
+#: src/Plugin/EntityBrowser/Widget/DoNotUseMediaFileExtrasAdd.php:8
+msgid "Media file upload (DO NOT USE)"
+msgstr "Uploaden van mediabestanden (NIET GEBRUIKEN)"
+
+#: src/Plugin/EntityBrowser/Widget/DoNotUseMediaFileExtrasAdd.php:8
 msgid "Upload widget that will create media entities of the uploaded files."
 msgstr ""
 "Upload widget waarmee media-entiteiten van de geüploade bestanden worden "
 "gemaakt."
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:33
-msgid "Add"
-msgstr "Toevoegen"
+#: src/Plugin/EntityBrowser/Widget/DoNotUseMediaImageExtrasAdd.php:8
+msgid "Media image upload (DO NOT USE)"
+msgstr "Uploaden van media-afbeeldingen (NIET GEBRUIKEN)"
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:68
-msgid "Alternate (Alt) text"
-msgstr "Alternatieve (Alt) tekst"
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:188
-msgid ""
-"You don't have media type of the Image type. You should <a href='!"
-"link'>create one</a>"
-msgstr ""
-"U hebt geen media type van het Image type. <a href='!link'>Maak een nieuwe</"
-"a>."
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:10
-msgid "Media image upload"
-msgstr "Uploaden van media-afbeeldingen"
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasAdd.php:10
+#: src/Plugin/EntityBrowser/Widget/DoNotUseMediaImageExtrasAdd.php:8
 msgid "Upload widget that will create media entities of the uploaded images."
 msgstr ""
 "Upload widget waarmee media-entiteiten van de geüploade afbeeldingen worden "
 "gemaakt."
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:129
-msgid "Title, description, copyright"
-msgstr "Titel, beschrijving, copyright"
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:138
-msgid "Image size"
-msgstr "Afbeeldingsgrootte"
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:143
-msgid "Any"
-msgstr "Geen"
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:144
-#: src/Service/MediaFilterService.php:35
-msgid "Small"
-msgstr "Klein"
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:145
-#: src/Service/MediaFilterService.php:36
-msgid "Medium"
-msgstr "Medium"
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:146
-#: src/Service/MediaFilterService.php:37
-msgid "Large"
-msgstr "Groot"
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:153
-msgid "Filter"
-msgstr "Filter"
-
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:388
-msgid "The @type Entity @id does not exist."
+#: src/Plugin/EntityBrowser/Widget/MediaBrowserBase.php:27
+#, fuzzy
+#| msgid "The @type Entity @id does not exist."
+msgid "The @type entity @id does not exist."
 msgstr "De @type entiteit @id bestaat niet."
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:395
-msgid "The Entity Type @type does not exist."
+#: src/Plugin/EntityBrowser/Widget/MediaBrowserBase.php:34
+#, fuzzy
+#| msgid "The Entity Type @type does not exist."
+msgid "The entity type @type does not exist."
 msgstr "Het entiteitstype @type bestaat niet."
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:18
+#: src/Plugin/EntityBrowser/Widget/MediaFileBrowser.php:11
+msgid "Media file browser"
+msgstr "Media bestandsbrowser"
+
+#: src/Plugin/EntityBrowser/Widget/MediaFileBrowser.php:11
+msgid "File listing for media browser"
+msgstr "Bestandenlijst voor media browser"
+
+#: src/Plugin/EntityBrowser/Widget/MediaImageBrowser.php:73
+#: src/Plugin/Field/FieldFormatter/DefaultMediaImageFieldFormatter.php:44
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:145
+msgid "Image style"
+msgstr "Afbeeldingsstijl"
+
+#: src/Plugin/EntityBrowser/Widget/MediaImageBrowser.php:13
 msgid "Media image browser"
 msgstr "Media afbeeldingbrowser"
 
-#: src/Plugin/EntityBrowser/Widget/MediaImageExtrasBrowser.php:18
+#: src/Plugin/EntityBrowser/Widget/MediaImageBrowser.php:13
 msgid "Image listings for media browser"
 msgstr "Afbeeldingenlijst voor media browser"
 
-#: src/Plugin/Field/FieldFormatter/DefaultMediaImageFieldFormatter.php:14
+#: src/Plugin/Field/FieldFormatter/DefaultMediaImageFieldFormatter.php:68
+msgid "Image style: @imageStyleLabel"
+msgstr "Afbeeldingsstijl: @imageStyleLabel"
+
+#: src/Plugin/Field/FieldFormatter/DefaultMediaImageFieldFormatter.php:10
 msgid "Image"
 msgstr "Afbeelding"
 
-#: src/Plugin/Field/FieldType/MediaFileExtras.php:63
-#: src/Plugin/Field/FieldType/MediaImageExtras.php:67
+#: src/Plugin/Field/FieldType/MediaFileExtras.php:53
+#: src/Plugin/Field/FieldType/MediaImageExtras.php:55
 msgid "Enable <em>Title</em> field"
 msgstr "Schakel het <em>Titel</em> veld in"
 
-#: src/Plugin/Field/FieldType/MediaFileExtras.php:65
+#: src/Plugin/Field/FieldType/MediaFileExtras.php:55
 msgid ""
 "The title attribute is used as a tooltip when the mouse hovers over the "
 "file. Enabling this field is not recommended as it can cause problems with "
@@ -301,16 +228,22 @@ msgstr ""
 "bestand zweeft. Het inschakelen van dit veld wordt niet aanbevolen omdat dit "
 "problemen kan veroorzaken met schermlezers."
 
-#: src/Plugin/Field/FieldType/MediaFileExtras.php:70
-#: src/Plugin/Field/FieldType/MediaImageExtras.php:74
+#: src/Plugin/Field/FieldType/MediaFileExtras.php:60
+#: src/Plugin/Field/FieldType/MediaImageExtras.php:62
 msgid "<em>Title</em> field required"
 msgstr "<em>Titel</em> veld is verplicht"
 
-#: src/Plugin/Field/FieldType/MediaFileExtras.php:11
+#: src/Plugin/Field/FieldType/MediaFileExtras.php:78
+#: src/Plugin/Field/FieldType/MediaImageExtras.php:99
+#: src/Service/UsageManager.php:156
+msgid "Title"
+msgstr "Titel"
+
+#: src/Plugin/Field/FieldType/MediaFileExtras.php:13
 msgid "Media file with extras"
 msgstr "Mediabestand met extra's"
 
-#: src/Plugin/Field/FieldType/MediaFileExtras.php:11
+#: src/Plugin/Field/FieldType/MediaFileExtras.php:13
 msgid ""
 "An entity field containing an file media entity reference with an extra "
 "title."
@@ -318,12 +251,12 @@ msgstr ""
 "Een entiteitsveld met een verwijzing naar de file media-entiteit met een "
 "extra titel."
 
-#: src/Plugin/Field/FieldType/MediaFileExtras.php:11
+#: src/Plugin/Field/FieldType/MediaFileExtras.php:13
 #: src/Plugin/Field/FieldType/MediaImageExtras.php:13
 msgid "Reference"
 msgstr "Verwijzing"
 
-#: src/Plugin/Field/FieldType/MediaImageExtras.php:69
+#: src/Plugin/Field/FieldType/MediaImageExtras.php:57
 msgid ""
 "The title attribute is used as a tooltip when the mouse hovers over the "
 "image. Enabling this field is not recommended as it can cause problems with "
@@ -333,21 +266,21 @@ msgstr ""
 "afbeelding zweeft. Het inschakelen van dit veld wordt niet aanbevolen omdat "
 "dit problemen kan veroorzaken met schermlezers."
 
-#: src/Plugin/Field/FieldType/MediaImageExtras.php:86
+#: src/Plugin/Field/FieldType/MediaImageExtras.php:74
 msgid "Enable <em>Description</em> field"
 msgstr "Schakel het <em>Omschrijving</em> veld in"
 
-#: src/Plugin/Field/FieldType/MediaImageExtras.php:88
+#: src/Plugin/Field/FieldType/MediaImageExtras.php:76
 msgid "The description field allows users to enter a caption for the image."
 msgstr ""
 "In het beschrijvingsveld kunnen gebruikers een bijschrift voor de afbeelding "
 "invoeren."
 
-#: src/Plugin/Field/FieldType/MediaImageExtras.php:93
+#: src/Plugin/Field/FieldType/MediaImageExtras.php:81
 msgid "<em>Description</em> field required"
 msgstr "<em>Beschrijving</em> veld is verplicht"
 
-#: src/Plugin/Field/FieldType/MediaImageExtras.php:117
+#: src/Plugin/Field/FieldType/MediaImageExtras.php:103
 msgid "Description"
 msgstr "Beschrijving"
 
@@ -363,107 +296,313 @@ msgstr ""
 "Een entiteitsveld dat een afbeelding-media-entiteitreferentie bevat met een "
 "extra titel / beschrijving."
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:125
+#: src/Plugin/Field/FieldWidget/MediaFile.php:170
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:327;436
+msgid "Remove"
+msgstr "Verwijderen"
+
+#: src/Plugin/Field/FieldWidget/MediaFile.php:187
+msgid "Replace"
+msgstr "Vervangen"
+
+#: src/Plugin/Field/FieldWidget/MediaFile.php:204
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:418
+#: src/Service/UsageManager.php:200
+msgid "Edit"
+msgstr "Bewerken"
+
+#: src/Plugin/Field/FieldWidget/MediaFile.php:16
+msgid "Media file"
+msgstr "Mediabestand"
+
+#: src/Plugin/Field/FieldWidget/MediaFile.php:16
+msgid "Uses entity browser to select files."
+msgstr "Gebruikt een entiteitsbrowser om bestanden te kiezen."
+
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:87
 msgid "Entity browser"
 msgstr "Entiteitsbrowser"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:133
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:95
 msgid "Display Remove button"
 msgstr "Toon de Verwijder-knop"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:139
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:101
+msgid "Display Edit button"
+msgstr "Toon de Bewerken-knop"
+
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:107
 msgid "Show field label above the widget"
 msgstr "Toon de veldlabel boven de widget"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:145
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:113
 msgid "Title Enabled"
 msgstr "Titel Ingeschakeld"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:150
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:118
 msgid "Title Required"
 msgstr "Titel Verplicht"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:155
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:123
 msgid "Title Label"
 msgstr "Titel Label"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:161
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:129
 msgid "Description Enabled"
 msgstr "Omschrijving Ingeschakeld"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:166
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:134
 msgid "Description Required"
 msgstr "Omschrijving Verplicht"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:171
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:139
 msgid "Description Label"
 msgstr "Omschrijving Label"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:186
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:161
 msgid "Entity browser: @value"
 msgstr "Entiteitsbrowser: @value"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:193
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:168
 msgid "Display remove button: @value"
 msgstr "Toon de verwijderknop: @value"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:196;202;208;209;216;217
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:171;177;183;189;190;197;198
+#: src/Service/FileOverviewFormBuilder.php:196
+#: src/Service/OverviewFormBuilderBase.php:109 src/Service/UsageManager.php:187
 msgid "Yes"
 msgstr "Ja"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:196;202;208;209;216;217
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:171;177;183;189;190;197;198
+#: src/Service/FileOverviewFormBuilder.php:196
+#: src/Service/OverviewFormBuilderBase.php:110 src/Service/UsageManager.php:187
 msgid "No"
 msgstr "Nee"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:199
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:174
+msgid "Display edit button: @value"
+msgstr "Toon de bewerkknop: @value"
+
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:180
 msgid "Show field label: @value"
 msgstr "Toon de veldlabel: @value"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:205
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:186
 msgid "Title field: @enabled, @required, Label: @label"
 msgstr "Titel veld: @enabled, @required, Label: @label"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:213
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:194
 msgid "Description field: @enabled, @required, Label: @label"
 msgstr "Omschrijving veld: @enabled, @required, Label: @label"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:300
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:203
+msgid "Image style: @style"
+msgstr ""
+
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:263
 msgid "Metadata"
 msgstr "Metadata"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:301
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:264
 msgid "Operations"
 msgstr "Bewerkingen"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:306
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:269
 msgid "No media selected"
 msgstr "Geen media geselecteerd"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:311
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:274
 msgctxt "Sort order"
 msgid "Order"
 msgstr "Volgorde"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:357;468
-msgid "Remove"
-msgstr "Verwijderen"
-
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:451
-msgid "Edit"
-msgstr "Bewerken"
-
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:477
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:445
 msgid "Weight for row @number"
 msgstr "Gewicht voor rij @number"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:616
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:564
 msgid "@name field is required."
 msgstr "@name veld is verplicht."
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:26
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:27
 msgid "Media Browser with extra fields"
 msgstr "Mediabrowser met extra velden"
 
-#: src/Plugin/Field/FieldWidget/MediaWidget.php:26
+#: src/Plugin/Field/FieldWidget/MediaWidget.php:27
 msgid "A widget containing a media reference with an extra title/description."
 msgstr "Een widget met een mediaverwijzing met een extra titel / beschrijving."
+
+#: src/Plugin/Filter/MediaFileLinkFilter.php:14
+msgid "Process links to media entities."
+msgstr "Verwerk links naar media entiteiten."
+
+#: src/Plugin/QueueWorker/MediaUsageQueueWorker.php:13
+msgid "Media usage"
+msgstr "Mediagebruik"
+
+#: src/Plugin/media/Source/ImgixDoNotUse.php:7
+msgid "Imgix"
+msgstr ""
+
+#: src/Plugin/media/Source/ImgixDoNotUse.php:7
+msgid "Use Imgix image fields for reusable media."
+msgstr "Gebruik Imgix afbeeldingsbestanden voor herbruikbare media"
+
+#: src/Service/FileOverviewFormBuilder.php:43
+msgid "No files available."
+msgstr "Geen bestanden beschikbaar."
+
+#: src/Service/FileOverviewFormBuilder.php:79
+#: src/Service/ImageOverviewFormBuilder.php:142
+#: src/Service/OverviewFormBuilderBase.php:128
+msgid "Search"
+msgstr "Zoeken"
+
+#: src/Service/FileOverviewFormBuilder.php:106
+#, fuzzy
+#| msgid "Date created"
+msgid "Created"
+msgstr "Aanmaakdatum"
+
+#: src/Service/FileOverviewFormBuilder.php:115
+msgid "Extension"
+msgstr "Bestandsextensie"
+
+#: src/Service/FileOverviewFormBuilder.php:122
+#: src/Service/OverviewFormBuilderBase.php:112
+msgid "In use"
+msgstr "In gebruik"
+
+#: src/Service/ImageOverviewFormBuilder.php:125
+msgid "title"
+msgstr "titel"
+
+#: src/Service/ImageOverviewFormBuilder.php:129
+msgid "copyright"
+msgstr "copyright"
+
+#: src/Service/ImageOverviewFormBuilder.php:133
+msgid "description"
+msgstr "beschrijving"
+
+#: src/Service/ImageOverviewFormBuilder.php:151
+#: src/Service/OverviewFormBuilderBase.php:107
+msgid "Any"
+msgstr "Geen"
+
+#: src/Service/ImageOverviewFormBuilder.php:153
+msgid "Image size"
+msgstr "Afbeeldingsgrootte"
+
+#: src/Service/ImageOverviewFormBuilder.php:236
+msgid "Small"
+msgstr "Klein"
+
+#: src/Service/ImageOverviewFormBuilder.php:237
+msgid "Medium"
+msgstr "Medium"
+
+#: src/Service/ImageOverviewFormBuilder.php:238
+msgid "Large"
+msgstr "Groot"
+
+#: src/Service/OverviewFormBuilderBase.php:134
+msgid "Reset"
+msgstr "Opnieuw instellen"
+
+#: src/Service/UsageManager.php:155
+msgid "Type"
+msgstr ""
+
+#: src/Service/UsageManager.php:157
+msgid "Field"
+msgstr "Veld"
+
+#: src/Service/UsageManager.php:158
+msgid "Required"
+msgstr "Verplicht"
+
+#: src/Service/UsageManager.php:217
+msgid ":label is not in use."
+msgstr ":label is niet in gebruik."
+
+#~ msgid "Size"
+#~ msgstr "Bestandsgrootte"
+
+#~ msgid "Entity of type :bundle"
+#~ msgstr "Entiteit van type :bundle"
+
+#~ msgid "When deleting this image, all referencing fields will be deleted."
+#~ msgstr ""
+#~ "Bij het verwijderen van deze afbeelding worden ook alle velden die ernaar "
+#~ "verwijzen verwijderd."
+
+#~ msgid "Are you sure you want to proceed? This action cannot be undone."
+#~ msgstr ""
+#~ "Weet je zeker dat je verder wilt gaan? Deze actie kan niet ongedaan "
+#~ "gemaakt worden."
+
+#~ msgid "Caution, this image is being referenced by 1 entity:"
+#~ msgid_plural "Caution, this image is being referenced by @count entities."
+#~ msgstr[0] "Let op, er wordt naar deze afbeelding verwezen door 1 entiteit:"
+#~ msgstr[1] ""
+#~ "Let op, er wordt naar deze afbeelding verwezen door @count entiteiten."
+
+#~ msgid "This field is required. Please delete it before deleting the image."
+#~ msgid_plural ""
+#~ "One of these fields is required. Please remove all required fields before "
+#~ "deleting the image."
+#~ msgstr[0] ""
+#~ "Dit veld is verplicht. Verwijder deze voordat u de afbeelding verwijdert."
+#~ msgstr[1] ""
+#~ "Een van deze velden is verplicht. Verwijder deze voordat u de afbeelding "
+#~ "verwijdert."
+
+#~ msgid "Removed 1 reference to image"
+#~ msgid_plural "Removed @count references to image"
+#~ msgstr[0] "Er werd 1 verwijzing naar de afbeelding verwijderd"
+#~ msgstr[1] "Er werden @count verwijzingen naar de afbeelding verwijderd"
+
+#~ msgid "Filename, title, description, copyright, ..."
+#~ msgstr "Bestandsnaam, titel, beschrijving, copyright, ..."
+
+#~ msgid "None"
+#~ msgstr "Geen"
+
+#~ msgid "Select file(s)"
+#~ msgstr "Selecteer bestand(en)"
+
+#~ msgid "The media type is not configured correctly."
+#~ msgstr "Het mediatype is niet correct geconfigureerd."
+
+#~ msgid "The configured media type is not using the file plugin."
+#~ msgstr "Het geconfigureerde mediatype gebruikt de file plugin niet."
+
+#~ msgid "Allowed extensions"
+#~ msgstr "Toegestane extensies"
+
+#~ msgid ""
+#~ "You don't have media type of the File type. You should <a href='!"
+#~ "link'>create one</a>"
+#~ msgstr ""
+#~ "U hebt geen media type van het File type. <a href='!link'>Maak een "
+#~ "nieuwe</a>."
+
+#~ msgid "Add"
+#~ msgstr "Toevoegen"
+
+#~ msgid "Alternate (Alt) text"
+#~ msgstr "Alternatieve (Alt) tekst"
+
+#~ msgid ""
+#~ "You don't have media type of the Image type. You should <a href='!"
+#~ "link'>create one</a>"
+#~ msgstr ""
+#~ "U hebt geen media type van het Image type. <a href='!link'>Maak een "
+#~ "nieuwe</a>."
+
+#~ msgid "Title, description, copyright"
+#~ msgstr "Titel, beschrijving, copyright"
+
+#~ msgid "Filter"
+#~ msgstr "Filter"

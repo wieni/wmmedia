@@ -108,7 +108,7 @@ class FileOverviewFormBuilder extends OverviewFormBuilderBase
                 'sort' => 'desc',
             ],
             [
-                'data' => $this->t('Size'),
+                'data' => $this->t('File size'),
                 'field' => 'size',
             ],
             [

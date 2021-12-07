@@ -122,21 +122,21 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
             '#type' => 'container',
         ];
 
-        $enabledFields = ['title'];
+        $enabledFields = [$this->t('title', [], ['Field to search in on wmmedia image overview'])];
         $fieldStorages = $this->entityFieldManager->getFieldStorageDefinitions('media');
 
         if (isset($fieldStorages['field_copyright'])) {
-            $enabledFields[] = 'copyright';
+            $enabledFields[] = $this->t('copyright', [], ['Field to search in on wmmedia image overview']);
         }
 
         if (isset($fieldStorages['field_description'])) {
-            $enabledFields[] = 'description';
+            $enabledFields[] = $this->t('description', [], ['Field to search in on wmmedia image overview']);
         }
 
         $form['filters']['search'] = [
             '#attributes' => [
                 'class' => ['wmmedia__filters__search'],
-                'placeholder' => $this->t(sprintf('%s, ...', implode(', ', $enabledFields))),
+                'placeholder' => sprintf('%s, ...', implode(', ', $enabledFields)),
             ],
             '#default_value' => $filters['search'] ?? '',
             '#title' => $this->t('Search'),
