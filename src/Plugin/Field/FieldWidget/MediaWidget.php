@@ -382,7 +382,7 @@ class MediaWidget extends WidgetBase
                 && ($fieldDefinition = $item->getMedia()->get('field_description')->getFieldDefinition())
                 && ($allowedFormats = $fieldDefinition->getThirdPartySettings('allowed_formats'))
             ) {
-                $row['data']['description']['#allowed_formats'] = $allowedFormats;
+                $row['data']['description']['#allowed_formats'] = $allowedFormats['allowed_formats'] ?? $allowedFormats;
                 $row['data']['description']['#after_build'] = ['_allowed_formats_remove_textarea_help'];
                 $row['data']['description']['#allowed_format_hide_settings'] = [
                     'hide_guidelines' => 1,
