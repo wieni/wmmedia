@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## [2.1.4] - 2022-06-02
 ### Added
 - Compatibility with `drupal/allowed_formats:^1.4`
 
