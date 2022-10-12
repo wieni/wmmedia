@@ -25,7 +25,7 @@
     "postcss-cli": "^4.1.1",
     "postcss-load-config": "^1.2.0",
     "rimraf": "^2.6.2",
-    "webfont": "^7.1.4"
+    "webfont": "^11.2.26"
   },
   "dependencies": {
     "date-fns": "^1.29.0",
