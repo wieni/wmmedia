@@ -70,7 +70,7 @@ function wmmedia_preprocess_wmmedia_image(array &$variables): void
         return;
     }
 
-    $variables['uri'] = file_url_transform_relative($imageStyle->buildUrl($path));
+    $variables['uri'] = \Drupal::service('file_url_generator')->transformRelative($imageStyle->buildUrl($path));
     $variables['alternate'] = $variables['field']->getAlternate();
     $variables['caption'] = $variables['field']->getDescription();
     $variables['copyright'] = $variables['field']->getCopyright();
@@ -98,7 +98,7 @@ function wmmedia_menu_local_actions_alter(&$local_actions)
  */
 function wmmedia_locale_translation_projects_alter(&$projects)
 {
-    $path = drupal_get_path('module', 'wmmedia') . '/translations/%language.po';
+    $path = \Drupal::getContainer()->get('extension.path.resolver')->getPath('module', 'wmmedia') . '/translations/%language.po';
     $projects['wmmedia']['info']['interface translation server pattern'] = $path;
 }
 

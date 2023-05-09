@@ -2,8 +2,8 @@
 
 namespace Drupal\wmmedia\Event;
 
+use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Entity\FieldableEntityInterface;
-use Symfony\Component\EventDispatcher\Event;
 
 class MediaUsagesAlterEvent extends Event
 {
