@@ -87,7 +87,10 @@ class UsageManager
                 continue;
             }
 
-            if ($fieldDefinition->getType() === 'wmmedia_media_image_extras') {
+            if (
+                ($fieldDefinition->getType() === 'wmmedia_media_image_extras')
+                || ($fieldDefinition->getType() === 'wmmedia_media_file_extras')
+            ) {
                 $this->trackMedia($entity, $fieldDefinition);
                 continue;
             }
