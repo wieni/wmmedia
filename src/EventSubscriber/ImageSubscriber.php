@@ -7,6 +7,9 @@ use Drupal\file\FileInterface;
 use Drupal\media\Entity\Media;
 use Drupal\media\MediaInterface;
 
+/**
+ * called in @see wmmedia_entity_presave()
+ */
 class ImageSubscriber
 {
     public function onPreSave(EntityInterface $entity): void

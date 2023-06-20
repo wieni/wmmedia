@@ -6,6 +6,9 @@ use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\field\Entity\FieldConfig;
 
+/**
+ * called in @see wmmedia_entity_presave()
+ */
 class EntityFormDisplaySubscriber
 {
     public function onPreSave(EntityInterface $entity): void
