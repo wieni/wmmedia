@@ -6,6 +6,9 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\file\FileInterface;
 use Drupal\media\MediaInterface;
 
+/**
+ * called in @see wmmedia_entity_delete()
+ */
 class MediaDeleteSubscriber
 {
     public function deleteFile(EntityInterface $entity): void

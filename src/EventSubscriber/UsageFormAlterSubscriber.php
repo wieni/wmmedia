@@ -9,6 +9,9 @@ use Drupal\Core\Url;
 use Drupal\media\MediaInterface;
 use Drupal\wmmedia\Service\UsageManager;
 
+/**
+ * called in @see wmmedia_form_media_file_delete_form_alter()
+ */
 class UsageFormAlterSubscriber
 {
     use StringTranslationTrait;

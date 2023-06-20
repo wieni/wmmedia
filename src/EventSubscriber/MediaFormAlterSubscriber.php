@@ -5,6 +5,10 @@ namespace Drupal\wmmedia\EventSubscriber;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\media\MediaForm;
 
+/**
+ * called in @see wmmedia_form_media_form_alter()
+ * called in @see wmmedia_inline_entity_form_entity_form_alter()
+ */
 class MediaFormAlterSubscriber
 {
     public function mediaFormAlter(array &$form, FormStateInterface $formState): void

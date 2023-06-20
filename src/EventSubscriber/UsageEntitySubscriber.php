@@ -7,6 +7,11 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\wmmedia\Service\UsageManager;
 use Drupal\wmmedia\Service\UsageRepository;
 
+/**
+ * called in @see wmmedia_entity_delete()
+ * called in @see wmmedia_entity_insert()
+ * called in @see wmmedia_entity_update()
+ */
 class UsageEntitySubscriber
 {
     /** @var Connection */
