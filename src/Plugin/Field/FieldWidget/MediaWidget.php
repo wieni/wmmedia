@@ -10,6 +10,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
+use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Validation\Plugin\Validation\Constraint\NotNullConstraint;
 use Drupal\entity_browser\Element\EntityBrowserElement;
@@ -44,6 +45,8 @@ class MediaWidget extends WidgetBase
     protected $eventDispatcher;
     /** @var ModuleHandlerInterface */
     protected $moduleHandler;
+    /** @var FileUrlGeneratorInterface */
+    protected $fileUrlGenerator;
 
     public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
     {
@@ -51,6 +54,7 @@ class MediaWidget extends WidgetBase
         $instance->entityTypeManager = $container->get('entity_type.manager');
         $instance->eventDispatcher = $container->get('event_dispatcher');
         $instance->moduleHandler = $container->get('module_handler');
+        $instance->fileUrlGenerator = $container->get('file_url_generator');
 
         return $instance;
     }
@@ -334,19 +338,20 @@ class MediaWidget extends WidgetBase
                 '#markup' => $item->getMedia()->id(),
             ];
 
+            $fileUrlString = $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri());
             if ($media->bundle() === 'image') {
                 $row['preview'] = [
                     '#theme' => 'image_style',
                     '#style_name' => $this->getSetting('image_style'),
                     '#uri' => $file->getFileUri(),
-                    '#prefix' => '<a href="' . file_create_url($file->getFileUri()) . '" target="_blank">',
+                    '#prefix' => '<a href="' . $fileUrlString . '" target="_blank">',
                     '#suffix' => '</a>',
                 ];
             }
 
             if ($media->bundle() === 'file') {
                 $row['preview'] = [
-                    '#markup' => '<a href="' . file_create_url($file->getFileUri()) . '" target="_blank">' . $file->label() . '</a>',
+                    '#markup' => '<a href="' . $fileUrlString . '" target="_blank">' . $file->label() . '</a>',
                 ];
             }
 

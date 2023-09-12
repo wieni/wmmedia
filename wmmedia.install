@@ -197,6 +197,7 @@ function wmmedia_update_8004(): void
         ->get('entity.memory_cache');
     $ids = $mediaStorage->getQuery()
         ->condition('bundle', 'image')
+        ->accessCheck(false)
         ->execute();
 
     foreach (array_chunk($ids, 25) as $chunk) {

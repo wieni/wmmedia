@@ -9,7 +9,7 @@ use Symfony\Component\Routing\RouteCollection;
 
 class CollectionRouteSubscriber extends RouteSubscriberBase
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             RoutingEvents::ALTER => ['onAlterRoutes', -9999],
