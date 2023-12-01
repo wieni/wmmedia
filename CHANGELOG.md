@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## [2.2.2] - 2023-01-01
+### Added
+- Compatibility with `drupal/allowed_formats:^3.0`
+
 ## [2.1.5] - 2023-06-21
 ### Added
 - Documentation on where subscribers are called
