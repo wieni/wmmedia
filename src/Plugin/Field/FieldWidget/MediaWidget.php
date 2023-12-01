@@ -382,13 +382,14 @@ class MediaWidget extends WidgetBase
             ];
 
             if (
-                $this->moduleHandler->moduleExists('allowed_formats')
-                && $item->getMedia()->hasField('field_description')
+                $item->getMedia()->hasField('field_description')
                 && ($fieldDefinition = $item->getMedia()->get('field_description')->getFieldDefinition())
-                && ($allowedFormats = $fieldDefinition->getThirdPartySettings('allowed_formats'))
+                && ($allowedFormats = $fieldDefinition->getThirdPartySettings('allowed_formats') ?: $fieldDefinition->getSetting('allowed_formats'))
             ) {
                 $row['data']['description']['#allowed_formats'] = $allowedFormats['allowed_formats'] ?? $allowedFormats;
-                $row['data']['description']['#after_build'] = ['_allowed_formats_remove_textarea_help'];
+                if ($this->moduleHandler->moduleExists('allowed_formats')) {
+                    $row['data']['description']['#after_build'] = ['_allowed_formats_remove_textarea_help'];
+                }
                 $row['data']['description']['#allowed_format_hide_settings'] = [
                     'hide_guidelines' => 1,
                     'hide_help' => 1,
