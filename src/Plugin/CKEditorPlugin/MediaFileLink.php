@@ -14,6 +14,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *     id = "media_file_link",
  *     label = @Translation("Media file link")
  * )
+ * @deprecated This plugin is deprecated and will be removed in a future release.
+ * Use drupal/ckeditor5_entity_browser instead to browse files for links.
  */
 class MediaFileLink extends CKEditorPluginBase implements ContainerFactoryPluginInterface
 {

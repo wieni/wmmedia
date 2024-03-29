@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## [2.3.0] - 2024-XX-XX
+### Changed
+- wmmedia_file_link filter now requires a `/media` url to find the media entity
+- Deprecate MediaFileLink ckeditor plugin, this will not work on ckeditor 5
+
 ## [2.2.2] - 2023-01-01
 ### Added
 - Compatibility with `drupal/allowed_formats:^3.0`
