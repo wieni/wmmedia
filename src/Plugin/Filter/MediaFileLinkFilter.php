@@ -43,14 +43,24 @@ class MediaFileLinkFilter extends FilterBase implements ContainerFactoryPluginIn
         $xpath = new \DOMXPath($dom);
         $storage = $this->entityTypeManager->getStorage('media');
 
-        foreach ($xpath->query('//a[@data-media-file-link]') as $element) {
+        foreach ($xpath->query('//a[contains(@href,"media/")]') as $element) {
             /* @var \DOMElement $element */
-            $mid = $element->getAttribute('data-media-file-link');
+            $href = $element->getAttribute('href');
+            if (!str_contains($href, 'media/')) {
+                continue;
+            }
+
+            preg_match('/(?<=media\/)\d+/', $href, $matches);
+
+            $mid = reset($matches);
+
+            if (!$mid) {
+                continue;
+            }
 
             $media = $storage->load($mid);
 
             if (!$media instanceof Media) {
-                $this->stripTag($element);
                 continue;
             }
 
@@ -66,9 +76,9 @@ class MediaFileLinkFilter extends FilterBase implements ContainerFactoryPluginIn
             $mimeType = $file->getMimeType();
 
             $element->setAttribute('href', $url);
+            $element->setAttribute('target', '_blank');
             $element->setAttribute('type', $mimeType . '; length=' . $file->getSize());
             $element->setAttribute('title', $media->label());
-            $element->removeAttribute('data-media-file-link');
         }
 
         $result->setProcessedText(Html::serialize($dom));
