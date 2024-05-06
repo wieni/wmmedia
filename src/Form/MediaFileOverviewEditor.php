@@ -8,6 +8,7 @@ use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Form\FormInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\KeyValueStore\KeyValueStoreExpirableInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\editor\Ajax\EditorDialogSave;
 use Drupal\entity_browser\Events\Events;
@@ -85,7 +86,21 @@ class MediaFileOverviewEditor implements FormInterface, ContainerInjectionInterf
         $entity = $values['entity_browser']['entities'][0] ?? null;
 
         if ($entity instanceof MediaInterface) {
+            // When using our deprecated custom ckeditor4 plugin, we need to return
+            // the media entity ID. This ID will be stored in the link element's
+            // "data-media-file-link" attribute and as 'entity:media/<id>' href
+            // attribute. We replace it with the asset URL at render time.
+            // @see /js/ckeditor/plugins/media_file_link/plugin.js
+            // @see \Drupal\wmmedia\Plugin\CKEditorPlugin\MediaFileBrowser
             $value = $entity->id();
+
+            // When using drupal/ckeditor5_entity_browser, we need to return the
+            // canonical URL of the entity. At render time, we replace the url
+            // with the asset URL.
+            // @see \Drupal\wmmedia\Plugin\Filter\MediaFileLinkFilter
+            if ($this->isCkeditor5EntityBrowserContext()) {
+                $value = $entity->toUrl()->toString();
+            }
         }
 
         $response = new AjaxResponse();
@@ -101,4 +116,34 @@ class MediaFileOverviewEditor implements FormInterface, ContainerInjectionInterf
             $event->registerCallback('Drupal.wmmediaBrowserDialog.selectionCompleted');
         }
     }
+
+    /**
+     * Determine whether we are in a ckeditor5_entity_browser context.
+     * The module sets a ?uuid= query parameter when the editor is opened,
+     * which we can use to retrieve entity_browser config.
+     * @see \Drupal\ckeditor5_entity_browser\Plugin\CKEditor5Plugin\CkeditorEntityBrowser::getDynamicPluginConfig
+     *
+     * @return bool
+     */
+    private function isCkeditor5EntityBrowserContext(): bool
+    {
+        $container = \Drupal::getContainer();
+        $uuid = \Drupal::request()->query->get('uuid');
+
+        if (
+            !$container
+            || empty($uuid)
+            || !$container->has('entity_browser.selection_storage')
+        ) {
+            return false;
+        }
+
+        /** @var KeyValueStoreExpirableInterface $entityBrowserSelectionStorage */
+        $entityBrowserSelectionStorage = \Drupal::service('entity_browser.selection_storage');
+
+        // Check if the entity_browser config is set, if it is, we are in the
+        // ckeditor5_entity_browser context.
+        return $entityBrowserSelectionStorage->has($uuid);
+    }
+
 }
