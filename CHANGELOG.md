@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
-## [2.3.0] - 2024-XX-XX
+## [2.3.1] - 2024-05-06
+### Fixed
+- wmmedia_file_link filter does not break when getting a hardcoded media url
+
+## [2.3.0] - 2024-04-12
 ### Changed
 - wmmedia_file_link filter now requires a `/media` url to find the media entity
 - Deprecate MediaFileLink ckeditor plugin, this will not work on ckeditor 5
