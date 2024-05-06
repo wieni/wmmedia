@@ -50,9 +50,9 @@ class MediaFileLinkFilter extends FilterBase implements ContainerFactoryPluginIn
                 continue;
             }
 
-            preg_match('/(?<=media\/)\d+/', $href, $matches);
+            preg_match('/media\/(\d+)(?:\/)?(?:edit)?$/', $href, $matches);
 
-            $mid = reset($matches);
+            $mid = end($matches);
 
             if (!$mid) {
                 continue;
@@ -60,7 +60,10 @@ class MediaFileLinkFilter extends FilterBase implements ContainerFactoryPluginIn
 
             $media = $storage->load($mid);
 
-            if (!$media instanceof Media) {
+            if (
+                !$media instanceof Media
+                || !$media->hasField('field_media_file')
+            ) {
                 continue;
             }
 
