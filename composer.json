@@ -19,11 +19,17 @@
         "ergebnis/composer-normalize": "^2.0",
         "wieni/wmcodestyle": "^1.0"
     },
+    "conflict": {
+        "drupal/ckeditor5_entity_browser": "<1.0.2"
+    },
     "repositories": {
         "drupal-composer": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
         }
+    },
+    "suggest": {
+        "drupal/ckeditor5_entity_browser": "Allows embedding media (files) in CKEditor 5 using Entity Browser"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

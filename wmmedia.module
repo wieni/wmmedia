@@ -2,6 +2,7 @@
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\media\Entity\Media;
 use Drupal\wmmedia\Plugin\Field\FieldType\MediaImageExtras;
@@ -225,4 +226,25 @@ function _wmmedia_theme_is_active(string $themeNameToCheck): bool
     }
 
     return array_key_exists($themeNameToCheck, $themeNames);
+}
+
+function wmmedia_ckeditor5_entity_browser_definitions_alter(array &$definitions): void
+{
+    // drupal/ckeditor5_entity_browser uses the configured entity browser's
+    // Display URL (iframe/modal/etc) when opening the ckeditor dialog.
+    // We already have a custom route that's meant to be opened in a dialog,
+    // so let's use that instead.
+    // This is a workaround until we can provide a better solution, such as
+    // creating our own EntityBrowserDisplay plugin for entity_browser.
+    foreach ($definitions as $entity_browser_id => $config) {
+        // These are the entity browsers that wmmedia currently provides.
+        if (in_array($entity_browser_id, ['files_editor', 'files'])) {
+            // We also want to use a different label for the button that opens
+            // the dialog.
+            $definitions[$entity_browser_id]['label'] = t('Add Files');
+            // Alter the dialog url to use our custom route.
+            // This requires https://www.drupal.org/project/ckeditor5_entity_browser/issues/3445512
+            $definitions[$entity_browser_id]['browser_display_url'] = Url::fromRoute('wmmedia.file.browser.editor')->toString();
+        }
+    }
 }
