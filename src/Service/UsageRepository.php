@@ -66,6 +66,31 @@ class UsageRepository
         );
     }
 
+    /**
+     * @param array $mediaIds Array of media IDs.
+     * @return array<int, bool> Array with media IDs as keys and a boolean
+     *   indicating if the media is used.
+     */
+    public function hasUsage(array $mediaIds): array
+    {
+        if (empty($mediaIds)) {
+            return [];
+        }
+        $select = $this->connection->select(self::TABLE, 'u');
+        $select->fields('u', ['media_id']);
+        $select->addExpression(true, 'used');
+        $select->condition('media_id', $mediaIds, 'IN');
+        $select->groupBy('media_id');
+
+        $result = array_fill_keys($mediaIds, false);
+        $data = $select->execute()->fetchAllKeyed();
+        foreach ($data as $mediaId => $used) {
+            $result[$mediaId] = (bool) $used;
+        }
+
+        return $result;
+    }
+
     public function write(Usage $usage): void
     {
         $insert = $this->connection->insert(self::TABLE);
@@ -103,4 +128,5 @@ class UsageRepository
         $delete->condition('media_id', $media->id());
         $delete->execute();
     }
+
 }

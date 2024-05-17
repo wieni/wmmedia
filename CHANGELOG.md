@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## [3.0.0] - 2024-05-17
+### Changed
+- Moved media image fields to basefields.
+    - This is a breaking change, see https://github.com/wieni/wmmedia/pull/58 for upgrade details.
+
 ## [2.3.1] - 2024-05-06
 ### Fixed
 - wmmedia_file_link filter does not break when getting a hardcoded media url
