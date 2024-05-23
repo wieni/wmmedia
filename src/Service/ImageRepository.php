@@ -75,11 +75,11 @@ class ImageRepository
             $conditionGroup->condition('d.name', $pattern, 'LIKE');
 
             if (isset($fieldStorages['field_copyright'])) {
-                $conditionGroup->condition('field_copyright.field_copyright_value', $pattern, 'LIKE');
+                $conditionGroup->condition('d.field_copyright__value', $pattern, 'LIKE');
             }
 
             if (isset($fieldStorages['field_description'])) {
-                $conditionGroup->condition('field_description.field_description_value', $pattern, 'LIKE');
+                $conditionGroup->condition('d.field_description__value', $pattern, 'LIKE');
             }
 
             $query->condition($conditionGroup);
@@ -94,13 +94,13 @@ class ImageRepository
                 [$min, $max] = $size;
 
                 if (is_int($min)) {
-                    $query->condition('field_width.field_width_value', $min, '>=');
-                    $query->condition('field_height.field_height_value', $min, '>=');
+                    $query->condition('d.field_width', $min, '>=');
+                    $query->condition('d.field_height', $min, '>=');
                 }
 
                 if (is_int($max)) {
-                    $query->condition('field_width.field_width_value', $max, '<');
-                    $query->condition('field_height.field_height_value', $max, '<');
+                    $query->condition('d.field_width', $max, '<');
+                    $query->condition('d.field_height', $max, '<');
                 }
             }
         }
@@ -122,18 +122,19 @@ class ImageRepository
         $query->condition('m.bundle', 'image');
 
         $fields = [
-            'field_copyright' => 'field_copyright_value',
-            'field_description' => 'field_description_value',
-            $sourceField => sprintf('%s_target_id', $sourceField),
-            'field_width' => 'field_width_value',
-            'field_height' => 'field_height_value',
+            'field_copyright' => 'field_copyright__value',
+            'field_description' => 'field_description__value',
+            'field_width' => 'field_width',
+            'field_height' => 'field_height',
         ];
 
-        foreach ($fields as $fieldName => $columnName) {
-            if (isset($fieldStorages[$fieldName])) {
-                $query->leftJoin("media__{$fieldName}", $fieldName, "m.mid = {$fieldName}.entity_id");
-                $query->fields($fieldName, [$columnName]);
-            }
+        foreach ($fields as $alias => $columnName) {
+            $query->addField('d', $columnName, $alias);
+        }
+
+        if (isset($fieldStorages[$sourceField])) {
+            $query->innerJoin("media__{$sourceField}", $sourceField, "m.mid = {$sourceField}.entity_id");
+            $query->fields($sourceField, [sprintf('%s_target_id', $sourceField)]);
         }
 
         $query->addExpression(sprintf('EXISTS(SELECT u.media_id FROM %s AS u WHERE u.media_id = m.mid)', UsageRepository::TABLE), 'in_use');

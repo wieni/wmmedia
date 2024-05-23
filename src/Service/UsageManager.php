@@ -3,6 +3,7 @@
 namespace Drupal\wmmedia\Service;
 
 use Drupal\Component\Utility\Html;
+use Drupal\Core\Cache\MemoryCache\MemoryCacheInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
@@ -54,7 +55,35 @@ class UsageManager
 
     public function hasUsage(MediaInterface $media): bool
     {
-        return !empty($this->getUsage($media));
+        return $this->performHasUsageCheck([$media->id()])[$media->id()] ?? false;
+    }
+
+    /**
+     * @param array $mediaIds Array of media IDs.
+     * @return array<int, bool> Array with media IDs as keys and a boolean
+     *   indicating if the media is used.
+     */
+    public function performHasUsageCheck(array $mediaIds): array
+    {
+        static $cache = [];
+        $uncachedMediaIds = [];
+        $usage = array_fill_keys($mediaIds, false);
+
+        foreach ($mediaIds as $mediaId) {
+            if (isset($cache[$mediaId])) {
+                $usage[$mediaId] = $cache[$mediaId];
+                continue;
+            }
+
+            $uncachedMediaIds[] = $mediaId;
+        }
+
+        $uncachedUsages = $this->repository->hasUsage($uncachedMediaIds);
+        foreach ($uncachedUsages as $mediaId => $hasUsage) {
+            $usage[$mediaId] = $cache[$mediaId] = (bool) $hasUsage;
+        }
+
+        return $usage;
     }
 
     /** @return Usage[] */

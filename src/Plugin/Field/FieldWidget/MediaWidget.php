@@ -5,9 +5,11 @@ namespace Drupal\wmmedia\Plugin\Field\FieldWidget;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Config\Entity\ThirdPartySettingsInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
+use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\File\FileUrlGeneratorInterface;
@@ -381,10 +383,12 @@ class MediaWidget extends WidgetBase
                 '#required' => (bool) $this->getSetting('description_field_required'),
             ];
 
+            $lol = $fieldDefinition = $item->getMedia()->get('field_description')->getFieldDefinition();
+
             if (
                 $item->getMedia()->hasField('field_description')
                 && ($fieldDefinition = $item->getMedia()->get('field_description')->getFieldDefinition())
-                && ($allowedFormats = $fieldDefinition->getThirdPartySettings('allowed_formats') ?: $fieldDefinition->getSetting('allowed_formats'))
+                && ($allowedFormats = self::getAllowedFormats($fieldDefinition))
             ) {
                 $row['data']['description']['#allowed_formats'] = $allowedFormats['allowed_formats'] ?? $allowedFormats;
                 if ($this->moduleHandler->moduleExists('allowed_formats')) {
@@ -754,4 +758,14 @@ class MediaWidget extends WidgetBase
             'widget_context' => [],
         ];
     }
+
+    protected static function getAllowedFormats(FieldDefinitionInterface $fieldDefinition): mixed
+    {
+        $allowedFormats = [];
+        if ($fieldDefinition instanceof ThirdPartySettingsInterface) {
+            $allowedFormats = $fieldDefinition->getThirdPartySettings('allowed_formats');
+        }
+        return $allowedFormats ?: $fieldDefinition->getSetting('allowed_formats');
+    }
+
 }

@@ -3,6 +3,8 @@
 use Drupal\Core\Config\FileStorage;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Entity\EntityLastInstalledSchemaRepositoryInterface;
 use Drupal\Core\Site\Settings;
 use Drupal\entity_browser\Entity\EntityBrowser;
 use Drupal\entity_browser\WidgetInterface;
@@ -11,6 +13,7 @@ use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\media\Entity\MediaType;
 use Drupal\media\MediaInterface;
+use Drupal\wmmedia\Install\MediaBaseFieldDefinitions;
 use Drupal\wmmedia\Service\UsageManager;
 
 function wmmedia_schema()
@@ -341,5 +344,109 @@ function wmmedia_update_8008(): void
             $widget->setConfiguration($configuration);
             $entityBrowser->save();
         }
+    }
+}
+
+/**
+ * Migrate field_height, field_width, field_alternate, field_description and
+ * field_copyright to base fields.
+ */
+function wmmedia_update_8009(): void
+{
+    $logger = \Drupal::logger('wmmedia');
+    /* @var EntityFieldManagerInterface $fieldManager */
+    $fieldManager = \Drupal::service('entity_field.manager');
+    $fieldManager->clearCachedFieldDefinitions();
+
+    // We instruct our base_field_definitions to not register the basefields,
+    // the fields already exist as regular fields and need to be deleted first.
+    // But if the base fields are registered, the field manager will not be able
+    // to delete the correct existing fields.
+    MediaBaseFieldDefinitions::$enabled = false;
+
+    $db = \Drupal::database();
+    // Store the current values in TEMP tables and delete the fields.
+    foreach (['field_alternate', 'field_description', 'field_height', 'field_width', 'field_copyright'] as $field) {
+        $db->query("CREATE TEMPORARY TABLE tmp_media__{$field} AS SELECT * FROM media__{$field}");
+
+        $logger->info('Deleting ' . $field);
+
+        // Remove the old field
+        if ($fieldConfig = FieldConfig::loadByName('media', 'image', $field)) {
+            $fieldConfig->delete();
+        }
+        if ($fieldStorage = FieldStorageConfig::loadByName('media', $field)) {
+            $fieldStorage->delete();
+        }
+    }
+
+    // Now the fields are deleted, we can register the base fields.
+    MediaBaseFieldDefinitions::$enabled = true;
+    $fieldManager->clearCachedFieldDefinitions();
+    $fieldStorageDefinitions = $fieldManager->getFieldStorageDefinitions('media');
+
+    foreach (['field_alternate', 'field_description', 'field_height', 'field_width', 'field_copyright'] as $field) {
+        if (!isset($fieldStorageDefinitions[$field])) {
+            throw new \RuntimeException("Field storage definition for {$field} not found.");
+        }
+
+        $logger->info('Recreating ' . $field);
+
+        Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+            $field,
+            'media',
+            'wmmedia',
+            $fieldStorageDefinitions[$field]
+        );
+    }
+
+    // Migrate the data, we want to get the values from the temp tables
+    // and update the media_field_data table with the new values.
+
+    $logger->info('Migrating field_alternate data');
+    $db->query('
+        UPDATE media_field_data AS mfd
+        INNER JOIN tmp_media__field_alternate AS alternate ON mfd.mid = alternate.entity_id AND mfd.langcode = alternate.langcode
+        SET
+          mfd.field_alternate = alternate.field_alternate_value
+    ');
+
+    $logger->info('Migrating field_description data');
+    $db->query('
+        UPDATE media_field_data AS mfd
+        INNER JOIN tmp_media__field_description AS description ON mfd.mid = description.entity_id AND mfd.langcode = description.langcode
+        SET
+          mfd.field_description__value = description.field_description_value,
+          mfd.field_description__format = description.field_description_format
+    ');
+
+    $logger->info('Migrating field_height data');
+    $db->query('
+        UPDATE media_field_data AS mfd
+        INNER JOIN tmp_media__field_height AS height ON mfd.mid = height.entity_id AND mfd.langcode = height.langcode
+        SET
+          mfd.field_height = height.field_height_value
+    ');
+
+    $logger->info('Migrating field_width data');
+    $db->query('
+        UPDATE media_field_data AS mfd
+        INNER JOIN tmp_media__field_width AS width ON mfd.mid = width.entity_id AND mfd.langcode = width.langcode
+        SET
+          mfd.field_width = width.field_width_value
+    ');
+
+    $logger->info('Migrating field_copyright data');
+    $db->query('
+        UPDATE media_field_data AS mfd
+        INNER JOIN tmp_media__field_copyright AS copy ON mfd.mid = copy.entity_id AND mfd.langcode = copy.langcode
+        SET
+          mfd.field_copyright__value = copy.field_copyright_value,
+          mfd.field_copyright__format = copy.field_copyright_format
+    ');
+
+    // Drop the temp tables
+    foreach (['field_alternate', 'field_description', 'field_height', 'field_width', 'field_copyright'] as $field) {
+        $db->query("DROP TEMPORARY TABLE tmp_media__{$field}");
     }
 }

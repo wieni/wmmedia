@@ -1,10 +1,13 @@
 <?php
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\media\Entity\Media;
+use Drupal\wmmedia\Install\MediaBaseFieldDefinitions;
 use Drupal\wmmedia\Plugin\Field\FieldType\MediaImageExtras;
 use Drupal\wmmedia\Service\UsageManager;
 
@@ -205,6 +208,18 @@ function wmmedia_library_info_alter(array &$libraries, string $extension): void
     if (_wmmedia_theme_is_active('gin')) {
         unset($libraries['image_browser']['css']['theme']['assets/dist/image_browser_checkbox.css']);
     }
+}
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function wmmedia_entity_base_field_info(EntityTypeInterface $entityType): array
+{
+    if ($entityType->id() !== 'media') {
+        return [];
+    }
+
+    return MediaBaseFieldDefinitions::getBaseFieldDefinitions();
 }
 
 function _wmmedia_theme_is_active(string $themeNameToCheck): bool
