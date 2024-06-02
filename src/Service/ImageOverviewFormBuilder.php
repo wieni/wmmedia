@@ -98,9 +98,9 @@ class ImageOverviewFormBuilder extends OverviewFormBuilderBase
                 '#markup' => '<p>' . $image['name'] . '</p>',
             ];
 
-            if ($image['field_width_value']) {
+            if (isset($image['field_width'], $image['field_height'])) {
                 $form['container']['list'][$key]['dimensions'] = [
-                    '#markup' => sprintf('<p>%s x %s</p>', $image['field_width_value'], $image['field_height_value']),
+                    '#markup' => sprintf('<p>%s x %s</p>', $image['field_width'], $image['field_height']),
                 ];
             }
         }
