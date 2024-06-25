@@ -359,9 +359,17 @@ class UsageManager
         $mediaIds = [];
         $dom = Html::load($text);
         $xpath = new \DOMXPath($dom);
-        foreach ($xpath->query('//a[@data-media-file-link]') as $element) {
-             /* @var \DOMElement $element */
-            $mediaIds[(int) $element->getAttribute('data-media-file-link')] = 'file';
+        foreach ($xpath->query('//a[contains(@href,"media/")]') as $element) {
+            $href = $element->getAttribute('href');
+            if (!str_contains($href, 'media/')) {
+                continue;
+            }
+
+            preg_match('/(?<=media\/)\d+/', $href, $matches);
+
+            $mid = reset($matches);
+            /* @var \DOMElement $element */
+            $mediaIds[$mid] = 'file';
         }
 
         return $mediaIds;
