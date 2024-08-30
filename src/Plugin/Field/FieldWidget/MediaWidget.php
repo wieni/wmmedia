@@ -383,8 +383,6 @@ class MediaWidget extends WidgetBase
                 '#required' => (bool) $this->getSetting('description_field_required'),
             ];
 
-            $lol = $fieldDefinition = $item->getMedia()->get('field_description')->getFieldDefinition();
-
             if (
                 $item->getMedia()->hasField('field_description')
                 && ($fieldDefinition = $item->getMedia()->get('field_description')->getFieldDefinition())
