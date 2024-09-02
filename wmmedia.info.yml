@@ -9,7 +9,7 @@ dependencies:
     - media
     - path
     - text
-core_version_requirement: ^9 || ^10
+core_version_requirement: ^9 || ^10 || ^11
 
 interface translation project: wmmedia
 interface translation server pattern: # @see wmmedia.module

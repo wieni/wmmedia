@@ -8,6 +8,7 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\file\FileInterface;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\media\MediaInterface;
+use Drupal\wmmedia\Util;
 
 class ImageJsonFormatter
 {
@@ -70,7 +71,7 @@ class ImageJsonFormatter
             $result['originalUrl'] = $file->createFileUrl(false);
             $result['thumbUrl'] = $this->getImageUrl($file, 'wmmedia_gallery_thumb');
             $result['largeUrl'] = $this->getImageUrl($file, 'wmmedia_gallery_large');
-            $result['size'] = format_size($file->getSize());
+            $result['size'] = Util::formatSize((int) $file->getSize());
         }
 
         $operations = $this->entityTypeManager

@@ -4,9 +4,11 @@ namespace Drupal\wmmedia\Service;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\StringTranslation\ByteSizeMarkup;
 use Drupal\file\FileInterface;
 use Drupal\media\Entity\Media;
 use Drupal\wmmedia\Plugin\EntityBrowser\Widget\MediaBrowserBase;
+use Drupal\wmmedia\Util;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class FileOverviewFormBuilder extends OverviewFormBuilderBase
@@ -188,7 +190,7 @@ class FileOverviewFormBuilder extends OverviewFormBuilderBase
                     'data' => $this->renderFile($file, $data['name']),
                 ],
                 'created' => $date,
-                'size' => !empty($data['size']) ? format_size($data['size']) : '',
+                'size' => !empty($data['size']) ? Util::formatSize((int) $data['size']) : '',
                 'extension' => $data['extension'] ?? '',
             ]);
 
@@ -208,4 +210,5 @@ class FileOverviewFormBuilder extends OverviewFormBuilderBase
             return $row;
         }, $files));
     }
+
 }

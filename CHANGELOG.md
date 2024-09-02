@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## [3.1.0] - 2024-09-02
+### Changed
+- Mark Drupal 11 compatible
+
 ## [3.0.0] - 2024-05-17
 ### Changed
 - Moved media image fields to basefields.
