@@ -4,6 +4,7 @@ namespace Drupal\wmmedia\Service;
 
 use Drupal\Core\Url;
 use Drupal\file\Entity\File;
+use Drupal\wmmedia\Util;
 
 trait RenderFileTrait
 {
@@ -20,7 +21,7 @@ trait RenderFileTrait
         $classes = [
             'file',
             'file--mime-' . strtr($mimeType, ['/' => '-', '.' => '-']),
-            'file--' . file_icon_class($mimeType),
+            'file--' . Util::fileIconClass($mimeType),
         ];
 
         return [
