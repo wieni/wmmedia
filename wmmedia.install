@@ -380,6 +380,24 @@ function wmmedia_update_8009(): void
         }
     }
 
+    $fieldsToPurge = [
+        'media.image.field_alternate',
+        'media.image.field_description',
+        'media.image.field_height',
+        'media.image.field_width',
+        'media.image.field_copyright',
+        'media.image.field_copyright',
+    ];
+    // Remove deleted fields from the deleted fields repository. They are
+    // not *really* deleted, but being migrated to base fields.
+    /** @var \Drupal\Core\Field\DeletedFieldsRepositoryInterface $deletedFieldsRepository */
+    $deletedFieldsRepository = \Drupal::service('entity_field.deleted_fields_repository');
+    foreach ($deletedFieldsRepository->getFieldDefinitions() as $deletedFieldDefinition) {
+        if (in_array($deletedFieldDefinition->id(), $fieldsToPurge)) {
+            $deletedFieldsRepository->removeFieldDefinition($deletedFieldDefinition);
+        }
+    }
+
     // Now the fields are deleted, we can register the base fields.
     MediaBaseFieldDefinitions::$enabled = true;
     $fieldManager->clearCachedFieldDefinitions();
@@ -448,5 +466,27 @@ function wmmedia_update_8009(): void
     // Drop the temp tables
     foreach (['field_alternate', 'field_description', 'field_height', 'field_width', 'field_copyright'] as $field) {
         $db->query("DROP TEMPORARY TABLE tmp_media__{$field}");
+    }
+}
+
+/**
+ * Remove migrated fields from the deleted fields repository. They were
+ * not *really* deleted, but migrated to base fields.
+ */
+function wmmedia_update_8010(): void {
+    $fieldsToPurge = [
+      'media.image.field_alternate',
+      'media.image.field_description',
+      'media.image.field_height',
+      'media.image.field_width',
+      'media.image.field_copyright',
+      'media.image.field_copyright',
+    ];
+    /** @var \Drupal\Core\Field\DeletedFieldsRepositoryInterface $deletedFieldsRepository */
+    $deletedFieldsRepository = \Drupal::service('entity_field.deleted_fields_repository');
+    foreach ($deletedFieldsRepository->getFieldDefinitions() as $deletedFieldDefinition) {
+        if (in_array($deletedFieldDefinition->id(), $fieldsToPurge)) {
+            $deletedFieldsRepository->removeFieldDefinition($deletedFieldDefinition);
+        }
     }
 }
