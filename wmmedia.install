@@ -380,6 +380,23 @@ function wmmedia_update_8009(): void
         }
     }
 
+    $fields_to_purge = [
+      'media.image.field_alternate',
+      'media.image.field_description',
+      'media.image.field_height',
+      'media.image.field_width',
+      'media.image.field_copyright',
+      'media.image.field_copyright',
+    ];
+    // Purge the field definitions we just deleted.
+    /** @var \Drupal\Core\Field\DeletedFieldsRepositoryInterface $deletedFieldsRepository */
+    $deletedFieldsRepository = \Drupal::service('entity_field.deleted_fields_repository');
+    foreach ($deletedFieldsRepository->getFieldDefinitions() as $deletedFieldDefinition) {
+      if (in_array($deletedFieldDefinition->id(), $fields_to_purge)) {
+        $deletedFieldsRepository->removeFieldDefinition($deletedFieldDefinition);
+      }
+    }
+
     // Now the fields are deleted, we can register the base fields.
     MediaBaseFieldDefinitions::$enabled = true;
     $fieldManager->clearCachedFieldDefinitions();
