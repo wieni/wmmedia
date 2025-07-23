@@ -27,8 +27,10 @@
     align-self: flex-start;
 }
 
-.field--widget-wmmedia-media-widget table tbody .tabledrag-handle {
-    margin-bottom: 20px;
+.field--widget-wmmedia-media-widget .gin-horizontal-scroll-shadow table.draggable-table tbody tr.draggable td div.form-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .field--widget-wmmedia-media-widget .form-actions {
