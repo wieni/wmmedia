@@ -423,7 +423,7 @@ function wmmedia_update_8009(): void
     $fieldManager->clearCachedFieldDefinitions();
     $fieldStorageDefinitions = $fieldManager->getFieldStorageDefinitions('media');
 
-    foreach ($existingFields as $field) {
+    foreach (['field_alternate', 'field_description', 'field_height', 'field_width', 'field_copyright'] as $field) {
         if (!isset($fieldStorageDefinitions[$field])) {
             throw new \RuntimeException("Field storage definition for {$field} not found.");
         }
