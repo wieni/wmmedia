@@ -104,7 +104,7 @@ class MediaFileOverviewEditor implements FormInterface, ContainerInjectionInterf
         }
 
         $response = new AjaxResponse();
-        $response->addCommand(new EditorDialogSave($value));
+        $response->addCommand(new EditorDialogSave([$value]));
         $response->addCommand(new CloseModalDialogCommand());
 
         return $response;

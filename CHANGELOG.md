@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## [3.1.5] - 2025-08-21
+### Fixed
+- Fix first parameter of EditorDialogSave construct should be an array, given string
+
 ## [3.1.4] - 2025-08-21
 ### Fixed
 - Fix wmmedia_update_8009 to first check if the fields exist before trying to update it
