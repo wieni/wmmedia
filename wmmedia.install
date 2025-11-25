@@ -5,6 +5,7 @@ use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Entity\Entity\EntityViewDisplay;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityLastInstalledSchemaRepositoryInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Site\Settings;
 use Drupal\entity_browser\Entity\EntityBrowser;
 use Drupal\entity_browser\WidgetInterface;
@@ -365,15 +366,15 @@ function wmmedia_update_8009(): void
     MediaBaseFieldDefinitions::$enabled = false;
 
     $db = \Drupal::database();
-    
+
     // Check which fields actually exist before attempting to migrate them
     $fieldsToMigrate = ['field_alternate', 'field_description', 'field_height', 'field_width', 'field_copyright'];
     $existingFields = [];
-    
+
     foreach ($fieldsToMigrate as $field) {
         $fieldConfig = FieldConfig::loadByName('media', 'image', $field);
         $fieldStorage = FieldStorageConfig::loadByName('media', $field);
-        
+
         if ($fieldConfig || $fieldStorage) {
             $existingFields[] = $field;
             $logger->info("Field {$field} exists and will be migrated.");
@@ -381,12 +382,12 @@ function wmmedia_update_8009(): void
             $logger->info("Field {$field} does not exist, skipping migration.");
         }
     }
-    
+
     if (empty($existingFields)) {
         $logger->info('No fields to migrate, update complete.');
         return;
     }
-    
+
     // Store the current values in TEMP tables and delete the fields.
     foreach ($existingFields as $field) {
         $db->query("CREATE TEMPORARY TABLE tmp_media__{$field} AS SELECT * FROM media__{$field}");
@@ -407,13 +408,16 @@ function wmmedia_update_8009(): void
     foreach ($existingFields as $field) {
         $fieldsToPurge[] = "media.image.{$field}";
     }
-    
+
     // Remove deleted fields from the deleted fields repository. They are
     // not *really* deleted, but being migrated to base fields.
     /** @var \Drupal\Core\Field\DeletedFieldsRepositoryInterface $deletedFieldsRepository */
     $deletedFieldsRepository = \Drupal::service('entity_field.deleted_fields_repository');
     foreach ($deletedFieldsRepository->getFieldDefinitions() as $deletedFieldDefinition) {
-        if (in_array($deletedFieldDefinition->id(), $fieldsToPurge)) {
+        if (
+            !$deletedFieldDefinition instanceof BaseFieldDefinition
+            && in_array($deletedFieldDefinition->id(), $fieldsToPurge)
+        ) {
             $deletedFieldsRepository->removeFieldDefinition($deletedFieldDefinition);
         }
     }
@@ -440,7 +444,7 @@ function wmmedia_update_8009(): void
 
     // Migrate the data, we want to get the values from the temp tables
     // and update the media_field_data table with the new values.
-    
+
     foreach ($existingFields as $field) {
         switch ($field) {
             case 'field_alternate':
@@ -452,7 +456,7 @@ function wmmedia_update_8009(): void
                       mfd.field_alternate = alternate.field_alternate_value
                 ');
                 break;
-                
+
             case 'field_description':
                 $logger->info('Migrating field_description data');
                 $db->query('
@@ -463,7 +467,7 @@ function wmmedia_update_8009(): void
                       mfd.field_description__format = description.field_description_format
                 ');
                 break;
-                
+
             case 'field_height':
                 $logger->info('Migrating field_height data');
                 $db->query('
@@ -473,7 +477,7 @@ function wmmedia_update_8009(): void
                       mfd.field_height = height.field_height_value
                 ');
                 break;
-                
+
             case 'field_width':
                 $logger->info('Migrating field_width data');
                 $db->query('
@@ -483,7 +487,7 @@ function wmmedia_update_8009(): void
                       mfd.field_width = width.field_width_value
                 ');
                 break;
-                
+
             case 'field_copyright':
                 $logger->info('Migrating field_copyright data');
                 $db->query('
@@ -519,7 +523,10 @@ function wmmedia_update_8010(): void {
     /** @var \Drupal\Core\Field\DeletedFieldsRepositoryInterface $deletedFieldsRepository */
     $deletedFieldsRepository = \Drupal::service('entity_field.deleted_fields_repository');
     foreach ($deletedFieldsRepository->getFieldDefinitions() as $deletedFieldDefinition) {
-        if (in_array($deletedFieldDefinition->id(), $fieldsToPurge)) {
+        if (
+            !$deletedFieldDefinition instanceof BaseFieldDefinition
+            && in_array($deletedFieldDefinition->id(), $fieldsToPurge)
+        ) {
             $deletedFieldsRepository->removeFieldDefinition($deletedFieldDefinition);
         }
     }
