@@ -191,42 +191,86 @@ function wmmedia_update_8004(): void
     }
 
     // Migrate existing entities
-    $mediaStorage = \Drupal::entityTypeManager()
-        ->getStorage('media');
-    $entityCache = \Drupal::getContainer()
-        ->get('entity.memory_cache');
-    $ids = $mediaStorage->getQuery()
-        ->condition('bundle', 'image')
-        ->accessCheck(false)
-        ->execute();
+    $database = \Drupal::database();
+    /** @var Drupal\mysql\Driver\Database\mysql\Schema $schema */
+    $schema = $database->schema();
+    $logger = \Drupal::logger('wmmedia');
 
-    foreach (array_chunk($ids, 25) as $chunk) {
-        /** @var MediaInterface[] $entities */
-        $entities = \Drupal::entityTypeManager()
-            ->getStorage('media')
-            ->loadMultiple($chunk);
+    // Define table mappings
+    $tables = [
+        'base' => [
+            'source' => 'media__field_media_imgix',
+            'dest' => 'media__field_image',
+        ],
+        'revision' => [
+            'source' => 'media_revision__field_media_imgix',
+            'dest' => 'media_revision__field_image',
+        ],
+    ];
 
-        foreach ($entities as $entity) {
-            $values = $entity->get('field_media_imgix')->getValue();
-
-            if (empty($values)) {
-                continue;
-            }
-
-            $value = reset($values);
-            $entity->set('field_image', [
-                'target_id' => $value['target_id'],
-                'alt' => $value['description'] ?? $value['alt'],
-                'title' => $value['title'],
-                'width' => $value['width'],
-                'height' => $value['height'],
-            ]);
-            $entity->set('field_media_imgix', []);
-            $entity->save();
+    foreach ($tables as $type => $map) {
+        if (!$schema->tableExists($map['source']) || !$schema->tableExists($map['dest'])) {
+            $logger->warning("Skipping $type migration: Source or Destination table not found.");
+            continue;
         }
 
-        $entityCache->deleteAll();
-        gc_collect_cycles();
+        // Determine the 'Alt' column logic.
+        $col_desc = 'field_media_imgix_description';
+        $col_alt = 'field_media_imgix_alt';
+
+        $has_desc = $schema->fieldExists($map['source'], $col_desc);
+        $has_alt = $schema->fieldExists($map['source'], $col_alt);
+
+        // Determine SQL Expression based on 4 scenarios
+        if ($has_desc && $has_alt) {
+          // 1. Both exist: Use desc, fallback to alt
+          $alt_expression = "COALESCE($col_desc, $col_alt)";
+        } elseif ($has_alt) {
+          // 2. Only Alt exists
+          $alt_expression = $col_alt;
+        } elseif ($has_desc) {
+          // 3. Only Desc exists
+          $alt_expression = $col_desc;
+        } else {
+          // 4. Neither exists: Use empty string to preserve image reference
+          $alt_expression = "''";
+        }
+
+        $logger->info("Migrating data from {$map['source']} to {$map['dest']}");
+
+        // Perform direct INSERT INTO ... SELECT
+        // We use INSERT IGNORE to prevent crashing if the script is run twice
+        // or if data already exists in the destination.
+        $query = "
+            INSERT IGNORE INTO {$map['dest']} (
+                bundle,
+                deleted,
+                entity_id,
+                revision_id,
+                langcode,
+                delta,
+                field_image_target_id,
+                field_image_alt,
+                field_image_title,
+                field_image_width,
+                field_image_height
+            )
+            SELECT
+                bundle,
+                deleted,
+                entity_id,
+                revision_id,
+                langcode,
+                delta,
+                field_media_imgix_target_id,
+                {$alt_expression},
+                field_media_imgix_title,
+                field_media_imgix_width,
+                field_media_imgix_height
+            FROM {$map['source']}
+        ";
+
+        $database->query($query);
     }
 
     // Delete field_media_imgix
