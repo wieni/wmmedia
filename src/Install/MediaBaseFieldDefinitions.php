@@ -3,19 +3,24 @@
 namespace Drupal\wmmedia\Install;
 
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Update\UpdateHookRegistry;
 
 class MediaBaseFieldDefinitions
 {
 
-    public static bool $enabled = true;
+    public static bool $enabled = false;
 
     public static function getBaseFieldDefinitions(): array
     {
-        if (self::$enabled === false) {
+        /** @var UpdateHookRegistry $updateRegistry */
+        $updateRegistry = \Drupal::service('update.update_hook_registry');
+        $lastUpdate = $updateRegistry->getInstalledVersion('wmmedia');
+        if (self::$enabled === false && $lastUpdate < 8009) {
             /**
              * We need to be able to stop the module of registering the base
              * fields while we are migrating the data from the old fields to the
-             * new fields.
+             * new fields. Only after the update hook wmmedia_update_8009 has run, the
+             * base fields should be permanently registered.
              * @see \wmmedia_update_8009
              */
             return [];
