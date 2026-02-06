@@ -11,7 +11,7 @@
     "build:webfont": "webfont 'icons/**/*.svg' -d './dist' && postcss -r dist/icons.css"
   },
   "devDependencies": {
-    "autoprefixer": "^7.2.5",
+    "autoprefixer": "^10.4.19",
     "babel-core": "^6.26.0",
     "babel-env": "^2.4.1",
     "babel-preset-react": "^6.24.1",
@@ -21,8 +21,8 @@
     "eslint-plugin-react": "^7.5.1",
     "node-sass": "^4.13.1",
     "npm-run-all": "^4.1.2",
-    "parcel-bundler": "^1.6",
-    "postcss-cli": "^4.1.1",
+    "parcel-bundler": "^1.12",
+    "postcss-cli": "^11.0.0",
     "postcss-load-config": "^1.2.0",
     "rimraf": "^2.6.2",
     "webfont": "^7.1.4"
