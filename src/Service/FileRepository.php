@@ -6,6 +6,7 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Query\PagerSelectExtender;
 use Drupal\Core\Database\Query\SelectInterface;
 use Drupal\Core\Database\Query\TableSortExtender;
+use Drupal\Core\Database\Statement\FetchAs;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 
 class FileRepository
@@ -49,7 +50,7 @@ class FileRepository
             return [];
         }
 
-        return $result->fetchAll(\PDO::FETCH_ASSOC);
+        return $result->fetchAll(FetchAs::Associative);
     }
 
     protected function setFilters(SelectInterface $query, array $filters): void

@@ -17,5 +17,6 @@ class DoNotUseMediaImageExtrasAdd extends WidgetBase
 {
     protected function prepareEntities(array $form, FormStateInterface $form_state)
     {
+        return [];
     }
 }

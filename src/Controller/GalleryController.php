@@ -46,8 +46,8 @@ class GalleryController implements ContainerInjectionInterface
         /* @var RequestStack $requestStack */
         $requestStack = $container->get('request_stack');
         $request = $requestStack->getCurrentRequest();
-        $instance->page = $request && $request->get('page') ? $request->get('page') : $instance->page;
-        $instance->limit = $request && $request->get('limit') ? $request->get('limit') : $instance->limit;
+        $instance->page = $request && $request->query->get('page') ? $request->query->get('page') : $instance->page;
+        $instance->limit = $request && $request->query->get('limit') ? $request->query->get('limit') : $instance->limit;
         $instance->total = $instance->getTotalMediaCount();
 
         return $instance;
