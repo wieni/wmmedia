@@ -2,8 +2,10 @@
 
 namespace Drupal\wmmedia\Service;
 
+use Drupal\Component\Utility\DeprecationHelper;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Statement\FetchAs;
+use Drupal\Core\Database\StatementInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\media\MediaInterface;
@@ -42,7 +44,7 @@ class UsageRepository
             static function ($row) {
                 return new Usage(...array_values($row));
             },
-            $result->fetchAll(FetchAs::Associative)
+            $this->fetchAllAssociative($result)
         );
     }
 
@@ -63,7 +65,7 @@ class UsageRepository
             static function ($row) {
                 return new Usage(...array_values($row));
             },
-            $result->fetchAll(FetchAs::Associative)
+            $this->fetchAllAssociative($result)
         );
     }
 
@@ -130,4 +132,15 @@ class UsageRepository
         $delete->execute();
     }
 
+    private function fetchAllAssociative(StatementInterface $result): array
+    {
+        // The FetchAs enum only exists since Drupal 11.2, where the integer
+        // fetch modes were deprecated (they are removed in Drupal 12).
+        return DeprecationHelper::backwardsCompatibleCall(
+            \Drupal::VERSION,
+            '11.2',
+            static fn () => $result->fetchAll(FetchAs::Associative),
+            static fn () => $result->fetchAll(\PDO::FETCH_ASSOC),
+        );
+    }
 }
