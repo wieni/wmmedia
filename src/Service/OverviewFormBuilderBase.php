@@ -62,6 +62,8 @@ abstract class OverviewFormBuilderBase
 
     abstract public static function getFilterKeys(): array;
 
+    abstract protected function setFormFilters(array &$form, FormOptions $options): void;
+
     protected function getFilters(): array
     {
         $filters = [];
