@@ -86,12 +86,13 @@ class MediaFileOverviewEditor implements FormInterface, ContainerInjectionInterf
         $entity = $values['entity_browser']['entities'][0] ?? null;
 
         if ($entity instanceof MediaInterface) {
-            // When using our deprecated custom ckeditor4 plugin, we need to return
-            // the media entity ID. This ID will be stored in the link element's
-            // "data-media-file-link" attribute and as 'entity:media/<id>' href
-            // attribute. We replace it with the asset URL at render time.
-            // @see /js/ckeditor/plugins/media_file_link/plugin.js
-            // @see \Drupal\wmmedia\Plugin\CKEditorPlugin\MediaFileBrowser
+            // Legacy fallback: the removed ckeditor4 plugin expected the media
+            // entity ID, stored in the link element's "data-media-file-link"
+            // attribute and as an 'entity:media/<id>' href, replaced with the
+            // asset URL at render time. The plugin itself is gone (it extended
+            // Drupal\ckeditor\CKEditorPluginBase, removed in Drupal 10), but the
+            // return value is kept for any caller that still opens this form
+            // outside a ckeditor5_entity_browser context.
             $value = $entity->id();
 
             // When using drupal/ckeditor5_entity_browser, we need to return the
