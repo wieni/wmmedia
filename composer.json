@@ -10,9 +10,9 @@
         }
     ],
     "require": {
-        "php": ">=7.1",
+        "php": ">=8.2",
         "ext-dom": "*",
-        "drupal/core": "^10.1 || ^11.0",
+        "drupal/core": "^11.4",
         "drupal/entity_browser": "^2.0"
     },
     "require-dev": {

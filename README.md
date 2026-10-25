@@ -15,7 +15,7 @@ The wmmedia module provides custom fields, widgets and media browsers for both i
 
 ## Installation
 
-This package requires PHP 7.1 and Drupal 8.5 or higher. It can be
+This package requires PHP 8.2 and Drupal 11.4 or higher. It can be
 installed using Composer:
 
 ```bash
