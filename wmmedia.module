@@ -110,7 +110,7 @@ function wmmedia_locale_translation_projects_alter(&$projects)
 /**
  * Implements @see hook_entity_operation_alter().
  */
-function wmmedia_entity_operation_alter(array &$operations, EntityInterface $entity, ?CacheableMetadata $cacheability = null)
+function wmmedia_entity_operation_alter(array &$operations, EntityInterface $entity, CacheableMetadata $cacheability)
 {
     if ($entity instanceof Media) {
         /* @var UsageManager $service */
