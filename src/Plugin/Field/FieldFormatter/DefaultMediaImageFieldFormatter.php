@@ -9,15 +9,6 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\image\Entity\ImageStyle;
 
-/**
- * @FieldFormatter(
- *     id = "wmmedia_media_image_default",
- *     label = @Translation("Image"),
- *     field_types = {
- *         "wmmedia_media_image_extras"
- *     }
- * )
- */
 #[FieldFormatter(
     id: 'wmmedia_media_image_default',
     label: new TranslatableMarkup('Image'),

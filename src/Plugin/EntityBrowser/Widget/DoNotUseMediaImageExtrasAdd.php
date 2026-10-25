@@ -7,14 +7,6 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\entity_browser\Attribute\EntityBrowserWidget;
 use Drupal\entity_browser\WidgetBase;
 
-/**
- * @EntityBrowserWidget(
- *     id = "wmmedia_media_image_add",
- *     label = @Translation("Media image upload (DO NOT USE)"),
- *     description = @Translation("Upload widget that will create media entities of the uploaded images."),
- *     auto_select = FALSE,
- * )
- */
 #[EntityBrowserWidget(
     id: 'wmmedia_media_image_add',
     label: new TranslatableMarkup('Media image upload (DO NOT USE)'),

@@ -12,15 +12,6 @@ use Drupal\wmmedia\Service\FormOptions;
 use Drupal\wmmedia\Service\ImageOverviewFormBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * @EntityBrowserWidget(
- *     id = "wmmedia_media_image_browser",
- *     label = @Translation("Media image browser"),
- *     provider = "wmmedia",
- *     description = @Translation("Image listings for media browser"),
- *     auto_select = TRUE
- * )
- */
 #[EntityBrowserWidget(
     id: 'wmmedia_media_image_browser',
     label: new TranslatableMarkup('Media image browser'),

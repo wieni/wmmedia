@@ -12,17 +12,6 @@ use Drupal\Core\TypedData\DataDefinition;
 use Drupal\file\FileInterface;
 use Drupal\media\MediaInterface;
 
-/**
- * @FieldType(
- *     id = "wmmedia_media_image_extras",
- *     label = @Translation("Media image with extras"),
- *     description = @Translation("An entity field containing an image media entity reference with an extra title / description."),
- *     category = "reference",
- *     default_widget = "entity_reference_autocomplete",
- *     default_formatter = "entity_reference_label",
- *     list_class = "\Drupal\Core\Field\EntityReferenceFieldItemList",
- * )
- */
 #[FieldType(
     id: 'wmmedia_media_image_extras',
     label: new TranslatableMarkup('Media image with extras'),

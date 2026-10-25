@@ -15,17 +15,6 @@ use Drupal\entity_browser\Element\EntityBrowserElement;
 use Drupal\entity_browser\Plugin\Field\FieldWidget\EntityReferenceBrowserWidget;
 use Drupal\wmmedia\Service\RenderFileTrait;
 
-/**
- * @FieldWidget(
- *     id = "media_file",
- *     label = @Translation("Media file"),
- *     description = @Translation("Uses entity browser to select files."),
- *     multiple_values = TRUE,
- *     field_types = {
- *         "entity_reference"
- *     }
- * )
- */
 #[FieldWidget(
     id: 'media_file',
     label: new TranslatableMarkup('Media file'),

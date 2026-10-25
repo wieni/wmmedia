@@ -12,13 +12,6 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\wmmedia\Service\UsageManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * @QueueWorker(
- *     id = \Drupal\wmmedia\Plugin\QueueWorker\MediaUsageQueueWorker::ID,
- *     title = @Translation("Media usage"),
- *     cron = {"time" : 30}
- * )
- */
 #[QueueWorker(
     id: MediaUsageQueueWorker::ID,
     title: new TranslatableMarkup('Media usage'),

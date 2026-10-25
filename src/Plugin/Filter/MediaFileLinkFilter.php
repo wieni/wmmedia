@@ -14,14 +14,6 @@ use Drupal\filter\Plugin\FilterInterface;
 use Drupal\media\Entity\Media;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * @Filter(
- *     id = "wmmedia_file_link",
- *     title = @Translation("Process links to media entities."),
- *     type = Drupal\filter\Plugin\FilterInterface::TYPE_TRANSFORM_IRREVERSIBLE,
- *     weight = -10
- * )
- */
 #[Filter(
     id: 'wmmedia_file_link',
     title: new TranslatableMarkup('Process links to media entities.'),

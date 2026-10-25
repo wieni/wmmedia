@@ -13,7 +13,7 @@
         "php": ">=8.2",
         "ext-dom": "*",
         "drupal/core": "^11.4",
-        "drupal/entity_browser": "^2.0"
+        "drupal/entity_browser": "^2.17"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.0",

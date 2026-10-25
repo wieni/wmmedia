@@ -29,18 +29,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-/**
- * @FieldWidget(
- *     id = "wmmedia_media_widget",
- *     label = @Translation("Media Browser with extra fields"),
- *     multiple_values = TRUE,
- *     description = @Translation("A widget containing a media reference with an extra title/description."),
- *     field_types = {
- *         "wmmedia_media_image_extras",
- *         "wmmedia_media_file_extras"
- *     }
- * )
- */
 #[FieldWidget(
     id: 'wmmedia_media_widget',
     label: new TranslatableMarkup('Media Browser with extra fields'),
