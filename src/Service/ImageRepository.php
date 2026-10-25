@@ -2,12 +2,10 @@
 
 namespace Drupal\wmmedia\Service;
 
-use Drupal\Component\Utility\DeprecationHelper;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Query\PagerSelectExtender;
 use Drupal\Core\Database\Query\SelectInterface;
 use Drupal\Core\Database\Statement\FetchAs;
-use Drupal\Core\Database\StatementInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\media\Entity\MediaType;
 use Drupal\media\MediaSourceInterface;
@@ -48,7 +46,7 @@ class ImageRepository
             return [];
         }
 
-        return $this->fetchAllAssociative($result);
+        return $result->fetchAll(FetchAs::Associative);
     }
 
     public function getImagesCount(array $filters = []): int
@@ -166,17 +164,5 @@ class ImageRepository
         $source = $mediaType->getSource();
 
         return $source->getConfiguration()['source_field'];
-    }
-
-    private function fetchAllAssociative(StatementInterface $result): array
-    {
-        // The FetchAs enum only exists since Drupal 11.2, where the integer
-        // fetch modes were deprecated (they are removed in Drupal 12).
-        return DeprecationHelper::backwardsCompatibleCall(
-            \Drupal::VERSION,
-            '11.2',
-            static fn () => $result->fetchAll(FetchAs::Associative),
-            static fn () => $result->fetchAll(\PDO::FETCH_ASSOC),
-        );
     }
 }
