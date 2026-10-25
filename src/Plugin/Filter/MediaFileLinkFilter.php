@@ -5,9 +5,12 @@ namespace Drupal\wmmedia\Plugin\Filter;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\file\Entity\File;
+use Drupal\filter\Attribute\Filter;
 use Drupal\filter\FilterProcessResult;
 use Drupal\filter\Plugin\FilterBase;
+use Drupal\filter\Plugin\FilterInterface;
 use Drupal\media\Entity\Media;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -19,6 +22,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *     weight = -10
  * )
  */
+#[Filter(
+    id: 'wmmedia_file_link',
+    title: new TranslatableMarkup('Process links to media entities.'),
+    type: FilterInterface::TYPE_TRANSFORM_IRREVERSIBLE,
+    weight: -10,
+)]
 class MediaFileLinkFilter extends FilterBase implements ContainerFactoryPluginInterface
 {
     /** @var EntityTypeManagerInterface */

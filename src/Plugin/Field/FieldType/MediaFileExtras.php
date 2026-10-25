@@ -2,6 +2,8 @@
 
 namespace Drupal\wmmedia\Plugin\Field\FieldType;
 
+use Drupal\Core\Field\Attribute\FieldType;
+use Drupal\Core\Field\EntityReferenceFieldItemList;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem;
 use Drupal\Core\Form\FormStateInterface;
@@ -21,6 +23,15 @@ use Drupal\media\MediaInterface;
  *     list_class = "\Drupal\Core\Field\EntityReferenceFieldItemList",
  * )
  */
+#[FieldType(
+    id: 'wmmedia_media_file_extras',
+    label: new TranslatableMarkup('Media file with extras'),
+    description: new TranslatableMarkup('An entity field containing an file media entity reference with an extra title.'),
+    category: 'reference',
+    default_widget: 'entity_reference_autocomplete',
+    default_formatter: 'entity_reference_label',
+    list_class: EntityReferenceFieldItemList::class,
+)]
 class MediaFileExtras extends EntityReferenceItem
 {
     public static function defaultStorageSettings()

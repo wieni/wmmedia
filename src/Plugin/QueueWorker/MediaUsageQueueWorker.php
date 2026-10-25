@@ -6,7 +6,9 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\TranslatableInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Queue\Attribute\QueueWorker;
 use Drupal\Core\Queue\QueueWorkerBase;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\wmmedia\Service\UsageManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -17,6 +19,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *     cron = {"time" : 30}
  * )
  */
+#[QueueWorker(
+    id: MediaUsageQueueWorker::ID,
+    title: new TranslatableMarkup('Media usage'),
+    cron: ['time' => 30],
+)]
 class MediaUsageQueueWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface
 {
     public const ID = 'wmmedia.usage';

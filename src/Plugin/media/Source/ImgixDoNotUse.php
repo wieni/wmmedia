@@ -2,6 +2,8 @@
 
 namespace Drupal\wmmedia\Plugin\media\Source;
 
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\media\Attribute\MediaSource;
 use Drupal\media\Plugin\media\Source\Image;
 
 /**
@@ -17,6 +19,13 @@ use Drupal\media\Plugin\media\Source\Image;
  *     default_thumbnail_filename = "generic.png"
  * )
  */
+#[MediaSource(
+    id: 'imgix',
+    label: new TranslatableMarkup('Imgix'),
+    description: new TranslatableMarkup('Use Imgix image fields for reusable media.'),
+    allowed_field_types: ['imgix'],
+    default_thumbnail_filename: 'generic.png',
+)]
 class ImgixDoNotUse extends Image
 {
 }

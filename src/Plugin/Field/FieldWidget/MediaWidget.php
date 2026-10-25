@@ -8,12 +8,14 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Config\Entity\ThirdPartySettingsInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Field\Attribute\FieldWidget;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Validation\Plugin\Validation\Constraint\NotNullConstraint;
 use Drupal\entity_browser\Element\EntityBrowserElement;
 use Drupal\entity_browser\EntityBrowserInterface;
@@ -39,6 +41,16 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  *     }
  * )
  */
+#[FieldWidget(
+    id: 'wmmedia_media_widget',
+    label: new TranslatableMarkup('Media Browser with extra fields'),
+    description: new TranslatableMarkup('A widget containing a media reference with an extra title/description.'),
+    field_types: [
+        'wmmedia_media_image_extras',
+        'wmmedia_media_file_extras',
+    ],
+    multiple_values: true,
+)]
 class MediaWidget extends WidgetBase
 {
     /** @var EntityTypeManagerInterface */

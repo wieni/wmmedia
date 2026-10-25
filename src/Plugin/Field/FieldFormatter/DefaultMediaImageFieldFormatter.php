@@ -2,9 +2,11 @@
 
 namespace Drupal\wmmedia\Plugin\Field\FieldFormatter;
 
+use Drupal\Core\Field\Attribute\FieldFormatter;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\image\Entity\ImageStyle;
 
 /**
@@ -16,6 +18,11 @@ use Drupal\image\Entity\ImageStyle;
  *     }
  * )
  */
+#[FieldFormatter(
+    id: 'wmmedia_media_image_default',
+    label: new TranslatableMarkup('Image'),
+    field_types: ['wmmedia_media_image_extras'],
+)]
 class DefaultMediaImageFieldFormatter extends FormatterBase
 {
     public function viewElements(FieldItemListInterface $items, $langcode)

@@ -6,8 +6,10 @@ use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Field\Attribute\FieldWidget;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\entity_browser\Element\EntityBrowserElement;
 use Drupal\entity_browser\Plugin\Field\FieldWidget\EntityReferenceBrowserWidget;
@@ -24,6 +26,13 @@ use Drupal\wmmedia\Service\RenderFileTrait;
  *     }
  * )
  */
+#[FieldWidget(
+    id: 'media_file',
+    label: new TranslatableMarkup('Media file'),
+    description: new TranslatableMarkup('Uses entity browser to select files.'),
+    field_types: ['entity_reference'],
+    multiple_values: true,
+)]
 class MediaFile extends EntityReferenceBrowserWidget
 {
     use RenderFileTrait;
