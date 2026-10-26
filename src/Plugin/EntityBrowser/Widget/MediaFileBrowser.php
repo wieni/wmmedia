@@ -3,20 +3,20 @@
 namespace Drupal\wmmedia\Plugin\EntityBrowser\Widget;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\entity_browser\Attribute\EntityBrowserWidget;
 use Drupal\entity_browser\Form\EntityBrowserForm;
 use Drupal\wmmedia\Service\FileOverviewFormBuilder;
 use Drupal\wmmedia\Service\FormOptions;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * @EntityBrowserWidget(
- *     id = "wmmedia_media_file_browser",
- *     label = @Translation("Media file browser"),
- *     provider = "wmmedia",
- *     description = @Translation("File listing for media browser"),
- *     auto_select = TRUE
- * )
- */
+#[EntityBrowserWidget(
+    id: 'wmmedia_media_file_browser',
+    label: new TranslatableMarkup('Media file browser'),
+    description: new TranslatableMarkup('File listing for media browser'),
+    auto_select: true,
+    provider: 'wmmedia',
+)]
 class MediaFileBrowser extends MediaBrowserBase
 {
     /** @var FileOverviewFormBuilder */

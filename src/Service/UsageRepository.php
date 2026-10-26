@@ -3,6 +3,7 @@
 namespace Drupal\wmmedia\Service;
 
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Database\Statement\FetchAs;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\media\MediaInterface;
@@ -41,7 +42,7 @@ class UsageRepository
             static function ($row) {
                 return new Usage(...array_values($row));
             },
-            $result->fetchAll(\PDO::FETCH_ASSOC)
+            $result->fetchAll(FetchAs::Associative)
         );
     }
 
@@ -62,7 +63,7 @@ class UsageRepository
             static function ($row) {
                 return new Usage(...array_values($row));
             },
-            $result->fetchAll(\PDO::FETCH_ASSOC)
+            $result->fetchAll(FetchAs::Associative)
         );
     }
 

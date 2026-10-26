@@ -3,6 +3,8 @@
 namespace Drupal\wmmedia\Plugin\EntityBrowser\Widget;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\entity_browser\Attribute\EntityBrowserWidget;
 use Drupal\entity_browser\Element\EntityBrowserElement;
 use Drupal\entity_browser\Form\EntityBrowserForm;
 use Drupal\image\Entity\ImageStyle;
@@ -10,15 +12,13 @@ use Drupal\wmmedia\Service\FormOptions;
 use Drupal\wmmedia\Service\ImageOverviewFormBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * @EntityBrowserWidget(
- *     id = "wmmedia_media_image_browser",
- *     label = @Translation("Media image browser"),
- *     provider = "wmmedia",
- *     description = @Translation("Image listings for media browser"),
- *     auto_select = TRUE
- * )
- */
+#[EntityBrowserWidget(
+    id: 'wmmedia_media_image_browser',
+    label: new TranslatableMarkup('Media image browser'),
+    description: new TranslatableMarkup('Image listings for media browser'),
+    auto_select: true,
+    provider: 'wmmedia',
+)]
 class MediaImageBrowser extends MediaBrowserBase
 {
     /** @var ImageOverviewFormBuilder */

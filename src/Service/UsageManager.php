@@ -136,7 +136,7 @@ class UsageManager
         $this->repository->deleteByEntity($entity);
     }
 
-    public function generate(string $entityTypeId = null): void
+    public function generate(?string $entityTypeId = null): void
     {
         $entityTypeDefinitions = $this->entityTypeManager->getDefinitions();
         if ($entityTypeId && $entityTypeDefinition = $this->entityTypeManager->getDefinition($entityTypeId)) {

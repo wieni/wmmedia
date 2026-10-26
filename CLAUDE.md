@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-WmMedia is a Drupal module that provides enhanced media management capabilities for Drupal 9/10/11. It extends Drupal's core media system with custom field types, widgets, and browsers for both images and files, featuring inline linking, usage tracking, and enhanced metadata handling.
+WmMedia is a Drupal module that provides enhanced media management capabilities for Drupal 11.4+ (PHP 8.2+). It extends Drupal's core media system with custom field types, widgets, and browsers for both images and files, featuring inline linking, usage tracking, and enhanced metadata handling.
 
 ## Development Commands
 

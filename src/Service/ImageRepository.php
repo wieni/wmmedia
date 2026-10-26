@@ -5,6 +5,7 @@ namespace Drupal\wmmedia\Service;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Query\PagerSelectExtender;
 use Drupal\Core\Database\Query\SelectInterface;
+use Drupal\Core\Database\Statement\FetchAs;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\media\Entity\MediaType;
 use Drupal\media\MediaSourceInterface;
@@ -45,7 +46,7 @@ class ImageRepository
             return [];
         }
 
-        return $result->fetchAll(\PDO::FETCH_ASSOC);
+        return $result->fetchAll(FetchAs::Associative);
     }
 
     public function getImagesCount(array $filters = []): int
