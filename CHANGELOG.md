@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This changelog is incomplete. Pull requests with entries before 1.7.0
 are welcome.
 
+## [3.2.0] - 2026-10-26
+### Added
+- Drupal 12 support.
+
+### Changed
+- All plugins are declared with attributes instead of annotations. This requires `drupal/entity_browser` 2.17 or
+  higher.
+- `wmmedia_entity_operation_alter()` takes the `$cacheability` argument core passes since Drupal 11.3.
+
+### Fixed
+- `GalleryController` reads `page` and `limit` from the query string instead of the deprecated `Request::get()`.
+- Integer PDO fetch modes in the usage, image and file repositories, deprecated in Drupal 11.2 and removed in 12.
+- The "do not use" media extras widgets return an array from `prepareEntities()` instead of `NULL`.
+- `OverviewFormBuilderBase` declares the abstract `setFormFilters()` that it calls and its subclasses implement.
+- PHP 8.4: the parameter of `UsageManager::generate()` is explicitly nullable.
+
+### Removed
+- The CKEditor 4 `media_file_link` plugin, which can't be used since Drupal 10. CKEditor 5 sites use
+  `drupal/ckeditor5_entity_browser`.
+- Support for Drupal before 11.4 and PHP before 8.2. The module now requires Drupal `^11.4 || ^12` and PHP 8.2 or
+  higher.
+
 ## [3.1.5] - 2025-08-21
 ### Fixed
 - Fix first parameter of EditorDialogSave construct should be an array, given string
