@@ -11,6 +11,7 @@ browser:
             assets/dist/filters.css: { preprocess: false, minified: true }
     dependencies:
         - core/jquery
+        - core/drupal
 
 image_browser:
     js:
